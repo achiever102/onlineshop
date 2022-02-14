@@ -18,6 +18,10 @@ class AppMainRouter extends Component {
           <Route exact path="/adminSettings" element={<><Admin /><SettingsTable/></>} />
           <Route exact path="/adminItems" element={<><Admin /><AdminItemsViewer/></>} />
           <Route exact path="/adminOrders" element={<><Admin /><AppOrders/></>} />
+
+          <Route exact path="/clientItems" element={<><Client /></>} />
+          <Route exact path="/clientOrders" element={<><Client /></>} />
+          <Route exact path="/clientCart" element={<><Client /></>} />
         </Routes>
       </Router>
     );
