@@ -15,6 +15,8 @@ class AdminNavbar extends Component {
                 <NavLink to="/adminCoupons" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Coupons</NavLink>
                 <NavLink to="/adminSettings" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Settings</NavLink>
                 <NavLink to="/adminOrders" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Orders</NavLink>
+                <NavLink to="/profile" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Profile</NavLink>
+              <NavLink to="/" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Logout</NavLink>
             </Nav>
           </Navbar.Collapse>
         </Container>

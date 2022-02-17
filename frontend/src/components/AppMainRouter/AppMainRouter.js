@@ -7,6 +7,8 @@ import SettingsTable from "../SettingsTable/SettingsTable";
 import AdminItemsViewer from "../ItemsViewer/AdminItemsViewer";
 import AppOrders from "../AppOrders/AppOrders";
 import Login from "../Login/Login";
+import ClientItemsViewer from "../ItemsViewer/ClientItemsViewer";
+import ClientCart from "../ClientCart/ClientCart";
 
 class AppMainRouter extends Component {
   render() {
@@ -22,9 +24,9 @@ class AppMainRouter extends Component {
           <Route exact path="/adminOrders" element={<><Admin /><AppOrders/></>} />
 
           <Route exact path="/client" element={<Client />} />
-          <Route exact path="/clientItems" element={<><Client /></>} />
-          <Route exact path="/clientOrders" element={<><Client /></>} />
-          <Route exact path="/clientCart" element={<><Client /></>} />
+          <Route exact path="/clientItems" element={<><Client /><ClientItemsViewer/></>} />
+          <Route exact path="/clientOrders" element={<><Client /><AppOrders/></>} />
+          <Route exact path="/clientCart" element={<><Client /><ClientCart/></>} />
         </Routes>
       </Router>
     );

@@ -14,6 +14,8 @@ class ClientNavbar extends Component {
               <NavLink to="/clientItems" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Items</NavLink>
               <NavLink to="/clientCart" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Cart</NavLink>
               <NavLink to="/clientOrders" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Orders</NavLink>
+              <NavLink to="/profile" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Profile</NavLink>
+              <NavLink to="/" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>Logout</NavLink>
           </Nav>
           </Navbar.Collapse>
         </Container>

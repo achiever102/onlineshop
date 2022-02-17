@@ -9,6 +9,7 @@ class AppOrders extends Component {
           <thead>
             <tr>
               <th>#</th>
+              <th>Client ID</th>
               <th>Date</th>
               <th>Items</th>
               <th>Status</th>
@@ -17,6 +18,7 @@ class AppOrders extends Component {
           <tbody>
             <tr>
               <td>1</td>
+              <td>84938</td>
               <td>1/1/2022</td>
               <td>10</td>
               <td>SHIPPED</td>

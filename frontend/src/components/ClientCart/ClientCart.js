@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { CardGroup, Card, Form, InputGroup, FormControl } from "react-bootstrap";
+import { CardGroup, Card, InputGroup, FormControl } from "react-bootstrap";
 
-class ClientItemsViewer extends Component {
+class ClientCart extends Component {
   render() {
     return (
     <div className="container">
@@ -11,15 +11,6 @@ class ClientItemsViewer extends Component {
                 aria-describedby="basic-addon1"
             />
         </InputGroup>
-
-        <Form>
-          <Form.Check
-            className=""
-            type={`checkbox`}
-            id={`default-hhh`}
-            label={`Sort by price`}
-          />
-        </Form>
         
         <CardGroup className="mt-5">
           <Card>
@@ -27,7 +18,7 @@ class ClientItemsViewer extends Component {
             <Card.Body>
               <Card.Title>Card title</Card.Title>
               <Card.Text>
-                  This will include: images, price, ADD TO CART buttons.
+                  This will include: images, price, REMOVE FROM CART buttons.
               </Card.Text>
             </Card.Body>
             <Card.Footer>
@@ -39,7 +30,7 @@ class ClientItemsViewer extends Component {
             <Card.Body>
               <Card.Title>Card title</Card.Title>
               <Card.Text>
-              This will include: images, price, ADD TO CART buttons.
+              This will include: images, price, REMOVE FROM CART buttons.
               </Card.Text>
             </Card.Body>
             <Card.Footer>
@@ -51,7 +42,7 @@ class ClientItemsViewer extends Component {
             <Card.Body>
               <Card.Title>Card title</Card.Title>
               <Card.Text>
-              This will include: images, price, ADD TO CART buttons.
+              This will include: images, price, REMOVE FROM CART buttons.
               </Card.Text>
             </Card.Body>
             <Card.Footer>
@@ -64,4 +55,4 @@ class ClientItemsViewer extends Component {
   }
 }
 
-export default ClientItemsViewer;
+export default ClientCart;
