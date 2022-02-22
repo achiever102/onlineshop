@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,5 +26,12 @@ public class CouponController {
     public List<Coupon> getCoupons(){
         List<Coupon> coupons = couponService.getAll();
         return coupons;
+    }
+
+    @DeleteMapping(path = "/deleteCoupon/{id}")
+    public ResponseEntity deleteCouponBuId(@PathVariable("id") long id){
+        System.out.println(id);
+        couponService.delete(id);
+        return ResponseEntity.ok("");
     }
 }
