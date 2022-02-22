@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Client from "../Client/Client";
 import Admin from "../Admin/Admin";
-import CouponsTable from "../CouponsTable/CouponsTable";
+import CouponsTable from "../Coupons/Admin/CouponsTable";
 import SettingsTable from "../SettingsTable/SettingsTable";
 import AdminItemsViewer from "../ItemsViewer/AdminItemsViewer";
 import AppOrders from "../AppOrders/AppOrders";
