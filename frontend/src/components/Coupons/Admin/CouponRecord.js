@@ -10,8 +10,8 @@ class CouponRecord extends Component{
               <td>{this.props.element.percentage}</td>
               <td>
               <ButtonGroup>
-                    <Button size="sm" variant="primary" onClick={() => this.remove(this.props.element.id)}>Edit</Button>
-                    <Button size="sm" variant="warning" onClick={() => this.remove(this.props.element.id)}>Delete</Button>
+                    <Button size="sm" variant="primary" onClick={() => this.props.handleEdit(this.props.element.id)}>Edit</Button>
+                    <Button size="sm" variant="warning" onClick={() => this.props.handleDelete(this.props.element.id)}>Delete</Button>
                 </ButtonGroup>
               </td>
             </tr>

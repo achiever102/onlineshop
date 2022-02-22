@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Table, Button } from "react-bootstrap";
 import CouponModal from './CouponModal'
-import CouponRecod from "./CouponRecord";
+import CouponRecord from "./CouponRecord";
 import Helper from '../../../helpers/Helper';
 
 class CouponsTable extends Component {
@@ -35,6 +35,13 @@ class CouponsTable extends Component {
     });
   }
 
+  handleDelete = (id) => {
+    axios.delete(`${Helper.getApiUrl('DELETE_COUPON')}/${id}`).then((response) => {
+      if(response.status === 200)
+        this.getAllCoupons();
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -54,7 +61,7 @@ class CouponsTable extends Component {
           <tbody>
             {
               this.state.coupons.map((element) => 
-                <CouponRecod key={element.id} element={element} />
+                <CouponRecord key={element.id} element={element} handleDelete={this.handleDelete} />
               )
             }
           </tbody>
