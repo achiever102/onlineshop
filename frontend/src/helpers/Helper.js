@@ -4,7 +4,7 @@ export default class Helper {
   const SAVE_COUPON = "/save";
   const GET_COUPONS = "/getAll";
   const DELETE_COUPON = '/delete';
-  const EDIT_COUPON = '/editCoupon';
+  const EDIT_COUPON = '/edit';
   const GET_COUPON_BY_ID = '/getById';
 
   switch (service) {

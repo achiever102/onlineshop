@@ -20,7 +20,12 @@ class CouponsTable extends Component {
   }
 
   showModal = () => {
-    this.setState({ show: true });
+    this.setState({ show: true, editCoupon: {
+      id: -1,
+      couponId: '',
+      percentage: 0,
+      modalTitle: 'Add New Coupon'
+    } });
   };
 
   hideModal = () => {
@@ -46,13 +51,15 @@ class CouponsTable extends Component {
     })
   }
 
+  // fetch item from database and display contents in a modal
   handleEdit = (id) => {
     axios.get(`${Helper.getApiUrl('GET_COUPON_BY_ID')}/${id}`).then((response) => {
       if(response.status === 200 && response.data !== null){
         const coupon = {
           id: response.data.id,
           couponId: response.data.couponId,
-          percentage: response.data.percentage
+          percentage: response.data.percentage,
+          modalTitle: 'Edit Coupon'
         }
         console.log(coupon)
         this.setState({show: true, editCoupon: coupon});
@@ -63,7 +70,8 @@ class CouponsTable extends Component {
   render() {
     return (
       <div className="container">
-        <CouponModal show={this.state.show} hideModal={this.hideModal} coupon={this.state.editCoupon} />
+        
+        <CouponModal show={this.state.show} hideModal={this.hideModal} coupon={this.state.editCoupon}/>
 
         <Button variant="outline-dark mt-5" onClick={() => this.showModal()}>Add New Coupon</Button>
 
@@ -79,7 +87,7 @@ class CouponsTable extends Component {
           <tbody>
             {
               this.state.coupons.map((element) => 
-                <CouponRecord key={element.id} element={element} handleDelete={this.handleDelete} handleEdit={this.handleEdit}/>
+                <CouponRecord key={element.id} element={element} handleDelete={this.handleDelete} handleEdit={this.handleEdit} />
               )
             }
           </tbody>

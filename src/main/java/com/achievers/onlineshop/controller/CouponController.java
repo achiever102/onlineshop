@@ -18,6 +18,7 @@ public class CouponController {
 
     @PutMapping(path = "/save")
     public ResponseEntity saveCoupon(@RequestBody Coupon coupon){
+        System.out.println(coupon.toString());
         couponService.add(coupon);
         return ResponseEntity.ok("Created!");
     }

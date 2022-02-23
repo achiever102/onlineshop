@@ -30,22 +30,21 @@ class CouponModal extends Component {
   };
 
   handleSave = (id, couponId, percentage) => {
-    if(id === -1){
-      axios.put(Helper.getApiUrl('SAVE_COUPON'), {
-        couponId: this.state.couponId,
-        percentage: this.state.percentage
-      })
-      .then((response) => {
-          if(response.status === 200){
-            this.props.hideModal();
-          }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    } else {
 
-    }
+    axios.put(Helper.getApiUrl('SAVE_COUPON'), {
+      id: this.props.coupon.id,
+      couponId: this.state.couponId === '' ? this.props.coupon.couponId : this.state.couponId,
+      percentage: this.state.percentage === '' ? this.props.coupon.percentage : this.state.percentage
+    })
+    .then((response) => {
+        if(response.status === 200){
+          this.props.hideModal();
+        }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
   };
 
   render() {
@@ -58,7 +57,7 @@ class CouponModal extends Component {
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add New Coupon
+            {this.props.coupon.modalTitle}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -71,7 +70,7 @@ class CouponModal extends Component {
               <Form.Control type="text" placeholder="Enter coupon ID" onChange={this.handleChange} name="couponId" defaultValue={this.props.coupon.couponId} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Percentage Value</Form.Label>
+              <Form.Label>Percentage</Form.Label>
               <Form.Control type="text" placeholder="Enter percentage" onChange={this.handleChange} name="percentage" defaultValue={this.props.coupon.percentage} />
             </Form.Group>
           </Form>
