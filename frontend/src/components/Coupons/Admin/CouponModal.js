@@ -51,7 +51,7 @@ class CouponModal extends Component {
     return (
       <Modal
         show={this.props.show}
-        size="lg"
+        size="sm"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
