@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Client from "../Client/Client";
-import Admin from "../Admin/Admin";
 import CouponsTable from "../Coupons/Admin/CouponsTable";
 import SettingsTable from "../SettingsTable/SettingsTable";
 import AdminItemsViewer from "../ItemsViewer/AdminItemsViewer";
@@ -9,6 +7,8 @@ import AppOrders from "../AppOrders/AppOrders";
 import Login from "../Login/Login";
 import ClientItemsViewer from "../ItemsViewer/ClientItemsViewer";
 import ClientCart from "../ClientCart/ClientCart";
+import AdminNavbar from "../AppNavbar/AdminNavbar";
+import ClientNavbar from "../AppNavbar/ClientNavbar";
 
 class AppMainRouter extends Component {
   render() {
@@ -17,16 +17,16 @@ class AppMainRouter extends Component {
         <Routes>
           <Route exact path="/" element={<Login />} />
 
-          <Route exact path="/admin" element={<Admin />} />
-          <Route exact path="/adminCoupons" element={<><Admin /><CouponsTable/></>} />
-          <Route exact path="/adminSettings" element={<><Admin /><SettingsTable/></>} />
-          <Route exact path="/adminItems" element={<><Admin /><AdminItemsViewer/></>} />
-          <Route exact path="/adminOrders" element={<><Admin /><AppOrders/></>} />
+          <Route exact path="/admin" element={<AdminNavbar />} />
+          <Route exact path="/adminCoupons" element={<><AdminNavbar /><CouponsTable/></>} />
+          <Route exact path="/adminSettings" element={<><AdminNavbar /><SettingsTable/></>} />
+          <Route exact path="/adminItems" element={<><AdminNavbar /><AdminItemsViewer/></>} />
+          <Route exact path="/adminOrders" element={<><AdminNavbar /><AppOrders/></>} />
 
-          <Route exact path="/client" element={<Client />} />
-          <Route exact path="/clientItems" element={<><Client /><ClientItemsViewer/></>} />
-          <Route exact path="/clientOrders" element={<><Client /><AppOrders/></>} />
-          <Route exact path="/clientCart" element={<><Client /><ClientCart/></>} />
+          <Route exact path="/client" element={<ClientNavbar />} />
+          <Route exact path="/clientItems" element={<><ClientNavbar /><ClientItemsViewer/></>} />
+          <Route exact path="/clientOrders" element={<><ClientNavbar /><AppOrders/></>} />
+          <Route exact path="/clientCart" element={<><ClientNavbar /><ClientCart/></>} />
         </Routes>
       </Router>
     );

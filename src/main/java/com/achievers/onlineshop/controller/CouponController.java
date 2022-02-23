@@ -10,13 +10,13 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(path = "/api/coupon")
+@RequestMapping(path = "/api/admin/coupon")
 public class CouponController {
 
     @Autowired
     private CouponService couponService;
 
-    @PostMapping(path = "/save")
+    @PutMapping(path = "/save")
     public ResponseEntity saveCoupon(@RequestBody Coupon coupon){
         couponService.add(coupon);
         return ResponseEntity.ok("Created!");
@@ -28,7 +28,13 @@ public class CouponController {
         return coupons;
     }
 
-    @DeleteMapping(path = "/deleteCoupon/{id}")
+    @GetMapping(path = "/getById/{id}")
+    public Coupon getCouponById(@PathVariable("id") long id){
+        Coupon coupon = couponService.getById(id);
+        return coupon;
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity deleteCouponBuId(@PathVariable("id") long id){
         System.out.println(id);
         couponService.delete(id);

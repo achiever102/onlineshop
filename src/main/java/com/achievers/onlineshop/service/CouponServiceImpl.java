@@ -20,7 +20,7 @@ public class CouponServiceImpl implements CouponService{
 
     @Override
     public Coupon getById(Long id) {
-        return couponRepository.getById(id);
+        return couponRepository.findById(id).get();
     }
 
     @Override

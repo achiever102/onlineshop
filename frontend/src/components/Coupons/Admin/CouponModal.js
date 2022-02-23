@@ -7,9 +7,18 @@ class CouponModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: -1,
       couponId: "",
-      percentage: 0,
+      percentage: 0
     };
+  }
+
+  componentDidMount(){
+    this.setState({
+      id: this.props.coupon.id,
+      couponId: this.props.coupon.couponId,
+      percentage: this.props.coupon.percentage
+    })
   }
 
   handleChange = (event) => {
@@ -20,9 +29,9 @@ class CouponModal extends Component {
     }
   };
 
-  handleSave = (couponId, percentage) => {
-    axios
-      .post(Helper.getApiUrl('SAVE_COUPON'), {
+  handleSave = (id, couponId, percentage) => {
+    if(id === -1){
+      axios.put(Helper.getApiUrl('SAVE_COUPON'), {
         couponId: this.state.couponId,
         percentage: this.state.percentage
       })
@@ -34,6 +43,9 @@ class CouponModal extends Component {
       .catch((error) => {
         console.log(error);
       });
+    } else {
+
+    }
   };
 
   render() {
@@ -52,22 +64,15 @@ class CouponModal extends Component {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              <Form.Control type="hidden" placeholder="ID" name="id" defaultValue={this.props.coupon.id} />
+            </Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Coupon ID</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter coupon ID"
-                onChange={this.handleChange}
-                name="couponId"
-              />
+              <Form.Control type="text" placeholder="Enter coupon ID" onChange={this.handleChange} name="couponId" defaultValue={this.props.coupon.couponId} />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Percentage Value</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter percentage"
-                onChange={this.handleChange}
-                name="percentage"
-              />
+              <Form.Control type="text" placeholder="Enter percentage" onChange={this.handleChange} name="percentage" defaultValue={this.props.coupon.percentage} />
             </Form.Group>
           </Form>
         </Modal.Body>
