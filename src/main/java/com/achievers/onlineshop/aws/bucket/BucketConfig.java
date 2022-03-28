@@ -1,7 +1,7 @@
 package com.achievers.onlineshop.aws.bucket;
 
 public enum BucketConfig {
-    BUCKET_NAME("wfisher-sw-project-image-upload-001", "https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/");
+    BUCKET_NAME("update-bucket-name", "update-bucket-url");
 
     private final String bucketName;
     private final String bucketUrl;
