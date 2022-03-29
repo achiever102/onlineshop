@@ -52,8 +52,6 @@ public class ApplicationInitialDataRunner implements CommandLineRunner {
 
         Setting setting1 = new Setting("SaleEnabled", 10f);
         Setting setting2 = new Setting("TaxValue", 7.5f);
-        Setting setting3 = new Setting("PasswordMinLength", 5);
-        Setting setting4 = new Setting("PasswordRegex", "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{5,}$/");
 
         settingRepository.save(setting1);
         settingRepository.save(setting2);*/
