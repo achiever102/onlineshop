@@ -53,11 +53,11 @@ class NewItemModal extends Component {
         formData.append("itemName", this.state.itemName);
         formData.append("itemPrice", this.state.itemPrice);
         formData.append("itemQuantity", this.state.itemQuantity);
-        formData.append("itemCategory", this.state.itemCategory);
+        formData.append("itemCategory", this.state.itemCategory === -1 ? this.props.categories[0].id : this.state.itemCategory);
         formData.append("itemOnSale", this.state.itemOnSale);
         formData.append("itemSaleValue", this.state.itemOnSale ? this.state.itemSaleValue : 0);
         formData.append("itemDescription", this.state.itemDescription);
-        formData.append("itemPlatform", this.state.itemPlatform);
+        formData.append("itemPlatform", this.state.itemPlatform === -1 ? this.props.platforms[0].id : this.state.itemPlatform);
     
     
     
