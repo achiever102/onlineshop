@@ -19,7 +19,10 @@ class EditItemModal extends Component{
             itemPlatform: this.props.editItem.itemPlatform,
             itemSaleValue: this.props.editItem.itemSaleValue,
             itemOnSale: this.props.editItem.itemOnSale,
-            itemDescription: this.props.editItem.itemDescription
+            itemDescription: this.props.editItem.itemDescription,
+            errors: {},
+            showAlert: false,
+            alertMessageContent: ''
           }
     }
 
@@ -50,7 +53,33 @@ class EditItemModal extends Component{
     handleSave = () => {
         const {accessToken} = this.context;
 
-        const formData = new FormData();
+        let validationErrors = {};
+
+        let failed = false;
+        if (this.state.itemName === "") {
+          failed = true;
+          validationErrors["itemName"] = "Cannot be empty";
+        }
+
+        if (this.state.itemPrice === "" || this.state.itemPrice === 0) {
+            failed = true;
+            validationErrors["itemPrice"] = "Cannot be empty";
+          }
+
+          if (this.state.itemImage === "") {
+            failed = true;
+            validationErrors["itemImage"] = "Cannot be empty";
+          }
+    
+    
+        if (failed === true) {
+          this.setState({
+            errors: validationErrors,
+            showAlert: false,
+            alertMessageContent: ''
+          });
+        } else 
+        {const formData = new FormData();
         formData.append("id", this.state.id);
         formData.append("itemImage", this.state.itemImage);
         formData.append("itemName", this.state.itemName);
@@ -76,7 +105,7 @@ class EditItemModal extends Component{
           })
           .catch((err) => {
             console.log(err);
-          });
+          });}
     
       };
 
@@ -111,7 +140,16 @@ class EditItemModal extends Component{
                 name="itemName"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemName}
-              />
+                style={
+                  this.state.errors["itemName"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }/>
+                <span style={{ color: "red" }}>{this.state.errors["itemName"]}</span>  
             </Col>
             <Col>
               <Form.Label htmlFor="itemPrice">Price</Form.Label>
@@ -121,7 +159,16 @@ class EditItemModal extends Component{
                 name="itemPrice"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemPrice}
-              />
+                style={
+                  this.state.errors["itemPrice"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }/>
+                <span style={{ color: "red" }}>{this.state.errors["itemPrice"]}</span>  
             </Col>
           </Row>
 
@@ -135,7 +182,16 @@ class EditItemModal extends Component{
                 name="itemImage"
                 label="Image Uploader"
                 onChange={this.handleChange}
-              />
+                style={
+                  this.state.errors["itemImage"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }/>
+                <span style={{ color: "red" }}>{this.state.errors["itemImage"]}</span>  
             </Col>
             <Col xs={6} md={6} sm={12}>
               <Form.Label htmlFor="itemCategory">Category</Form.Label>
@@ -216,7 +272,11 @@ class EditItemModal extends Component{
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark" onClick={() => this.props.hideModal()}>
+          <Button variant="dark" onClick={() => {
+              this.setState({errors: {},
+                showAlert: false,
+                alertMessageContent: ''}, () => this.props.hideModal())
+            }}>
             Cancel
           </Button>
 

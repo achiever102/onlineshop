@@ -24,7 +24,7 @@ export default function AdminNavbar(){
   }
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="containerFluid">
+    <Navbar sticky="top" bg="dark" variant="dark" expand="lg" className="containerFluid">
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

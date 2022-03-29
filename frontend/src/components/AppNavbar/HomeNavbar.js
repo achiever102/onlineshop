@@ -13,7 +13,7 @@ class HomeNavbar extends Component {
     const {cartCount} = this.context;
 
     return (
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
