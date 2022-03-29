@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import UrlLocator from "../../helpers/UrlLocator";
 import AppLogo from "../AppLogo/AppLogo";

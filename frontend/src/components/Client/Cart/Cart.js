@@ -4,7 +4,7 @@ import UrlLocator from "../../../helpers/UrlLocator";
 import AppLogo from "../../AppLogo/AppLogo";
 import ClientNavbar from "../../AppNavbar/ClientNavbar";
 import HomeNavbar from "../../AppNavbar/HomeNavbar";
-import { Row, Col, Button, Container, Form, Badge, Alert } from "react-bootstrap";
+import { Row, Col, Button, Container, Form, Badge } from "react-bootstrap";
 
 import { FaOpencart } from "react-icons/fa";
 import { ImFire } from "react-icons/im";

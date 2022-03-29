@@ -1,6 +1,6 @@
 package com.achievers.onlineshop;
 
-import com.achievers.onlineshop.configs.ApplicationStartupRunner;
+import com.achievers.onlineshop.configs.ApplicationInitialDataRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +13,8 @@ public class OnlineshopApplication {
 	}
 
 	@Bean
-	public ApplicationStartupRunner schedulerRunner() {
-		return new ApplicationStartupRunner();
+	public ApplicationInitialDataRunner schedulerRunner() {
+		return new ApplicationInitialDataRunner();
 	}
 
 }
