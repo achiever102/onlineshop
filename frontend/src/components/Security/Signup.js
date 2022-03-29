@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 
+import {Row, Col, Button} from 'react-bootstrap';
+
 class Signup extends Component {
 
     constructor(props){
@@ -11,7 +13,10 @@ class Signup extends Component {
             username: "",
             email: "",
             password: "",
-            role: ["ROLE_USER"]
+            role: ["ROLE_USER"],
+            errors: {},
+            showAlert: false,
+            alertMessageContent: ''
         }
     }
 
@@ -20,7 +25,37 @@ class Signup extends Component {
     }
 
     handleSubmit = () => {
-        axios.post('http://localhost:8080/api/auth/signup', 
+        let validationErrors = {};
+
+        let failed = false;
+        if (this.state.fullName === "") {
+          failed = true;
+          validationErrors["fullName"] = "Cannot be empty";
+        }
+
+        if (this.state.username === "") {
+            failed = true;
+            validationErrors["username"] = "Cannot be empty";
+          }
+
+          if (this.state.email === "") {
+            failed = true;
+            validationErrors["email"] = "Cannot be empty";
+          }
+    
+        if (this.state.password === "") {
+          failed = true;
+          validationErrors["password"] = "Cannot be empty";
+        }
+    
+        if (failed === true) {
+          this.setState({
+            errors: validationErrors,
+            showAlert: false,
+            alertMessageContent: ''
+          });
+        } else {
+            axios.post('http://localhost:8080/api/auth/signup', 
         {
             username: this.state.username,
             email: this.state.email,
@@ -31,71 +66,102 @@ class Signup extends Component {
             if(res.status === 200){
                 window.open("/signin", "_self");
             }
-        })
+        }).catch((err) => {
+            if (err.response.status === 401) {
+              this.setState({
+                showAlert: true, alertMessageContent: `ERR: Invalid username or password`, errors: validationErrors
+              });
+            } else {
+              this.setState({
+                showAlert: true,
+                alertMessageContent: `ERR: Failed with error code ${err.response.status}`, errors: validationErrors
+              });
+            }
+          });
+    }
     }
 
   render(){
     return (
         <form className="container my-5 p-5" style={{borderRadius: "20px", width: ""}}>
+            <Row>
+            <Col xl={6} sm={12} md={6} lg={6}>
+            
                 <h3 className='my-3'>Sign Up</h3>
-                <div className="form-group">
-                    <div className='row my-1'>
-                        <div className='col-6'>
-                            <div className='row'>
-                                <div className='col-3'><label>Full Name</label></div>
-                                <div className='col-9'><input type="text" className="form-control" placeholder="Full name" name="fullName" onChange={this.handleChange}/></div>
-                            </div>
-                        </div>
-                        <div className='col-6'></div>
-                    </div>
-
-                    <div className='row my-1'>
-                        <div className='col-6'>
-                            <div className='row'>
-                                <div className='col-3'><label>Username</label></div>
-                                <div className='col-9'><input type="text" className="form-control" placeholder="Username"  name="username" onChange={this.handleChange}/></div>
-                            </div>
-                        </div>
-                        <div className='col-6'></div>
-                    </div>
-
-                    <div className='row my-1'>
-                        <div className='col-6'>
-                            <div className='row'>
-                                <div className='col-3'><label>Email address</label></div>
-                                <div className='col-9'><input type="email" className="form-control" placeholder="Enter email"  name="email" onChange={this.handleChange}/></div>
-                            </div>
-                        </div>
-                        <div className='col-6'></div>
-                    </div>
-                    
-                    <div className='row my-1'>
-                        <div className='col-6'>
-                            <div className='row'>
-                                <div className='col-3'><label>Password</label></div>
-                                <div className='col-9'><input type="password" className="form-control" placeholder="Enter password"  name="password" onChange={this.handleChange}/></div>
-                            </div>
-                        </div>
-                        <div className='col-6'></div>
-                    </div>
-
-                    <div className='row  mt-2'>
-                        <div className='col-6'>
-                            <div className='row'>
-                                <div className='col-3'></div>
-                                <div className='col-4'><button type="button" className="btn btn-dark btn-block" onClick={this.handleSubmit}>Sign Up</button></div>
-                                <div className='col-5 d-flex justify-content-end'><p className="forgot-password text-right">
-                    Already registered <NavLink to="/signin" className="btn btn-dark" style={{display: "inline-block"}}>Sign In</NavLink>
-                </p></div>
-                            </div>
-                        </div>
-                        <div className='col-6'>
-                            
-                        </div>
-                    </div>
-                    
+                <div className="form-group mt-2">
+                    <label>Full Name</label>
+                    <input type="text" className="form-control" placeholder="Full name" name="fullName" onChange={this.handleChange}
+                    style={
+                        this.state.errors["fullName"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }/>   
+                      <span style={{ color: "red" }}>{this.state.errors["fullName"]}</span>      
                 </div>
-                
+
+
+
+                <div className="form-group mt-2">
+                    <label>Username</label>
+                    <input type="text" className="form-control" placeholder="Username"  name="username" onChange={this.handleChange}
+                    style={
+                        this.state.errors["username"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }/>   
+                      <span style={{ color: "red" }}>{this.state.errors["username"]}</span>      
+                </div>
+
+                <div className="form-group mt-2">
+                    <label>Email Address</label>
+                    <input type="email" className="form-control" placeholder="Enter email"  name="email" onChange={this.handleChange}
+                    style={
+                        this.state.errors["email"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }/>   
+                      <span style={{ color: "red" }}>{this.state.errors["email"]}</span>      
+                </div>
+
+                <div className="form-group mt-2">
+                    <label>Password</label>
+                    <input type="password" className="form-control" placeholder="Enter password"  name="password" onChange={this.handleChange}
+                    style={
+                        this.state.errors["password"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }/>   
+                      <span style={{ color: "red" }}>{this.state.errors["password"]}</span>      
+                </div>
+
+                <div className="form-group mt-2">
+                      <div className='d-flex justify-content-between'>
+                        <Button variant="dark" onClick={this.handleSubmit}>Sign Up</Button>
+                        <NavLink to="/signin" className="btn btn-dark" style={{display: "inline-block"}}>Have an account? Sign In</NavLink>
+                      </div>
+                </div>
+
+                            
+                </Col>
+                <Col xl={6} sm={12} md={6} lg={6}></Col>
+                </Row>  
+
             </form>
     );
   }
