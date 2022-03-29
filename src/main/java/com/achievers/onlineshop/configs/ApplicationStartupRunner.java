@@ -1,4 +1,4 @@
-package com.achievers.onlineshop;
+package com.achievers.onlineshop.configs;
 
 import com.achievers.onlineshop.admin.model.Setting;
 import com.achievers.onlineshop.admin.repository.SettingRepository;
