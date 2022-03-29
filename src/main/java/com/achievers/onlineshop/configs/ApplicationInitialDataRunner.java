@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ApplicationStartupRunner implements CommandLineRunner {
+public class ApplicationInitialDataRunner implements CommandLineRunner {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
