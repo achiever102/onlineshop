@@ -25,7 +25,7 @@ import ChangePassword from "../components/Client/Profile/ChangePassword";
 import SuccessfulOrder from "../components/Client/Checkout/SuccessfulOrder";
 
 import { useParams } from "react-router-dom";
-import LicencesTable from "../components/Admin/Licences/LicencesTable";
+import LicensesTable from "../components/Admin/Licenses/LicensesTable";
 
 const Authenticator = (props) => {
   let { id } = useParams();
@@ -128,12 +128,12 @@ const Authenticator = (props) => {
             <ChangePassword />
           </>
         );
-      case "/adminLicences":
+      case "/adminLicenses":
          return (
           <>
             <AppLogo />
             <AdminNavbar />
-            <LicencesTable itemId={id} />
+            <LicensesTable itemId={id} />
           </>
         );
       default:
