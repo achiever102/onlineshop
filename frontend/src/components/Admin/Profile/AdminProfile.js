@@ -12,7 +12,10 @@ class AdminProfile extends Component {
     super(props);
     this.state = {
       fullName: "",
-      username: ""
+      username: "",
+      errors: {},
+      showAlert: false,
+      alertMessageContent: ""
     };
   }
 
@@ -41,6 +44,28 @@ class AdminProfile extends Component {
   handleUserDetailsUpdate = () => {
     const { userId, logout, accessToken } = this.context;
 
+    let validationErrors = {};
+    
+
+    let failed = false;
+    if (this.state.fullName === "") {
+      failed = true;
+      validationErrors["fullName"] = "Cannot be empty";
+    } else if(!this.state.fullName.match(/^[A-Za-z\s]+$/)){
+      failed = true;
+      validationErrors["fullName"] = "letters only";
+    }
+
+
+    if (failed === true) {
+      this.setState({
+        errors: validationErrors,
+        showAlert: false,
+        alertMessageContent: "",
+      });
+    } else
+    {
+
     axios.put(`http://localhost:8080/api/profile/updateUserDetails/${userId}`, {
       fullName: this.state.fullName,
       username: this.state.username
@@ -51,9 +76,17 @@ class AdminProfile extends Component {
     }).then((res) => {
       //console.log("xxxxxxxxxxxxxxxxxxxx")
       //updateUserProfileDetails(this.state.username, this.state.fullName);
-      logout();
+      if(res.status === 200){
+        logout();
+      }
+    }).catch((error) => {
+      validationErrors["fullName"] = error.response.data;
+      this.setState({
+        errors: validationErrors
+      });
     })
 
+  }
   };
 
   render() {
@@ -68,12 +101,24 @@ class AdminProfile extends Component {
               <Form.Group className="mb-3" controlId="fullName">
                 <Form.Label>Full Name:</Form.Label>
                 <Form.Control
-                name="fullName"
+                  name="fullName"
                   type="text"
                   placeholder="Enter you full name"
-                  defaultValue={this.state.fullName}
+                  value={this.state.fullName}
                   onChange={this.handleUserDetailsChanges}
+                  style={
+                    this.state.errors["fullName"] !== undefined
+                      ? {
+                          borderWidth: "1px",
+                          borderColor: "red",
+                          borderStyle: "solid",
+                        }
+                      : null
+                  }
                 />
+                <span style={{ color: "red" }}>
+                  {this.state.errors["fullName"]}
+                </span>
               </Form.Group>
             </Col>
             <Col>

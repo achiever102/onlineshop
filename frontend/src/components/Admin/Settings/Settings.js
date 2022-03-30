@@ -11,16 +11,15 @@ class SettingsTable extends Component {
       records:[],
       name: "",
       value: 0,
-      editItem: {
-        id: -1,
-        value: 0,
-        name: ""
-      }
+      errors: {},
+      showAlert: false,
+      alertMessageContent: "",
+      id: -1
     };
   }
 
   hideModal = () => {
-    this.setState({ modalShow: false });
+    this.setState({modalShow: false, errors: {}, showAlert: false, alertMessageContent: ''});
     this.getAllSettings();
   };
 
@@ -42,7 +41,8 @@ class SettingsTable extends Component {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }).then((response) => {
-      this.setState({editItem: response.data, modalShow: true})
+      console.log(response.data)
+      this.setState({name: response.data.name, value: response.data.value, id: response.data.id, modalShow: true})
     }).catch((err) => {
       console.log(err)
     })
@@ -52,23 +52,35 @@ class SettingsTable extends Component {
     this.getAllSettings();
   }
 
-
-
-
   handleChange = (event) => {
-    if (event.target.name === "name") {
-      this.setState({ name: event.target.value });
-    } else if (event.target.name === "value") {
-      this.setState({ value: event.target.value });
-    }
+    this.setState({[event.target.name]: event.target.value})
   };
 
   handleSave = () => {
+    let validationErrors = {};
+    
 
+    let failed = false;
+    if (this.state.value === "") {
+      failed = true;
+      validationErrors["value"] = "Cannot be empty";
+    } else if(isNaN(this.state.value)){
+      failed = true;
+      validationErrors["value"] = "Numbers only";
+    }
+
+    if (failed === true) {
+      this.setState({
+        errors: validationErrors,
+        showAlert: false,
+        alertMessageContent: "",
+      });
+    } else
+    {
     axios.put(UrlLocator.getApiUrl('SAVE_SETTINGS'), {
-      id: this.state.editItem.id,
-      name: this.state.name === '' ? this.state.editItem.name : this.state.name,
-      value: this.state.value === 0 ? this.state.editItem.value : this.state.value
+      id: this.state.id,
+      name: this.state.name === '' ? this.state.name : this.state.name,
+      value: this.state.value === 0 ? this.state.value : this.state.value
     }, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -80,20 +92,18 @@ class SettingsTable extends Component {
         }
     })
     .catch((error) => {
-      console.log(error);
+      validationErrors["value"] = error.response.data;
+          this.setState({
+            errors: validationErrors,
+          });
     });
-    
+  }
   };
 
   render() {
     return (
       <div className="container">
                 
-
-
-
-
-
                 <Modal
           show={this.state.modalShow}
           size="lg"
@@ -107,7 +117,7 @@ class SettingsTable extends Component {
           </Modal.Header>
           <Modal.Body>
           <Form.Group className="mb-3">
-              <Form.Control type="hidden" placeholder="ID" name="id" defaultValue={this.state.editItem.id} />
+              <Form.Control type="hidden" placeholder="ID" name="id" defaultValue={this.state.id} />
             </Form.Group>
             <Row>
               <Col>
@@ -117,25 +127,40 @@ class SettingsTable extends Component {
                   id="name"
                   name="name"
                   onChange={this.handleChange}
-                  defaultValue={this.state.editItem.name}
+                  defaultValue={this.state.name}
                   disabled
                 />
               </Col>
-              <Col>
-                <Form.Label htmlFor="value">Price</Form.Label>
+            </Row>
+
+            <Row className="mt-2">
+            <Col>
+                <Form.Label htmlFor="value">Value</Form.Label>
                 <Form.Control
                   type="text"
                   id="value"
                   name="value"
                   onChange={this.handleChange}
-                  defaultValue={this.state.editItem.value}
+                  defaultValue={this.state.value}
+                  style={
+                    this.state.errors["value"] !== undefined
+                      ? {
+                          borderWidth: "1px",
+                          borderColor: "red",
+                          borderStyle: "solid",
+                        }
+                      : null
+                  }
                 />
+                <span style={{ color: "red" }}>
+                  {this.state.errors["value"]}
+                </span>
               </Col>
             </Row>
 
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.setState({ modalShow: false })}>
+            <Button onClick={this.hideModal}>
               Cancel
             </Button>
 

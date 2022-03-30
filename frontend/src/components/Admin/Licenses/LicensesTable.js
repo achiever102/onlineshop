@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Table, Button, ButtonGroup, Form, Card } from "react-bootstrap";
+import { Table, Button, Form, Card } from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
 
 class LicensesTable extends Component {
@@ -15,7 +15,7 @@ class LicensesTable extends Component {
       item: {},
       errors: {},
       showAlert: false,
-      alertMessageContent: "",
+      alertMessageContent: ""
     };
   }
 

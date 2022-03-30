@@ -95,11 +95,19 @@ class CouponsTable extends Component {
   render() {
     return (
       <div className="container">
-        <CouponModal
+        
+
+{
+        this.state.show === true ? (
+          <CouponModal
           show={this.state.show}
           hideModal={this.hideModal}
           coupon={this.state.editCoupon}
         />
+        )
+      :
+      null
+      }
 
         <Button variant="outline-dark mt-5" onClick={() => this.showModal()}>
           Add New Coupon

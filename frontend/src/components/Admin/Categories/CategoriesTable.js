@@ -92,11 +92,18 @@ class CategoriesTable extends Component {
   render() {
     return (
       <div className="container">
-        <CategoriesModal
+        
+        {
+        this.state.show === true ? (
+          <CategoriesModal
           show={this.state.show}
           hideModal={this.hideModal}
           category={this.state.editCategory}
         />
+        )
+      :
+      null
+      }
 
         <Button variant="outline-dark mt-5" onClick={() => this.showModal()}>
           Add New Category

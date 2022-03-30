@@ -9,7 +9,10 @@ class CouponModal extends Component {
     this.state = {
       id: -1,
       couponId: "",
-      percentage: 0
+      percentage: 0,
+      errors: {},
+      showAlert: false,
+      alertMessageContent: ""
     };
   }
 
@@ -17,7 +20,10 @@ class CouponModal extends Component {
     this.setState({
       id: this.props.coupon.id,
       couponId: this.props.coupon.couponId,
-      percentage: this.props.coupon.percentage
+      percentage: this.props.coupon.percentage,
+      errors: {},
+      showAlert: false,
+      alertMessageContent: ""
     })
   }
 
@@ -30,8 +36,36 @@ class CouponModal extends Component {
   };
 
   handleSave = (id, couponId, percentage) => {
+    let validationErrors = {};
 
-    axios.put(UrlLocator.getApiUrl('SAVE_COUPON'), {
+    let failed = false;
+    if (this.state.couponId === "") {
+      failed = true;
+      validationErrors["couponId"] = "Cannot be empty";
+    } else if(!this.state.couponId.match(/^[0-9A-Za-z]+$/)){
+      failed = true;
+      validationErrors["couponId"] = "Numbers and letters only";
+    }
+
+    if (this.state.percentage === "") {
+      failed = true;
+      validationErrors["percentage"] = "Cannot be empty";
+    } else if(this.state.percentage < 1){
+      failed = true;
+      validationErrors["percentage"] = "Improper percentage value";
+    } else if(isNaN(this.state.percentage)){
+      failed = true;
+      validationErrors["percentage"] = "Numbers only";
+    }
+
+    if (failed === true) {
+      this.setState({
+        errors: validationErrors,
+        showAlert: false,
+        alertMessageContent: "",
+      });
+    } else
+    {axios.put(UrlLocator.getApiUrl('SAVE_COUPON'), {
       id: this.props.coupon.id,
       couponId: this.state.couponId === '' ? this.props.coupon.couponId : this.state.couponId,
       percentage: this.state.percentage === '' ? this.props.coupon.percentage : this.state.percentage
@@ -46,8 +80,11 @@ class CouponModal extends Component {
         }
     })
     .catch((error) => {
-      console.log(error);
-    });
+      validationErrors["couponId"] = error.response.data;
+          this.setState({
+            errors: validationErrors,
+          });
+    });}
     
   };
 
@@ -71,16 +108,46 @@ class CouponModal extends Component {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Coupon ID</Form.Label>
-              <Form.Control type="text" placeholder="Enter coupon ID" onChange={this.handleChange} name="couponId" defaultValue={this.props.coupon.couponId} />
+              <Form.Control type="text" placeholder="Enter coupon ID" onChange={this.handleChange} name="couponId" defaultValue={this.props.coupon.couponId} 
+              style={
+                this.state.errors["couponId"] !== undefined
+                  ? {
+                      borderWidth: "1px",
+                      borderColor: "red",
+                      borderStyle: "solid",
+                    }
+                  : null
+              }
+            />
+            <span style={{ color: "red" }}>
+              {this.state.errors["couponId"]}
+            </span>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Percentage</Form.Label>
-              <Form.Control type="text" placeholder="Enter percentage" onChange={this.handleChange} name="percentage" defaultValue={this.props.coupon.percentage} />
+              <Form.Control type="text" placeholder="Enter percentage" onChange={this.handleChange} name="percentage" defaultValue={this.props.coupon.percentage} 
+              style={
+                this.state.errors["percentage"] !== undefined
+                  ? {
+                      borderWidth: "1px",
+                      borderColor: "red",
+                      borderStyle: "solid",
+                    }
+                  : null
+              }
+            />
+            <span style={{ color: "red" }}>
+              {this.state.errors["percentage"]}
+            </span>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.hideModal}>Cancel</Button>
+          <Button onClick={() => {
+              this.setState({errors: {},
+                showAlert: false,
+                alertMessageContent: ''}, () => this.props.hideModal())
+            }}>Cancel</Button>
           <Button onClick={this.handleSave}>Save and Close</Button>
         </Modal.Footer>
       </Modal>
