@@ -59,9 +59,12 @@ class NewItemModal extends Component {
           validationErrors["itemName"] = "Cannot be empty";
         }
 
-        if (this.state.itemPrice === "" || this.state.itemPrice === 0) {
+        if (this.state.itemPrice === "") {
             failed = true;
             validationErrors["itemPrice"] = "Cannot be empty";
+          } else if (this.state.itemPrice === 0) {
+            failed = true;
+            validationErrors["itemPrice"] = "Cannot be zero";
           }
 
           if (this.state.itemImage === "") {
