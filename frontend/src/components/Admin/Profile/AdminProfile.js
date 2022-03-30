@@ -53,7 +53,7 @@ class AdminProfile extends Component {
       validationErrors["fullName"] = "Cannot be empty";
     } else if(!this.state.fullName.match(/^[A-Za-z\s]+$/)){
       failed = true;
-      validationErrors["fullName"] = "letters only";
+      validationErrors["fullName"] = "Letters only";
     }
 
 

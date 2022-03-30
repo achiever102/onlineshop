@@ -142,7 +142,7 @@ class ClientProfile extends Component {
       validationErrors["username"] = "Cannot be empty";
     } else if(!this.state.username.match(/^[A-Za-z0-9]+$/)){
       failed = true;
-      validationErrors["username"] = "Letters only";
+      validationErrors["username"] = "Letters and numbers only";
     }
 
     if (this.state.fullName === "") {
