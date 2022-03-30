@@ -53,22 +53,21 @@ public class LicensesController {
         return customLicenseObject;
     }
 
-    @GetMapping(path = "/getById/{id}")
-    public License getLicenseById(@PathVariable("id") long id){
-        License license = licensesService.getById(id);
-        return license;
-    }
-
     @DeleteMapping(path = "/delete/{gameId}/{id}")
     public ResponseEntity deleteLicenseById(@PathVariable("gameId") long gameId, @PathVariable("id") long id){
-        licensesService.delete(id);
+        boolean deleted = licensesService.delete(id);
 
-        int gameLicensesCount = licensesService.getGameLicenses(gameId).size();
+        if(deleted){
+            int gameLicensesCount = licensesService.getGameLicenses(gameId).size();
 
-        Item item = itemService.getById(gameId);
-        item.setItemQuantity(gameLicensesCount);
-        itemService.updateItemStatusOrQuantity(item);
+            Item item = itemService.getById(gameId);
+            item.setItemQuantity(gameLicensesCount);
+            itemService.updateItemStatusOrQuantity(item);
 
-        return ResponseEntity.ok("");
+            return ResponseEntity.ok("License deleted successfully!");
+        } else {
+            return ResponseEntity.ok("License was not found!");
+        }
+
     }
 }

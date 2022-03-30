@@ -76,6 +76,9 @@ class LicensesTable extends Component {
     if (this.state.licenseId === "") {
       failed = true;
       validationErrors["licenseId"] = "Cannot be empty";
+    } else if(!this.state.licenseId.match(/^[0-9A-Za-z\-]+$/)){
+      failed = true;
+      validationErrors["licenseId"] = "Numbers, letters and hyphen only";
     }
 
     if (failed === true) {

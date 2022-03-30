@@ -34,8 +34,18 @@ public class LicensesServiceImpl implements LicensesService{
     }
 
     @Override
-    public void delete(Long id) {
-        licensesRepository.delete(licensesRepository.getById(id));
+    public boolean delete(Long id) {
+        License license = licensesRepository.getById(id);
+        if(license != null){
+            if(license.getStatus().equals("AVAILABLE")){
+                licensesRepository.delete(license);
+                return true;
+            } else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
     @Override

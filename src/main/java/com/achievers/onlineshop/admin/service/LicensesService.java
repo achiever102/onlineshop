@@ -14,7 +14,7 @@ public interface LicensesService {
 
     public License add(License license);
 
-    public void delete(Long id);
+    public boolean delete(Long id);
 
     public void update(License license);
 
