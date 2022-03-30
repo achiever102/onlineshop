@@ -12,7 +12,10 @@ class ChangePassword extends Component {
     super(props);
     this.state = {
       currentPassword: "",
-      newPassword: ""
+      newPassword: "",
+      errors: {},
+      showAlert: false,
+      alertMessageContent: ""
     };
   }
 
@@ -25,6 +28,30 @@ class ChangePassword extends Component {
   handlePasswordUpdate = () => {
 
     const { userId, logout, accessToken } = this.context;
+
+    let validationErrors = {};
+    
+
+    let failed = false;
+    if (this.state.newPassword === "") {
+      failed = true;
+      validationErrors["newPassword"] = "Cannot be empty";
+    } 
+
+    if (this.state.currentPassword === "") {
+      failed = true;
+      validationErrors["currentPassword"] = "Cannot be empty";
+    } 
+
+
+    if (failed === true) {
+      this.setState({
+        errors: validationErrors,
+        showAlert: false,
+        alertMessageContent: "",
+      });
+    } else
+    {
 
     axios.put(`http://localhost:8080/api/profile/updateUserPassword/${userId}`, {
       currentPassword: this.state.currentPassword,
@@ -39,11 +66,13 @@ class ChangePassword extends Component {
       if(res.status === 200){
         
         logout();
-      } else {
-        console.log(res)
-      }
+      } 
+    }).catch((error) => {
+      this.setState({
+        errors: validationErrors
+      });
     })
-
+  }
   };
 
   render() {
@@ -63,7 +92,19 @@ class ChangePassword extends Component {
                       type="password"
                       placeholder="Enter current password"
                       onChange={this.handlePasswordChanges}
+                      style={
+                        this.state.errors["currentPassword"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.errors["currentPassword"]}
+                    </span>
                   </Form.Group>
                 </Col>
                 <Col>
@@ -74,7 +115,19 @@ class ChangePassword extends Component {
                       type="password"
                       placeholder="Enter new password"
                       onChange={this.handlePasswordChanges}
+                      style={
+                        this.state.errors["newPassword"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.errors["newPassword"]}
+                    </span>
                   </Form.Group>
                 </Col>
               </Row>

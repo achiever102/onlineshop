@@ -20,7 +20,6 @@ public class CouponController {
 
     @PutMapping(path = "/save")
     public ResponseEntity saveCoupon(@RequestBody Coupon coupon){
-        System.out.println(coupon.toString());
         couponService.add(coupon);
         return ResponseEntity.ok("Created!");
     }
@@ -45,7 +44,6 @@ public class CouponController {
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity deleteCouponById(@PathVariable("id") long id){
-        System.out.println(id);
         couponService.delete(id);
         return ResponseEntity.ok("");
     }

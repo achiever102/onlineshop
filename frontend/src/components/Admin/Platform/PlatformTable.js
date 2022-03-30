@@ -92,11 +92,20 @@ class PlatformTable extends Component {
   render() {
     return (
       <div className="container">
-        <PlatformModal
+
+{
+        this.state.show === true ? (
+          <PlatformModal
           show={this.state.show}
           hideModal={this.hideModal}
           platform={this.state.editPlatform}
         />
+        )
+      :
+      null
+      }
+        
+        
 
         <Button variant="outline-dark mt-5" onClick={() => this.showModal()}>
           Add New Platform
