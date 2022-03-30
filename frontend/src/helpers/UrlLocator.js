@@ -7,7 +7,7 @@ export default class UrlLocator {
     const HOME_API_URL = "/api/home";
     const SETTINGS_API_URL = "/api/admin/settings";
     const PLATFORM_API_URL = "/api/admin/platform";
-    const LICENCES_API_URL = "/api/admin/licences";
+    const LICENSES_API_URL = "/api/admin/licenses";
     const ORDERS_API_URL = "/api/orders";
     const CART_API_URL = "/api/cart";
     const PLACE_ORDER = '/placeAnOrder';
@@ -22,12 +22,10 @@ export default class UrlLocator {
     const GET_COUPON_BY_ID = "/getById";
     const GET_COUPON_BY_NAME = "/getByCouponName";
 
-    const SAVE_LICENCE = "/save";
-    const GET_LICENCES = "/getAll";
-    const GET_GAME_LICENCES = "/getAll";
-    const DELETE_LICENCE = "/delete";
-    const EDIT_LICENCE = "/edit";
-    const GET_LICENCE_BY_ID = "/getById";
+    const SAVE_LICENSE = "/save";
+    const GET_GAME_LICENSES = "/getAll";
+    const DELETE_LICENSE = "/delete";
+    const EDIT_LICENSE = "/edit";
 
     const SAVE_CATEGORY = "/save";
     const GET_CATEGORIES = "/getAll";
@@ -107,18 +105,14 @@ export default class UrlLocator {
       case "GET_CATEGORY_BY_ID":
         return CATEGORIES_API_URL + GET_CATEGORY_BY_ID;
 
-      case "SAVE_LICENCE":
-        return LICENCES_API_URL + SAVE_LICENCE;
-        case "GET_GAME_LICENCES":
-          return LICENCES_API_URL + GET_GAME_LICENCES;
-      case "GET_LICENCES":
-        return LICENCES_API_URL + GET_LICENCES;
-      case "DELETE_LICENCE":
-        return LICENCES_API_URL + DELETE_LICENCE;
-      case "EDIT_LICENCE":
-        return LICENCES_API_URL + EDIT_LICENCE;
-      case "GET_LICENCE_BY_ID":
-        return LICENCES_API_URL + GET_LICENCE_BY_ID;
+      case "SAVE_LICENSE":
+        return LICENSES_API_URL + SAVE_LICENSE;
+        case "GET_GAME_LICENSES":
+          return LICENSES_API_URL + GET_GAME_LICENSES;
+      case "DELETE_LICENSE":
+        return LICENSES_API_URL + DELETE_LICENSE;
+      case "EDIT_LICENSE":
+        return LICENSES_API_URL + EDIT_LICENSE;
 
       case "SAVE_PLATFORM":
         return PLATFORM_API_URL + SAVE_PLATFORM;

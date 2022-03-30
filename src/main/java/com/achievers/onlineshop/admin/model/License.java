@@ -1,20 +1,24 @@
 package com.achievers.onlineshop.admin.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="LICENCES")
-public class Licence {
+@Table(name="LICENSES")
+public class License {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @Column(name = "ITEM_ID")
     private long itemId;
 
-    @Column(name="LICENCE_ID")
-    private String licenceId;
+    @NotEmpty
+    @Column(name="LICENSE_ID")
+    private String licenseId;
 
     @Column(name="ORDER_ID")
     private String orderId;
@@ -22,14 +26,14 @@ public class Licence {
     @Column(name="STATUS")
     private String status;
 
-    public Licence(long itemId, String licenceId, String orderId, String status) {
+    public License(long itemId, String licenseId, String orderId, String status) {
         this.itemId = itemId;
-        this.licenceId = licenceId;
+        this.licenseId = licenseId;
         this.orderId = orderId;
         this.status = status;
     }
 
-    public Licence() {
+    public License() {
     }
 
     public long getId() {
@@ -48,12 +52,12 @@ public class Licence {
         this.itemId = itemId;
     }
 
-    public String getLicenceId() {
-        return licenceId;
+    public String getLicenseId() {
+        return licenseId;
     }
 
-    public void setLicenceId(String licenceId) {
-        this.licenceId = licenceId;
+    public void setLicenseId(String licenceId) {
+        this.licenseId = licenceId;
     }
 
     public String getOrderId() {
@@ -77,7 +81,7 @@ public class Licence {
         return "Licence{" +
                 "id=" + id +
                 ", itemId=" + itemId +
-                ", licenceId='" + licenceId + '\'' +
+                ", licenseId='" + licenseId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", status='" + status + '\'' +
                 '}';

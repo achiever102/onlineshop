@@ -121,8 +121,8 @@ export default function AdminItems() {
       });
   };
 
-  const updateGameLicences = (id) => {
-    navigate(`/adminItems/${id}/licences`);
+  const updateGameLicenses = (id) => {
+    navigate(`/adminItems/${id}/licenses`);
   }
 
   const handleSearchFieldChange = (event) => {
@@ -375,9 +375,9 @@ getAllItems={getAllItems}/>
                   variant="dark"
                   size="md"
                   className="mx-1"
-                  onClick={() => updateGameLicences(item.id)}
+                  onClick={() => updateGameLicenses(item.id)}
                 >
-                  Update Licences
+                  Update Licenses
                 </Button>
               </Card.Footer>
             </Card>
