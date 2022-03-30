@@ -31,16 +31,25 @@ class Signup extends Component {
         if (this.state.fullName === "") {
           failed = true;
           validationErrors["fullName"] = "Cannot be empty";
+        } else if(!this.state.fullName.match(/^[A-Za-z\s]+$/)){
+          failed = true;
+          validationErrors["fullName"] = "Letters only";
         }
 
         if (this.state.username === "") {
             failed = true;
             validationErrors["username"] = "Cannot be empty";
+          } else if(!this.state.username.match(/^[A-Za-z0-9]+$/)){
+            failed = true;
+            validationErrors["username"] = "Letters and numbers only";
           }
 
           if (this.state.email === "") {
             failed = true;
             validationErrors["email"] = "Cannot be empty";
+          } else if(!this.state.email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+            failed = true;
+            validationErrors["email"] = "Invalid email address format";
           }
     
         if (this.state.password === "") {
