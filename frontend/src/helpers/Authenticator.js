@@ -21,7 +21,7 @@ import Home from "../components/Home/Home";
 import PlatformTable from "../components/Admin/Platform/PlatformTable";
 
 import FinalCheckout from "../components/Client/Checkout/FinalCheckout";
-import ChangePassword from "../components/Client/Profile/ChangePassword";
+import ChangePassword from "../components/ChangePassword/ChangePassword";
 import SuccessfulOrder from "../components/Client/Checkout/SuccessfulOrder";
 
 import { useParams } from "react-router-dom";

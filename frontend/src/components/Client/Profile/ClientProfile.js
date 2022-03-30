@@ -16,73 +16,182 @@ class ClientProfile extends Component {
       cardName: "",
       cardNumber: "",
       cardExpDate: "",
-      cardCcv: ""
+      cardCcv: "",
+      paymentMethodErrors: {},
+      userDetailsErrors: {},
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { accessToken, username } = this.context;
 
-    axios.get(`http://localhost:8080/api/profile/getAll/${username}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => {
-      this.setState({
-        fullName: res.data.customUserObject.fullName, 
-        username: res.data.customUserObject.username, 
-        email: res.data.customUserObject.email,
-        cardName: res.data.paymentMethod === null ? "" : res.data.paymentMethod.cardName,
-        cardNumber: res.data.paymentMethod === null ? "" : res.data.paymentMethod.cardNumber,
-        cardExpDate: res.data.paymentMethod === null ? "" : res.data.paymentMethod.cardExpDate,
-        cardCcv: res.data.paymentMethod === null ? "" : res.data.paymentMethod.cardCcv
+    axios
+      .get(`http://localhost:8080/api/profile/getAll/${username}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
-      
-    })
+      .then((res) => {
+        this.setState({
+          fullName: res.data.customUserObject.fullName,
+          username: res.data.customUserObject.username,
+          email: res.data.customUserObject.email,
+          cardName:
+            res.data.paymentMethod === null
+              ? ""
+              : res.data.paymentMethod.cardName,
+          cardNumber:
+            res.data.paymentMethod === null
+              ? ""
+              : res.data.paymentMethod.cardNumber,
+          cardExpDate:
+            res.data.paymentMethod === null
+              ? ""
+              : res.data.paymentMethod.cardExpDate,
+          cardCcv:
+            res.data.paymentMethod === null
+              ? ""
+              : res.data.paymentMethod.cardCcv,
+          paymentMethodErrors: {},
+          userDetailsErrors: {},
+        });
+      });
   }
 
   handleCardDetailsChanges = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
   handlePaymentMethodUpdate = () => {
     const { userId, accessToken } = this.context;
+    let validationErrors = {};
 
-    axios.put(`http://localhost:8080/api/profile/updatePaymentMethod/${userId}`, {
-      cardName: this.state.cardName,
-      cardNumber: this.state.cardNumber,
-      cardExpDate: this.state.cardExpDate,
-      cardCcv: this.state.cardCcv
-    }, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => {
-   
-    })
+    let failed = false;
+    if (this.state.cardName === "") {
+      failed = true;
+      validationErrors["cardName"] = "Cannot be empty";
+    } else if(!this.state.cardName.match(/^[A-Za-z\s]+$/)){
+      failed = true;
+      validationErrors["cardName"] = "Letters only";
+    }
 
+    if (this.state.cardNumber === "") {
+      failed = true;
+      validationErrors["cardNumber"] = "Cannot be empty";
+    } else if(!this.state.cardNumber.match(/^\d{4}-?\d{4}-?\d{4}-?\d{4}$/)){
+      failed = true;
+      validationErrors["cardNumber"] = "16 digits credit card number";
+    }
+
+    if (this.state.cardExpDate === "") {
+      failed = true;
+      validationErrors["cardExpDate"] = "Cannot be empty";
+    } else if(!this.state.cardExpDate.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)){
+      failed = true;
+      validationErrors["cardExpDate"] = "Invalid expiration date format";
+    }
+
+    if (this.state.cardCcv === "") {
+      failed = true;
+      validationErrors["cardCcv"] = "Cannot be empty";
+    } else if(!this.state.cardCcv.match(/^\d{3,4}$/)){
+      failed = true;
+      validationErrors["cardCcv"] = "Numbers only";
+    }
+
+    if (failed === true) {
+      this.setState({
+        paymentMethodErrors: validationErrors,
+      });
+    } else {
+      axios
+        .put(
+          `http://localhost:8080/api/profile/updatePaymentMethod/${userId}`,
+          {
+            cardName: this.state.cardName,
+            cardNumber: this.state.cardNumber,
+            cardExpDate: this.state.cardExpDate,
+            cardCcv: this.state.cardCcv,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            this.setState({
+              paymentMethodErrors: {},
+            });
+          }
+        });
+    }
   };
 
   handleUserDetailsUpdate = () => {
-
     const { userId, logout, accessToken } = this.context;
 
-    axios.put(`http://localhost:8080/api/profile/updateUserDetails/${userId}`, {
-      fullName: this.state.fullName,
-      username: this.state.username,
-      email: this.state.email
-    }, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => {
-      //console.log("xxxxxxxxxxxxxxxxxxxx")
-      //updateUserProfileDetails(this.state.username, this.state.fullName);
-      logout();
-    })
+    let validationErrors = {};
 
+    let failed = false;
+    if (this.state.username === "") {
+      failed = true;
+      validationErrors["username"] = "Cannot be empty";
+    } else if(!this.state.username.match(/^[A-Za-z0-9]+$/)){
+      failed = true;
+      validationErrors["username"] = "Letters only";
+    }
+
+    if (this.state.fullName === "") {
+      failed = true;
+      validationErrors["fullName"] = "Cannot be empty";
+    } else if(!this.state.fullName.match(/^[A-Za-z\s]+$/)){
+      failed = true;
+      validationErrors["fullName"] = "Letters only";
+    }
+
+    if (this.state.email === "") {
+      failed = true;
+      validationErrors["email"] = "Cannot be empty";
+    } else if(!this.state.email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+      failed = true;
+      validationErrors["email"] = "Invalid email address format";
+    }
+
+    if (failed === true) {
+      this.setState({
+        userDetailsErrors: validationErrors,
+      });
+    } else {
+      axios
+        .put(
+          `http://localhost:8080/api/profile/updateUserDetails/${userId}`,
+          {
+            fullName: this.state.fullName,
+            username: this.state.username,
+            email: this.state.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          //console.log("xxxxxxxxxxxxxxxxxxxx")
+          //updateUserProfileDetails(this.state.username, this.state.fullName);
+          if (res.status === 200) {
+            this.setState({
+              userDetailsErrors: {},
+            }, () => {
+              logout();
+            });
+          }
+        });
+    }
   };
 
   render() {
@@ -100,9 +209,21 @@ class ClientProfile extends Component {
                       name="fullName"
                       type="text"
                       placeholder="Enter full name"
-                      defaultValue={this.state.fullName}
+                      value={this.state.fullName}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.userDetailsErrors["fullName"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.userDetailsErrors["fullName"]}
+                    </span>
                   </Form.Group>
                 </Col>
                 <Col>
@@ -112,9 +233,21 @@ class ClientProfile extends Component {
                       name="username"
                       type="text"
                       placeholder="Enter username"
-                      defaultValue={this.state.username}
+                      value={this.state.username}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.userDetailsErrors["username"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.userDetailsErrors["username"]}
+                    </span>
                   </Form.Group>
                 </Col>
               </Row>
@@ -126,15 +259,27 @@ class ClientProfile extends Component {
                       name="email"
                       type="text"
                       placeholder="Enter email"
-                      defaultValue={this.state.email}
+                      value={this.state.email}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.userDetailsErrors["email"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.userDetailsErrors["email"]}
+                    </span>
                   </Form.Group>
                 </Col>
                 <Col></Col>
               </Row>
               <Button variant="dark" onClick={this.handleUserDetailsUpdate}>
-              Save
+                Save
               </Button>
               <Form.Text className="text-muted d-block">
                 Updating your user details will log you out of the system.
@@ -155,9 +300,21 @@ class ClientProfile extends Component {
                       name="cardName"
                       type="text"
                       placeholder="Enter card name"
-                      defaultValue={this.state.cardName}
+                      value={this.state.cardName}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.paymentMethodErrors["cardName"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.paymentMethodErrors["cardName"]}
+                    </span>
                   </Form.Group>
                 </Col>
                 <Col>
@@ -167,9 +324,22 @@ class ClientProfile extends Component {
                       name="cardNumber"
                       type="text"
                       placeholder="Enter card number"
-                      defaultValue={this.state.cardNumber}
+                      value={this.state.cardNumber}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.paymentMethodErrors["cardNumber"] !==
+                        undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.paymentMethodErrors["cardNumber"]}
+                    </span>
                   </Form.Group>
                 </Col>
               </Row>
@@ -181,9 +351,22 @@ class ClientProfile extends Component {
                       name="cardExpDate"
                       type="text"
                       placeholder="Enter card expiration date"
-                      defaultValue={this.state.cardExpDate}
+                      value={this.state.cardExpDate}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.paymentMethodErrors["cardExpDate"] !==
+                        undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.paymentMethodErrors["cardExpDate"]}
+                    </span>
                   </Form.Group>
                 </Col>
                 <Col>
@@ -193,14 +376,26 @@ class ClientProfile extends Component {
                       name="cardCcv"
                       type="text"
                       placeholder="Enter card ccv"
-                      defaultValue={this.state.cardCcv}
+                      value={this.state.cardCcv}
                       onChange={this.handleCardDetailsChanges}
+                      style={
+                        this.state.paymentMethodErrors["cardCcv"] !== undefined
+                          ? {
+                              borderWidth: "1px",
+                              borderColor: "red",
+                              borderStyle: "solid",
+                            }
+                          : null
+                      }
                     />
+                    <span style={{ color: "red" }}>
+                      {this.state.paymentMethodErrors["cardCcv"]}
+                    </span>
                   </Form.Group>
                 </Col>
               </Row>
               <Button variant="dark" onClick={this.handlePaymentMethodUpdate}>
-              Save
+                Save
               </Button>
             </Form>
           </Card.Body>
