@@ -18,5 +18,7 @@ public interface CouponService {
 
     public Coupon getCouponByName(String couponId);
 
+    public List<Coupon> getCouponsFromJson(String couponsJson);
+
 }
 

@@ -14,4 +14,10 @@ public interface LicensesRepository extends JpaRepository<License, Long> {
     @Query(value = "select * from licenses where item_id = :gameId and license_id = :licenseId", nativeQuery = true)
     public List<License> getLicenseByLicenseIdAndGameId(long gameId, String licenseId);
 
+    @Query(value = "select * from licenses where item_id = :gameId and status=\"AVAILABLE\" limit :numOfLicences", nativeQuery = true)
+    public List<License> getTopNLicences(long gameId, int numOfLicences);
+
+    @Query(value = "select * from licenses where item_id = :gameId and status=\"AVAILABLE\"", nativeQuery = true)
+    public List<License> gitAvailableLicences(long gameId);
+
 }

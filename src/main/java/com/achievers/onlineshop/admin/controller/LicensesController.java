@@ -31,7 +31,7 @@ public class LicensesController {
         if(!isDuplicateLicense) {
             licensesService.add(license);
 
-            int gameLicensesCount = licensesService.getGameLicenses(gameId).size();
+            int gameLicensesCount = licensesService.gitAvailableLicences(gameId).size();
 
             Item item = itemService.getById(gameId);
             item.setItemQuantity(gameLicensesCount);
@@ -58,7 +58,7 @@ public class LicensesController {
         boolean deleted = licensesService.delete(id);
 
         if(deleted){
-            int gameLicensesCount = licensesService.getGameLicenses(gameId).size();
+            int gameLicensesCount = licensesService.gitAvailableLicences(gameId).size();
 
             Item item = itemService.getById(gameId);
             item.setItemQuantity(gameLicensesCount);
