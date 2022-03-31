@@ -62,4 +62,14 @@ public class LicensesServiceImpl implements LicensesService{
             return false;
         }
     }
+
+    @Override
+    public List<License> getTopNLicences(long gameId, int num) {
+        return licensesRepository.getTopNLicences(gameId, num);
+    }
+
+    @Override
+    public List<License> gitAvailableLicences(long gameId) {
+        return licensesRepository.gitAvailableLicences(gameId);
+    }
 }

@@ -20,5 +20,9 @@ public interface LicensesService {
 
     public boolean isDuplicateLicense(long gameId, String licenceId);
 
+    public List<License> getTopNLicences(long gameId, int num);
+
+    public List<License> gitAvailableLicences(long gameId);
+
 }
 

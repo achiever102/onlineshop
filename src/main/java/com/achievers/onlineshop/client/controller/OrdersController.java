@@ -1,7 +1,10 @@
 package com.achievers.onlineshop.client.controller;
 
 import com.achievers.onlineshop.admin.model.Coupon;
+import com.achievers.onlineshop.admin.model.License;
 import com.achievers.onlineshop.admin.repository.SettingRepository;
+import com.achievers.onlineshop.admin.service.CouponService;
+import com.achievers.onlineshop.admin.service.LicensesService;
 import com.achievers.onlineshop.client.model.*;
 import com.achievers.onlineshop.client.service.CartService;
 import com.achievers.onlineshop.client.service.OrderItemService;
@@ -45,6 +48,12 @@ public class OrdersController {
     @Autowired
     private SettingRepository settingRepository;
 
+    @Autowired
+    private LicensesService licensesService;
+
+    @Autowired
+    private CouponService couponsService;
+
     @GetMapping("/getAll")
     public List<Item> getAll(){
         return itemService.getAll();
@@ -56,14 +65,8 @@ public class OrdersController {
     @PostMapping(path = "/placeAnOrder/{userId}")
     public ResponseEntity getItemById(@PathVariable("userId") long userId, @RequestParam("coupons") String couponsJson) {
 
-        List<Coupon> appliedCoupons = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(couponsJson);
-            appliedCoupons = objectMapper.convertValue(jsonNode, new TypeReference<List<Coupon>>() {});
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        //get coupons from the database from received coupons json
+        List<Coupon> appliedCoupons = couponsService.getCouponsFromJson(couponsJson);
 
         float totalCoupons = 0f;
         for(Coupon coupon: appliedCoupons){
@@ -74,22 +77,22 @@ public class OrdersController {
         String orderUuid = UUID.randomUUID().toString();
         List<Cart> cartList = cartService.getByUserId(userId);
         Order order = new Order();
+        List<License> licenseList = new ArrayList<>();
 
         List<Item> items = new ArrayList<>();
         int count = 0;
         float subTotalAmount = 0f;
         float taxValue = settingRepository.getParamValueByName("TaxValue").getValue();
+
         for(Cart cart: cartList) {
             Item item = itemService.getById(cart.getGameId());
             count = count + cart.getQuantity();
-
 
             if(item.isItemOnSale()){
                 subTotalAmount = subTotalAmount + (item.getItemPrice() * cart.getQuantity()) - (item.getItemPrice() * cart.getQuantity() * item.getItemSaleValue() / 100);
             } else {
                 subTotalAmount = subTotalAmount + (item.getItemPrice() * cart.getQuantity());
             }
-
 
             float itemTotalAmount;
             if(item.isItemOnSale()){
@@ -98,18 +101,13 @@ public class OrdersController {
                 itemTotalAmount = (item.getItemPrice() * cart.getQuantity());
             }
 
-
             OrderItem orderItem = new OrderItem(cart.getGameId(), order, cart.getQuantity(), itemTotalAmount , item.isItemOnSale(), item.getItemSaleValue());
             orderItems.add(orderItem);
 
+            licenseList.addAll(licensesService.getTopNLicences(orderItem.getGameId(), orderItem.getQuantity()));
 
-
-
-
-
-
-        item.setItemQuantity(item.getItemQuantity()-cart.getQuantity());
-        items.add(item);
+            item.setItemQuantity(item.getItemQuantity()-cart.getQuantity());
+            items.add(item);
         }
 
         float subTotalTaxAmount = subTotalAmount * taxValue / 100;
@@ -131,6 +129,12 @@ public class OrdersController {
         order.setOrderItemsCount(count);
         order.setOrderAppliedCoupons(couponsString.toString());
         Order savedOrder = orderService.add(order);
+
+        for(License license: licenseList){
+            license.setOrderId(order.getOrderId());
+            license.setStatus("SOLD");
+            licensesService.update(license);
+        }
 
         for(int i = 0; i < cartList.size(); i++){
             cartService.delete(cartList.get(i).getId());
