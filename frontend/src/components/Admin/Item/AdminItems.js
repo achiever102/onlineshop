@@ -181,7 +181,7 @@ export default function AdminItems() {
             Authorization: `Bearer ${accessToken}`,
           },
         }).then((response) => {
-          setState({...state, items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(this.state.searchField.toLowerCase()))).sort((a, b) => { return (b.itemOnSale ? b.itemPrice : b.itemPrice) - (a.itemOnSale ? a.itemPrice : a.itemPrice); }), 
+          setState({...state, items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(state.searchField.toLowerCase()))).sort((a, b) => { return (b.itemOnSale ? b.itemPrice : b.itemPrice) - (a.itemOnSale ? a.itemPrice : a.itemPrice); }), 
             platforms: response.data.platforms,
             categories: response.data.categories,
             modalShow: false,
@@ -194,7 +194,7 @@ export default function AdminItems() {
             Authorization: `Bearer ${accessToken}`,
           },
         }).then((response) => {
-        setState({...state, items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(this.state.searchField.toLowerCase()))).sort((a, b) => { return (a.itemOnSale ? a.itemPrice : a.itemPrice) - (b.itemOnSale ? b.itemPrice : b.itemPrice); }), 
+        setState({...state, items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(state.searchField.toLowerCase()))).sort((a, b) => { return (a.itemOnSale ? a.itemPrice : a.itemPrice) - (b.itemOnSale ? b.itemPrice : b.itemPrice); }), 
           platforms: response.data.platforms,
           categories: response.data.categories,
           modalShow: false,
