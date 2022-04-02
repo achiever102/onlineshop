@@ -19,5 +19,7 @@ public interface OrderService {
 
     public List<Order> getByUserId(long userId);
 
+    public void updateCSVFileDirectory(Order order);
+
 }
 

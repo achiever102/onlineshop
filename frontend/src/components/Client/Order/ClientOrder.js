@@ -43,7 +43,7 @@ class ClientOrder extends Component {
                 </Row>
                 <Row>
                   <Col><p><b>Count:</b> {item.orderItemsCount}</p></Col>
-                  <Col></Col>
+                  <Col><p><b>Licenses File:</b> <a href={item.licensesCsvFileDirectory} className="link-success">Download Licenses CSV File</a></p></Col>
                 </Row>
               </Card.Header>
               <Card.Body>

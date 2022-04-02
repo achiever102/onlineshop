@@ -45,6 +45,10 @@ class AdminOrder extends Component {
                   <Col><p><b>Applied Coupons:</b> {item.appliedCoupons != null ? item.appliedCoupons : "-"}</p></Col>
                   <Col><p><b>Count:</b> {item.orderItemsCount}</p></Col>
                 </Row>
+                <Row>
+                <Col><p><b>Licenses File:</b> <a href={item.licensesCsvFileDirectory} className="link-success">Download Licenses CSV File</a></p></Col>
+                <Col></Col>
+                </Row>
               </Card.Header>
               <Card.Body>
                   {item.itemsList.map((game) => {

@@ -6,15 +6,12 @@ import com.achievers.onlineshop.admin.repository.SettingRepository;
 import com.achievers.onlineshop.admin.service.CouponService;
 import com.achievers.onlineshop.admin.service.LicensesService;
 import com.achievers.onlineshop.client.model.*;
+import com.achievers.onlineshop.client.service.CSVService;
 import com.achievers.onlineshop.client.service.CartService;
 import com.achievers.onlineshop.client.service.OrderItemService;
 import com.achievers.onlineshop.client.service.OrderService;
 import com.achievers.onlineshop.security.model.User;
 import com.achievers.onlineshop.security.repository.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +50,10 @@ public class OrdersController {
 
     @Autowired
     private CouponService couponsService;
+
+    @Autowired
+    private CSVService csvService;
+
 
     @GetMapping("/getAll")
     public List<Item> getAll(){
@@ -128,6 +129,8 @@ public class OrdersController {
         order.setItems(orderItems);
         order.setOrderItemsCount(count);
         order.setOrderAppliedCoupons(couponsString.toString());
+        String csvFileUrl = csvService.load(licenseList, order.getOrderId());
+        order.setCsvFileDirectory(csvFileUrl);
         Order savedOrder = orderService.add(order);
 
         for(License license: licenseList){
@@ -144,7 +147,7 @@ public class OrdersController {
             itemService.updateItemStatusOrQuantity(item);
         }
 
-        return ResponseEntity.ok(savedOrder.getOrderId());
+        return ResponseEntity.ok(csvFileUrl);
     }
 
     @GetMapping("/getUserOrders/{userId}")
@@ -173,7 +176,7 @@ public class OrdersController {
                 //itemList.add(itemService.getById(item.getGameId()));
             }
 
-            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount()));
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
         }
 
         return customOrderObjects;
@@ -210,11 +213,20 @@ public class OrdersController {
                 //itemList.add(itemService.getById(item.getGameId()));
             }
 
-            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount()));
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
         }
 
         return customOrderObjects;
     }
 
+    /*@GetMapping("/downloadLicensesCsv")
+    public ResponseEntity<Resource> getFile() {
+        String filename = "ludos_order_id_licenses.csv";
+        InputStreamResource file = new InputStreamResource(csvService.load(licenseList));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }*/
 
 }

@@ -11,7 +11,7 @@ export class AuthProvider extends Component {
   state = {
     cartCount: 0,
     appliedCoupons: [],
-    orderId: "",
+    licensesFileUrl: "",
     cartItems: localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [],
     accessToken: localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : "",
     username: localStorage.getItem("username") ? localStorage.getItem("username") : "",
@@ -37,8 +37,8 @@ export class AuthProvider extends Component {
     this.setState({cartItems: [], cartCount: 0})
   }
 
-  placeOrderIdAndResetCartItemAndCount = (orderId) => {
-    this.setState({cartItems: [], cartCount: 0, orderId: orderId, appliedCoupons: []})
+  setLicensesURLAndResetCartItemAndCount = (licensesFileUrl) => {
+    this.setState({cartItems: [], cartCount: 0, licensesFileUrl: licensesFileUrl, appliedCoupons: []})
   }
 
   login = (accessToken, username, fullName, id, roles, isAuthenticated) => {
@@ -143,13 +143,13 @@ export class AuthProvider extends Component {
   };
 
   render() {
-    const { cartItems, cartCount, isAuthenticated, accessToken, username, fullName, userId, roles, appliedCoupons, orderId } = this.state;
-    const { setCartCount, login, logout, setCartItems, resetCartItemAndCount, setAppliedCoupons, updateUserProfileDetails, placeOrderIdAndResetCartItemAndCount } = this;
+    const { cartItems, cartCount, isAuthenticated, accessToken, username, fullName, userId, roles, appliedCoupons, licensesFileUrl } = this.state;
+    const { setCartCount, login, logout, setCartItems, resetCartItemAndCount, setAppliedCoupons, updateUserProfileDetails, setLicensesURLAndResetCartItemAndCount } = this;
     return (
       <AuthContext.Provider
         value={{
           cartCount,
-          isAuthenticated, accessToken, username, fullName, userId, roles, appliedCoupons, orderId,cartItems,
+          isAuthenticated, accessToken, username, fullName, userId, roles, appliedCoupons, licensesFileUrl,cartItems,
           setCartCount,
           login,
           logout,
@@ -157,7 +157,7 @@ export class AuthProvider extends Component {
           resetCartItemAndCount,
           setAppliedCoupons,
           updateUserProfileDetails,
-          placeOrderIdAndResetCartItemAndCount
+          setLicensesURLAndResetCartItemAndCount
         }}
       >
         {this.props.children}
