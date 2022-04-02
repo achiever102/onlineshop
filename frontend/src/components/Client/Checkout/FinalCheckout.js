@@ -11,7 +11,7 @@ import { ImFire } from "react-icons/im";
 import UrlLocator from "../../../helpers/UrlLocator";
 
 export default function FinalCheckout() {
-  const { setCartItems, appliedCoupons, accessToken, placeOrderIdAndResetCartItemAndCount, userId } = useContext(AuthContext);
+  const { setCartItems, appliedCoupons, accessToken, setLicensesURLAndResetCartItemAndCount, userId } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -27,7 +27,8 @@ export default function FinalCheckout() {
     cardCcv: "",
     editPaymentMethod: false,
     showErrorMessage: false,
-    updatedItemsMessages: []
+    updatedItemsMessages: [],
+    paymentMethodErrors: {},
   });
 
   useEffect(() => {
@@ -87,7 +88,8 @@ export default function FinalCheckout() {
               : res.data.paymentMethod.cardCcv,
           editPaymentMethod: res.data.paymentMethod === null ? true : false,
           showErrorMessage: res.data.updatedItems.length > 0 ? true : false,
-          updatedItemsMessages: res.data.updatedItems.length > 0 ? res.data.updatedItems : []
+          updatedItemsMessages: res.data.updatedItems.length > 0 ? res.data.updatedItems : [],
+          paymentMethodErrors: {},
         });
       })
       .catch((err) => {
@@ -117,8 +119,8 @@ export default function FinalCheckout() {
         )
         .then((res) => {
           if (res.status === 200) {
-            placeOrderIdAndResetCartItemAndCount(res.data);
-            navigate(`/placeOrder`);
+            setLicensesURLAndResetCartItemAndCount(res.data);
+            navigate(`/placeOrder`);           
           }
         })
         .catch((err) => {
@@ -132,7 +134,47 @@ export default function FinalCheckout() {
   };
 
   function handlePaymentMethodUpdate() {
-    axios
+    let validationErrors = {};
+
+    let failed = false;
+    if (state.cardName === "") {
+      failed = true;
+      validationErrors["cardName"] = "Cannot be empty";
+    } else if(!state.cardName.match(/^[A-Za-z\s]+$/)){
+      failed = true;
+      validationErrors["cardName"] = "Letters only";
+    }
+
+    if (state.cardNumber === "") {
+      failed = true;
+      validationErrors["cardNumber"] = "Cannot be empty";
+    } else if(!state.cardNumber.match(/^\d{4}-?\d{4}-?\d{4}-?\d{4}$/)){
+      failed = true;
+      validationErrors["cardNumber"] = "16 digits credit card number";
+    }
+
+    if (state.cardExpDate === "") {
+      failed = true;
+      validationErrors["cardExpDate"] = "Cannot be empty";
+    } else if(!state.cardExpDate.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)){
+      failed = true;
+      validationErrors["cardExpDate"] = "Invalid expiration date format";
+    }
+
+    if (state.cardCcv === "") {
+      failed = true;
+      validationErrors["cardCcv"] = "Cannot be empty";
+    } else if(!state.cardCcv.match(/^\d{3,4}$/)){
+      failed = true;
+      validationErrors["cardCcv"] = "Numbers only";
+    }
+
+    if (failed === true) {
+      setState({
+        ...state, paymentMethodErrors: validationErrors,
+      });
+    } else 
+    {axios
       .put(
         `http://localhost:8080/api/profile/updatePaymentMethod/${userId}`,
         {
@@ -149,7 +191,7 @@ export default function FinalCheckout() {
       )
       .then((res) => {
         setState({ ...state, editPaymentMethod: false });
-      });
+      });}
   };
 
   const handleCardDetailsChanges = (event) => {
@@ -177,7 +219,7 @@ export default function FinalCheckout() {
         <Card.Header>Cart Items</Card.Header>
         <Card.Body>
           {state.items.map((item) => 
-            <div className="row py-2" key={item.id}>
+            <div className="row py-2" key={item.itemId}>
               <div className="col-lg-3 col-xl-3 col-md-3 col-sm-12">
                 <img src={item.itemImage} alt="" width="150px" height="150px" />
               </div>
@@ -234,10 +276,22 @@ export default function FinalCheckout() {
                     name="cardName"
                     type="text"
                     placeholder="Enter card name"
-                    defaultValue={state.cardName}
+                    value={state.cardName}
                     onChange={handleCardDetailsChanges}
                     disabled={!state.editPaymentMethod ? true : false}
+                    style={
+                      state.paymentMethodErrors["cardName"] !== undefined
+                        ? {
+                            borderWidth: "1px",
+                            borderColor: "red",
+                            borderStyle: "solid",
+                          }
+                        : null
+                    }
                   />
+                  <span style={{ color: "red" }}>
+                    {state.paymentMethodErrors["cardName"]}
+                  </span>
                 </Form.Group>
               </Col>
               <Col>
@@ -247,10 +301,22 @@ export default function FinalCheckout() {
                     name="cardNumber"
                     type="text"
                     placeholder="Enter card number"
-                    defaultValue={state.cardNumber}
+                    value={state.cardNumber}
                     onChange={handleCardDetailsChanges}
                     disabled={!state.editPaymentMethod ? true : false}
+                    style={
+                      state.paymentMethodErrors["cardnumber"] !== undefined
+                        ? {
+                            borderWidth: "1px",
+                            borderColor: "red",
+                            borderStyle: "solid",
+                          }
+                        : null
+                    }
                   />
+                  <span style={{ color: "red" }}>
+                    {state.paymentMethodErrors["cardNumber"]}
+                  </span>
                 </Form.Group>
               </Col>
             </Row>
@@ -262,10 +328,22 @@ export default function FinalCheckout() {
                     name="cardExpDate"
                     type="text"
                     placeholder="Enter card expiration date"
-                    defaultValue={state.cardExpDate}
+                    value={state.cardExpDate}
                     onChange={handleCardDetailsChanges}
                     disabled={!state.editPaymentMethod ? true : false}
+                    style={
+                      state.paymentMethodErrors["cardExpDate"] !== undefined
+                        ? {
+                            borderWidth: "1px",
+                            borderColor: "red",
+                            borderStyle: "solid",
+                          }
+                        : null
+                    }
                   />
+                  <span style={{ color: "red" }}>
+                    {state.paymentMethodErrors["cardExpDate"]}
+                  </span>
                 </Form.Group>
               </Col>
               <Col>
@@ -275,10 +353,22 @@ export default function FinalCheckout() {
                     name="cardCcv"
                     type="text"
                     placeholder="Enter card ccv"
-                    defaultValue={state.cardCcv}
+                    value={state.cardCcv}
                     onChange={handleCardDetailsChanges}
                     disabled={!state.editPaymentMethod ? true : false}
+                    style={
+                      state.paymentMethodErrors["cardCcv"] !== undefined
+                        ? {
+                            borderWidth: "1px",
+                            borderColor: "red",
+                            borderStyle: "solid",
+                          }
+                        : null
+                    }
                   />
+                  <span style={{ color: "red" }}>
+                    {state.paymentMethodErrors["cardCcv"]}
+                  </span>
                 </Form.Group>
               </Col>
             </Row>

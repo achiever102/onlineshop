@@ -41,4 +41,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getByUserId(long userId){
         return orderRepository.getByUserId(userId);
     }
+
+    @Override
+    public void updateCSVFileDirectory(Order order) {
+        orderRepository.save(order);
+    }
 }

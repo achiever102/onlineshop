@@ -14,7 +14,7 @@ class AppFooter extends Component {
               <Col><h5><u>CONTACT</u></h5></Col>
           </Row>
           <Row className="mt-5">
-            <Col className="text-center">© 2022 HERMES FOR VIDEO GAMES</Col>
+            <Col className="text-center">© 2022 LUDOS FOR VIDEO GAMES</Col>
           </Row>
          </Container>
         

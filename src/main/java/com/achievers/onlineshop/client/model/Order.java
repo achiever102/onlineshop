@@ -31,6 +31,9 @@ public class Order {
     @Column(name = "APPLIED_COUPONS")
     private String orderAppliedCoupons;
 
+    @Column(name = "LICENSES_CSV_DIRECTORY")
+    private String csvFileDirectory;
+
     @OneToMany(mappedBy="order", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<OrderItem> items;
 
@@ -107,5 +110,13 @@ public class Order {
 
     public void setOrderAppliedCoupons(String orderAppliedCoupons) {
         this.orderAppliedCoupons = orderAppliedCoupons;
+    }
+
+    public String getCsvFileDirectory() {
+        return csvFileDirectory;
+    }
+
+    public void setCsvFileDirectory(String csvFileDirectory) {
+        this.csvFileDirectory = csvFileDirectory;
     }
 }

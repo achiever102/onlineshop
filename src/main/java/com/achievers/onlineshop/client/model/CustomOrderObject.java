@@ -21,7 +21,9 @@ public class CustomOrderObject {
 
     private int orderItemsCount;
 
-    public CustomOrderObject(String orderId, String username, List<CustomOrderItemObject> itemsList, String orderDate, float orderTotalAmount, String appliedCoupons, int orderItemsCount) {
+    private String licensesCsvFileDirectory;
+
+    public CustomOrderObject(String orderId, String username, List<CustomOrderItemObject> itemsList, String orderDate, float orderTotalAmount, String appliedCoupons, int orderItemsCount, String licensesCsvFileDirectory) {
         this.orderId = orderId;
         this.username = username;
         this.itemsList = itemsList;
@@ -29,6 +31,7 @@ public class CustomOrderObject {
         this.orderTotalAmount = orderTotalAmount;
         this.appliedCoupons = appliedCoupons;
         this.orderItemsCount = orderItemsCount;
+        this.licensesCsvFileDirectory = licensesCsvFileDirectory;
     }
 
     public String getOrderDate() {
@@ -85,5 +88,13 @@ public class CustomOrderObject {
 
     public void setOrderItemsCount(int orderItemsCount) {
         this.orderItemsCount = orderItemsCount;
+    }
+
+    public String getLicensesCsvFileDirectory() {
+        return licensesCsvFileDirectory;
+    }
+
+    public void setLicensesCsvFileDirectory(String licensesCsvFileDirectory) {
+        this.licensesCsvFileDirectory = licensesCsvFileDirectory;
     }
 }
