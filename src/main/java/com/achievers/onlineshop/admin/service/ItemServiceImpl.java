@@ -5,6 +5,7 @@ import com.achievers.onlineshop.admin.repository.ItemRepository;
 import com.achievers.onlineshop.aws.actions.UploadDownloadHandler;
 import com.achievers.onlineshop.aws.bucket.BucketConfig;
 import com.achievers.onlineshop.aws.filestore.FileStore;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,10 +54,11 @@ public class ItemServiceImpl implements ItemService{
         String directoryUUID = UUID.randomUUID().toString();
 
         String path = String.format("%s/%s", bucketConfig.getBucketName(), directoryUUID); // path in the bucket bucket-name/uuid/
-        String fileName = String.format("%s-%s", directoryUUID, itemImage.getOriginalFilename());
+        //String fileName = String.format("%s-%s", directoryUUID, itemImage.getOriginalFilename());
+        String fileName = String.format("%s.%s", directoryUUID, FilenameUtils.getExtension(itemImage.getOriginalFilename()));
         try {
             fileStore.save(path, fileName, Optional.of(metadata), itemImage.getInputStream());
-            Item item = new Item(itemName, Float.valueOf(itemPrice), Integer.valueOf(itemQuantity), itemOnSale, itemSaleValue, itemDescription, bucketConfig.getBucketUrl() + directoryUUID + "/" + fileName, itemCategory, itemPlatform, itemStatus);
+            Item item = new Item(itemName, Float.valueOf(itemPrice), Integer.valueOf(itemQuantity), itemOnSale, itemSaleValue, itemDescription, bucketConfig.getBucketUrl() + "/" + directoryUUID + "/" + fileName, itemCategory, itemPlatform, itemStatus);
             //System.out.println(BucketConfig.BUCKET_NAME.getBucketName());
             //user.setProfileImageLink(fileName); // to download the image
             //Item item1 =
@@ -81,10 +83,11 @@ public class ItemServiceImpl implements ItemService{
         String directoryUUID = UUID.randomUUID().toString();
 
         String path = String.format("%s/%s", bucketConfig.getBucketName(), directoryUUID); // path in the bucket bucket-name/uuid/
-        String fileName = String.format("%s-%s", directoryUUID, itemImage.getOriginalFilename());
+        //String fileName = String.format("%s-%s", directoryUUID, itemImage.getOriginalFilename());
+        String fileName = String.format("%s.%s", directoryUUID, FilenameUtils.getExtension(itemImage.getOriginalFilename()));
         try {
             fileStore.save(path, fileName, Optional.of(metadata), itemImage.getInputStream());
-            Item item = new Item(itemName, Float.valueOf(itemPrice), Integer.valueOf(itemQuantity), itemOnSale, itemSaleValue, itemDescription, bucketConfig.getBucketUrl() + directoryUUID + "/" + fileName, itemCategory, itemPlatform, itemStatus);
+            Item item = new Item(itemName, Float.valueOf(itemPrice), Integer.valueOf(itemQuantity), itemOnSale, itemSaleValue, itemDescription, bucketConfig.getBucketUrl() + "/" + directoryUUID + "/" + fileName, itemCategory, itemPlatform, itemStatus);
             item.setId(id);
             itemRepository.save(item);
         } catch (IOException e) {
