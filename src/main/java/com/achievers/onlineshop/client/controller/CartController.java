@@ -70,7 +70,6 @@ public class CartController {
         for(CustomClientCartObject customClientCartObject: customClientCartObjects){
 
             //check if received cart item already exists in the DB
-            System.out.println(customClientCartObject.getItemId() + " " +  Long.parseLong(userId));
             List<Cart> existingCart = cartRepository.getByUserIdAndGameId(Long.parseLong(userId), customClientCartObject.getItemId());
             Cart cart = new Cart();
             if(existingCart.size() > 0){

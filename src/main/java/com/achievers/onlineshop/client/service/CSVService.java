@@ -52,8 +52,8 @@ public class CSVService {
         }
 
         Map<String, String> metadata = new HashMap<>();
-        metadata.put("Content-Type", "csv");
-        metadata.put("Content-Length", "10");
+        metadata.put("Content-Type", "text/csv");
+        metadata.put("Content-Length", String.valueOf(file.available()));
         String path = String.format("%s/%s", bucketConfig.getBucketName(), "orders");
         String fileName = String.format("%s", orderId + ".csv");
 
