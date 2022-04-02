@@ -16,5 +16,7 @@ public interface CategoryService {
 
     public void update(Category coupon);
 
+    public List<Category> getCategoryByName(String categoryName);
+
 }
 

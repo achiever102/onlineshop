@@ -36,4 +36,9 @@ public class PlatformServiceImpl implements PlatformService{
     @Override
     public void update(Platform platform) {
     }
+
+    @Override
+    public List<Platform> getPlatformByName(String platformName) {
+        return platformRepository.getPlatformByName(platformName);
+    }
 }

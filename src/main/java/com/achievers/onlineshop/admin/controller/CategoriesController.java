@@ -20,8 +20,13 @@ public class CategoriesController {
 
     @PutMapping(path = "/save")
     public ResponseEntity saveCategory(@RequestBody Category category){
-        categoryService.add(category);
-        return ResponseEntity.ok("Created!");
+        List<Category> itemExists = categoryService.getCategoryByName(category.getCategoryName());
+        if(itemExists.size() > 0){
+            return ResponseEntity.badRequest().body("Category already exists!");
+        } else {
+            categoryService.add(category);
+            return ResponseEntity.ok("Created!");
+        }
     }
 
     @GetMapping(path = "/getAll")

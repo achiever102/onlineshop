@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Alert } from "react-bootstrap";
 import UrlLocator from '../../../helpers/UrlLocator';
 
 class CategoriesModal extends Component {
@@ -119,7 +119,7 @@ class CategoriesModal extends Component {
                 alertMessageContent: ''}, () => this.props.hideModal())
             }}>Cancel</Button>
           <Button onClick={this.handleSave}>Save and Close</Button>
-        </Modal.Footer>
+</Modal.Footer>
       </Modal>
     );
   }

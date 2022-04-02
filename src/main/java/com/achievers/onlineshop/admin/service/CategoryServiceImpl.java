@@ -37,4 +37,9 @@ public class CategoryServiceImpl implements CategoryService{
     public void update(Category category) {
 
     }
+
+    @Override
+    public List<Category> getCategoryByName(String categoryName) {
+        return categoryRepository.getCategoryByName(categoryName.toUpperCase());
+    }
 }
