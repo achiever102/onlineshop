@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NewsletterServiceImpl implements NewsletterService{
 
@@ -16,5 +18,10 @@ public class NewsletterServiceImpl implements NewsletterService{
     public ResponseEntity add(Newsletter newsletter) {
         newsletterRepository.save(newsletter);
         return ResponseEntity.ok("");
+    }
+
+    @Override
+    public List<Newsletter> getRecordByEmail(String emailAddress) {
+        return newsletterRepository.getRecordByEmail(emailAddress);
     }
 }

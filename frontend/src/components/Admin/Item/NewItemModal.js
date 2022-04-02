@@ -59,14 +59,6 @@ class NewItemModal extends Component {
           validationErrors["itemName"] = "Cannot be empty";
         }
 
-        if (this.state.itemPrice === "") {
-            failed = true;
-            validationErrors["itemPrice"] = "Cannot be empty";
-          } else if (this.state.itemPrice === 0) {
-            failed = true;
-            validationErrors["itemPrice"] = "Cannot be zero";
-          }
-
           if (this.state.itemImage === "") {
             failed = true;
             validationErrors["itemImage"] = "Cannot be empty";
@@ -80,6 +72,25 @@ class NewItemModal extends Component {
           if (this.state.itemPlatform === -1) {
             failed = true;
             validationErrors["itemPlatform"] = "Cannot be empty";
+          }
+
+          if (this.state.itemPrice === "") {
+            failed = true;
+            validationErrors["itemPrice"] = "Cannot be empty";
+          } else if (this.state.itemPrice === 0) {
+            failed = true;
+            validationErrors["itemPrice"] = "Cannot be zero";
+          } else if (isNaN(this.state.itemPrice)) {
+            failed = true;
+            validationErrors["itemPrice"] = "Numbers only";
+          }
+
+          if (this.state.itemOnSale && this.state.itemSaleValue == 0) {
+            failed = true;
+            validationErrors["itemSaleValue"] = "Cannot be zero or empty";
+          } else if (this.state.itemOnSale && isNaN(this.state.itemSaleValue)){
+            failed = true;
+            validationErrors["itemSaleValue"] = "Numbers only";
           }
     
     
@@ -278,7 +289,16 @@ class NewItemModal extends Component {
                 onChange={this.handleChange}
                 defaultValue={this.state.itemSaleValue}
                 disabled={this.state.itemOnSale === true ? false : true}
-              />
+                style={
+                  this.state.errors["itemSaleValue"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }/>
+                <span style={{ color: "red" }}>{this.state.errors["itemSaleValue"]}</span>
             </Col>
           </Row>
 

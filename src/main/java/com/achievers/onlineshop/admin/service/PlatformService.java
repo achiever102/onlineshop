@@ -16,5 +16,7 @@ public interface PlatformService {
 
     public void update(Platform platform);
 
+    public List<Platform> getPlatformByName(String platformName);
+
 }
 

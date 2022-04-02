@@ -20,8 +20,13 @@ public class PlatformController {
 
     @PutMapping(path = "/save")
     public ResponseEntity saveCategory(@RequestBody Platform platform){
-        platformService.add(platform);
-        return ResponseEntity.ok("Created!");
+        List<Platform> itemExists = platformService.getPlatformByName(platform.getPlatformName());
+        if(itemExists.size() > 0){
+            return ResponseEntity.badRequest().body("Platform already exists!");
+        } else {
+            platformService.add(platform);
+            return ResponseEntity.ok("Created!");
+        }
     }
 
     @GetMapping(path = "/getAll")

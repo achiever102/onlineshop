@@ -50,7 +50,7 @@ public class ApplicationInitialDataRunner implements CommandLineRunner {
         user.setRoles(roles2);
         userRepository.save(user);
 
-        Setting setting1 = new Setting("SaleEnabled", 10f);
+        //Setting setting1 = new Setting("SaleEnabled", 10f);
         Setting setting2 = new Setting("TaxValue", 7.5f);
 
         settingRepository.save(setting1);
