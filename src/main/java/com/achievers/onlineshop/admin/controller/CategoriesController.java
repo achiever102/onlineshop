@@ -20,7 +20,6 @@ public class CategoriesController {
 
     @PutMapping(path = "/save")
     public ResponseEntity saveCategory(@RequestBody Category category){
-        System.out.println(category.toString());
         categoryService.add(category);
         return ResponseEntity.ok("Created!");
     }
@@ -39,7 +38,6 @@ public class CategoriesController {
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity deleteCategoryById(@PathVariable("id") long id){
-        System.out.println(id);
         categoryService.delete(id);
         return ResponseEntity.ok("");
     }
