@@ -62,17 +62,7 @@ export default function AdminItems() {
   );
 
   const showModal = () => {
-    setState({ ...state, showNewModal: true, editItem: {
-      id: -1,
-      itemPrice: 0,
-      itemName: "",
-      itemQuantity: 0,
-      itemCategory: -1,
-      itemPlatform: -1,
-      itemSaleValue: "0",
-      itemOnSale: false,
-      itemDescription: ""
-    } });
+    setState({ ...state, showNewModal: true });
   }
 
   useEffect(() => {
@@ -90,8 +80,8 @@ export default function AdminItems() {
         setState({...state, items: response.data.items, 
           platforms: response.data.platforms,
           categories: response.data.categories,
-          itemPlatform: response.data.platforms[0].id,
-          itemCategory: response.data.categories[0].id,
+          itemPlatform: response.data.platforms ? (response.data.platforms.length > 0 ? response.data.platforms[0].id : -1) : -1,
+          itemCategory: response.data.categories ? (response.data.categories.length > 0 ? response.data.categories[0].id : -1) : -1,
           showNewModal: false,
         showEditModal: false})
     });
@@ -269,12 +259,19 @@ export default function AdminItems() {
         </Col>
       </Row>
 
-      <NewItemModal 
+{
+        state.showNewModal ?
+        (
+          <NewItemModal 
       showNewModal={state.showNewModal} 
       platforms={state.platforms} 
       categories={state.categories} 
       hideModal={hideModal}
       getAllItems={getAllItems}/>
+        )
+        :
+        null
+      }
 
       {
         state.showEditModal ?

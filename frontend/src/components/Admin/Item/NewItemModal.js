@@ -13,8 +13,8 @@ class NewItemModal extends Component {
             itemPrice: 0,
             itemQuantity: 0,
             itemImage: "",
-            itemCategory: -1,
-            itemPlatform: -1,
+            itemCategory: this.props.categories ? (this.props.categories.length > 0 ? this.props.categories[0].id : -1) : -1,
+            itemPlatform: this.props.platforms ? (this.props.platforms.length > 0 ? this.props.platforms[0].id : -1) : -1,
             itemSaleValue: "0",
             itemOnSale: false,
             itemDescription: "",
@@ -71,6 +71,16 @@ class NewItemModal extends Component {
             failed = true;
             validationErrors["itemImage"] = "Cannot be empty";
           }
+
+          if (this.state.itemCategory === -1) {
+            failed = true;
+            validationErrors["itemCategory"] = "Cannot be empty";
+          }
+
+          if (this.state.itemPlatform === -1) {
+            failed = true;
+            validationErrors["itemPlatform"] = "Cannot be empty";
+          }
     
     
         if (failed === true) {
@@ -92,8 +102,6 @@ class NewItemModal extends Component {
         formData.append("itemDescription", this.state.itemDescription);
         formData.append("itemPlatform", this.state.itemPlatform === -1 ? this.props.platforms[0].id : this.state.itemPlatform);
     
-    
-    
         axios
           .post(UrlLocator.getApiUrl("SAVE_ADMIN_ITEM"), formData, {
             headers: {
@@ -107,9 +115,6 @@ class NewItemModal extends Component {
           .catch((err) => {
             console.log(err);
           });}
-
-
-
     
       };
 
@@ -204,7 +209,16 @@ class NewItemModal extends Component {
                 name="itemCategory"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemCategory}
-              >
+                style={
+                  this.state.errors["itemCategory"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }>
+                
                 {this.props.categories.map((item) => {
                   return (
                     <option key={item.id} value={item.id}>
@@ -213,6 +227,7 @@ class NewItemModal extends Component {
                   );
                 })}
               </Form.Select>
+              <span style={{ color: "red" }}>{this.state.errors["itemCategory"]}</span>
             </Col>
           </Row>
           <Row className="mt-2">
@@ -224,7 +239,15 @@ class NewItemModal extends Component {
                 name="itemPlatform"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemPlatform}
-              >
+                style={
+                  this.state.errors["itemPlatform"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }>
                 {this.props.platforms.map((item) => {
                   return (
                     <option key={item.id} value={item.id}>
@@ -233,6 +256,7 @@ class NewItemModal extends Component {
                   );
                 })}
               </Form.Select>
+              <span style={{ color: "red" }}>{this.state.errors["itemPlatform"]}</span>
             </Col>
 
             <Col>

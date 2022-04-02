@@ -22,7 +22,6 @@ class ClientOrder extends Component {
         }
       )
       .then((res) => {
-        console.log(res.data)
         this.setState({ items: res.data });
       });
   }

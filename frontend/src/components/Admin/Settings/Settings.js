@@ -41,7 +41,6 @@ class SettingsTable extends Component {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }).then((response) => {
-      console.log(response.data)
       this.setState({name: response.data.name, value: response.data.value, id: response.data.id, modalShow: true})
     }).catch((err) => {
       console.log(err)
