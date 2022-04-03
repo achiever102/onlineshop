@@ -12,9 +12,11 @@ class App extends Component {
 
   render(){
     return (
+        <body style={{backgroundColor: "#282c34"}} >
       <AuthProvider>
         <AppMainRouter />
       </AuthProvider>
+        </body>
     )
   }
 }

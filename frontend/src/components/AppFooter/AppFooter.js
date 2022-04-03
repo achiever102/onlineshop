@@ -4,9 +4,9 @@ import { Col, Row, Container } from "react-bootstrap";
 class AppFooter extends Component {
   render() {
     return (
-      <div className="Jumbotron bg-light py-5">
+      <div className="Jumbotron bg-dark py-5">
         
-         <Container>
+         <Container style={{color: "white"}}>
          <Row>
               <Col><h5><u>CONTACT</u></h5></Col>
               <Col><h5><u>CUSTOMER SERVICE</u></h5></Col>
