@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Container, Navbar, Nav, NavDropdown, Badge } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
+import {RiHome2Fill, RiShoppingCartLine} from "react-icons/ri";
+
 
 import AuthContext from "../../context/AuthContext";
 
@@ -35,7 +37,8 @@ export default function ClientNavbar() {
                 "nav-link" + (!isActive ? " unselected" : "")
               }
             >
-              HOME
+
+              <RiHome2Fill size="1.2em" color="primary" />
             </NavLink>
             <NavLink
               to="/cart"
@@ -44,7 +47,8 @@ export default function ClientNavbar() {
                 "nav-link" + (!isActive ? " unselected" : "")
               }
             >
-              CART{" "}
+              <RiShoppingCartLine size="1.2em" color="primary"/>
+              {" "}
               <Badge bg="light" text="dark">
                 {cartCount}
               </Badge>

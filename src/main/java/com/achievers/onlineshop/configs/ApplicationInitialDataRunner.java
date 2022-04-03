@@ -53,7 +53,7 @@ public class ApplicationInitialDataRunner implements CommandLineRunner {
         //Setting setting1 = new Setting("SaleEnabled", 10f);
         Setting setting2 = new Setting("TaxValue", 7.5f);
 
-        settingRepository.save(setting1);
+        //settingRepository.save(setting1);
         settingRepository.save(setting2);*/
 
         logger.info("Application started!");
