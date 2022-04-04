@@ -12,6 +12,32 @@ export default class UrlLocator {
     const CART_API_URL = "/api/cart";
     const CAROUSEL_API_URL = "/api/admin/carousel";
 
+    const AUTH_API_URL="/api/auth";
+    const SIGNUP_URL="/signup";
+    const SIGNIN_URL="/signin";
+
+    const GET_USER_CART="/getUserCart";
+    const DELETE_USER_CART="/deleteCartItem"
+
+    const UPDATE_USER_DETAILS="/updateUserDetails";
+
+    const GET_ALL_USER_PROFILE="/getAll";
+
+    const UPDATE_PAYMENT_METHOD = "/updatePaymentMethod"
+
+    const CREATE_SINGLE_CART_RECORD='/createSingleCartRecord';
+
+    const NEWSLETTER_API_URL="/api/newsletter";
+    const SAVE_NEWLETTER = '/save';
+
+    const UPDATE_USER_PASSWORD = "/updateUserPassword";
+
+    const ADMIN_PROFILE_URL="/api/profile";
+
+    const ADMIN_PROFILE_DETAILS="/getAdminUserDetails";
+
+    const UPDATE_ADMIN_PROFILE_DETAILS = "/updateUserDetails";
+
     const HOME_CAROUSEL_API_URL = '/api/home/carousel';
 
     const GET_HOME_CAROUSEL_IMAGES = '/getAllCarouselImages';
@@ -79,13 +105,54 @@ export default class UrlLocator {
     const DEC_CART_ITEM_QUANTITY = '/decCartItemQuantity';
     const CHECKOUT_USER_CART = '/checkoutUserCart'
 
+    const CREATE_CART_RECORD="/createCartRecords";
+
     switch (service) {
+
+      case "SAVE_NEWLETTER":
+        return NEWSLETTER_API_URL + SAVE_NEWLETTER;
+
+        case "CREATE_CART_RECORD":
+        return CART_API_URL + CREATE_CART_RECORD;
+
+        case "SIGNUP_URL":
+        return AUTH_API_URL + SIGNUP_URL;
+
+        case "SIGNIN_URL":
+        return AUTH_API_URL + SIGNIN_URL;
+
+        case "UPDATE_PAYMENT_METHOD":
+        return ADMIN_PROFILE_URL + UPDATE_PAYMENT_METHOD;
+
+        case "GET_ALL_USER_PROFILE":
+        return ADMIN_PROFILE_URL + GET_ALL_USER_PROFILE;
 
       case "GET_HOME_CAROUSEL_IMAGES":
         return HOME_CAROUSEL_API_URL + GET_HOME_CAROUSEL_IMAGES;
 
+        case "ADMIN_PROFILE_DETAILS":
+        return ADMIN_PROFILE_URL + ADMIN_PROFILE_DETAILS;
+
+        case "UPDATE_USER_PASSWORD":
+        return ADMIN_PROFILE_URL + UPDATE_USER_PASSWORD;
+
+        case "UPDATE_USER_DETAILS":
+        return ADMIN_PROFILE_URL + UPDATE_USER_DETAILS;
+
+        case "UPDATE_ADMIN_PROFILE_DETAILS":
+        return ADMIN_PROFILE_URL + UPDATE_ADMIN_PROFILE_DETAILS;
+
       case "CHECKOUT_USER_CART":
         return CART_API_URL + CHECKOUT_USER_CART;
+
+        case "CREATE_SINGLE_CART_RECORD":
+        return CART_API_URL + CREATE_SINGLE_CART_RECORD;
+
+        case "GET_USER_CART":
+        return CART_API_URL + GET_USER_CART;
+
+        case "DELETE_USER_CART":
+        return CART_API_URL + DELETE_USER_CART;
 
         case "PLACE_ORDER":
         return ORDERS_API_URL + PLACE_ORDER;

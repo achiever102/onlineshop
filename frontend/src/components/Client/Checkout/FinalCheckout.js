@@ -176,7 +176,7 @@ export default function FinalCheckout() {
     } else 
     {axios
       .put(
-        `http://localhost:8080/api/profile/updatePaymentMethod/${userId}`,
+        `${UrlLocator.getApiUrl('UPDATE_PAYMENT_METHOD')}/${userId}`,
         {
           cardName: state.cardName,
           cardNumber: state.cardNumber,

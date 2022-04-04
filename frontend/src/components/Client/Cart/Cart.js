@@ -72,7 +72,7 @@ class Cart extends Component {
     ) {
       axios
         .get(
-          `http://localhost:8080/api/cart/getUserCart/${localStorage.getItem(
+          `${UrlLocator.getApiUrl('GET_USER_CART')}/${localStorage.getItem(
             "userId"
           )}`,
           {
@@ -358,7 +358,7 @@ class Cart extends Component {
     } else {
       axios
         .delete(
-          `http://localhost:8080/api/cart/deleteCartItem/${localStorage.getItem(
+          `${UrlLocator.getApiUrl('DELETE_USER_CART')}/${localStorage.getItem(
             "userId"
           )}/${itemId}`,
           {

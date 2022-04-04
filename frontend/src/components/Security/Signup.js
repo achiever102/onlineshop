@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 
 import {Row, Col, Button} from 'react-bootstrap';
+import UrlLocator from '../../helpers/UrlLocator';
 
 class Signup extends Component {
 
@@ -64,7 +65,7 @@ class Signup extends Component {
             alertMessageContent: ''
           });
         } else {
-            axios.post('http://localhost:8080/api/auth/signup', 
+            axios.post(UrlLocator.getApiUrl('SIGNUP_URL'), 
         {
             username: this.state.username,
             email: this.state.email,

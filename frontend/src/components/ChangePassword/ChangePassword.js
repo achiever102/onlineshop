@@ -3,6 +3,7 @@ import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
+import UrlLocator from "../../helpers/UrlLocator";
 
 class ChangePassword extends Component {
 
@@ -53,7 +54,7 @@ class ChangePassword extends Component {
     } else
     {
 
-    axios.put(`http://localhost:8080/api/profile/updateUserPassword/${userId}`, {
+    axios.put(`${UrlLocator.getApiUrl('UPDATE_USER_PASSWORD')}/${userId}`, {
       currentPassword: this.state.currentPassword,
       newPassword: this.state.newPassword
     }, {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import UrlLocator from "../helpers/UrlLocator";
 
 const AuthContext = React.createContext();
 
@@ -119,7 +120,7 @@ export class AuthProvider extends Component {
     ) {
       axios
         .get(
-          `http://localhost:8080/api/cart/getUserCart/${localStorage.getItem(
+          `${UrlLocator.getApiUrl('GET_USER_CART')}/${localStorage.getItem(
             "userId"
           )}`,
           {

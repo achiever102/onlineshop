@@ -45,18 +45,6 @@ export default function Checkout(props) {
       localStorage.getItem("isAuthenticated") === "true"
     ) {
       navigate(`/clientCheckout`);
-
-      /*axios.post(`http://localhost:8080/api/orders/placeAnOrder/${userId}`, {}, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }).then((res) => {
-        resetCartItemAndCount();
-        props.updateCartAfterPlacingOrder();
-      }).catch((err) => {
-        console.log(err)
-      })
-*/
     }
   };
 
