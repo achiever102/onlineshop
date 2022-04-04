@@ -9,12 +9,10 @@ import { Row, Col, Button, Badge } from "react-bootstrap";
 
 import AuthContext from "../../context/AuthContext";
 
-
-import {ImFire} from'react-icons/im';
+import { ImFire } from "react-icons/im";
 
 export default function GameDetails() {
-
-  const { setCartCount, setCartItems } = useContext(AuthContext);
+  const { setCartCount, setCartItems, cartItems } = useContext(AuthContext);
 
   const { id } = useParams();
   const [itemCategory, setItemCategory] = useState("");
@@ -28,60 +26,69 @@ export default function GameDetails() {
   const [itemOnSale, setItemOnSale] = useState(false);
   const [itemSaleValue, setItemSaleValue] = useState(0);
 
-
   const handleAddToCart = (itemId) => {
     let cart;
-    let newCart;
-    if(Array.isArray(JSON.parse(localStorage.getItem("cart")))){
-        cart = JSON.parse(localStorage.getItem("cart"));
-        newCart = JSON.parse(localStorage.getItem("newCart"));
+
+    if (Array.isArray(JSON.parse(localStorage.getItem("cart")))) {
+      cart = JSON.parse(localStorage.getItem("cart"));
     } else {
-        cart = [];
-        newCart = [];
+      cart = [];
     }
 
-    
+    if (
+      localStorage.getItem("isAuthenticated") === "true" &&
+      localStorage.getItem("username") !== "manager"
+    ) {
+      axios
+        .post(
+          `${UrlLocator.getApiUrl(
+            "CREATE_SINGLE_CART_RECORD"
+          )}/${localStorage.getItem("userId")}/${itemId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          
+          let cart = [];
+          res.data.forEach((element) => {
+            cart.push({
+              itemId: element.gameId,
+              itemQuantity: element.quantity,
+            });
+          });
 
-    if(localStorage.getItem("isAuthenticated") === "true" && localStorage.getItem("username") !== "manager"){
-        
-        axios.post(`${UrlLocator.getApiUrl('CREATE_SINGLE_CART_RECORD')}/${localStorage.getItem("userId")}/${itemId}`,{}, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              },
-            })
-              .then((res) => {setCartCount()})
-              .catch((err) => {console.log(err)});
-
-
-
-
+          setCartItems(cart);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
 
-      if(newCart.length > 0){
+      if (cart.length > 0) {
         let itemUpdated = false;
-        for(let i = 0 ; i < newCart.length; i++){
-          if(newCart[i].itemId === itemId){
-            newCart[i].itemQuantity = newCart[i].itemQuantity + 1;
+        for (let i = 0; i < cart.length; i++) {
+          if (cart[i].itemId == itemId) {
+            cart[i].itemQuantity = cart[i].itemQuantity + 1;
             itemUpdated = true;
           }
         }
 
         // if item does not exist in the original array
-        if(itemUpdated === false){
-          newCart.push({itemId: itemId, itemQuantity: 1});
+        if (itemUpdated === false) {
+          cart.push({ itemId: parseInt(itemId), itemQuantity: 1 });
         }
       } else {
-        newCart.push({itemId: itemId, itemQuantity: 1});
+        cart.push({ itemId: parseInt(itemId), itemQuantity: 1 });
       }
-      localStorage.setItem("newCart", JSON.stringify(newCart));
-        
-            cart.push(itemId)
-            cart = cart.filter((item, index) => cart.indexOf(item) === index);
-            localStorage.setItem("cart", JSON.stringify(cart))
-            setCartItems(cart);
-            setCartCount();
-    }
+      localStorage.setItem("cart", JSON.stringify(cart));
 
+      setCartItems(cart);
+
+    }
   };
 
   useEffect(() => {
@@ -101,6 +108,104 @@ export default function GameDetails() {
       });
   }, []);
 
+
+  const disableAddToCartButton = function (id, quantity) {
+
+    if (quantity === 0) {
+      return (
+        <Button
+          variant="dark"
+          className="mx-2"
+          onClick={() => handleAddToCart(id)}
+          size="sm"
+          disabled={true}
+        >
+          Add to Cart
+        </Button>
+      );
+    }
+
+    if (
+      localStorage.getItem("isAuthenticated") === "true" &&
+      localStorage.getItem("username") !== "manager"
+    ) {
+            
+      for (var i = 0; i < cartItems.length; i++) {
+        if (cartItems[i].itemId == id) {
+          
+          if (cartItems[i].itemQuantity >= quantity) {
+            return (
+              <Button
+                variant="dark"
+                className="mx-2"
+                onClick={() => handleAddToCart(id)}
+                size="sm"
+                disabled={true}
+              >
+                Add to Cart
+              </Button>
+            );
+          }
+        }
+      }
+  
+      return (
+        <Button
+          variant="dark"
+          className="mx-2"
+          onClick={() => handleAddToCart(id)}
+          size="sm"
+        >
+          Add to Cart
+        </Button>
+      );
+
+
+    } else {
+
+      let cart;
+
+      if (Array.isArray(JSON.parse(localStorage.getItem("cart")))) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      } else {
+        cart = [];
+      }
+
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].itemId == id) {
+        if (cart[i].itemQuantity >= quantity) {
+          return (
+            <Button
+              variant="dark"
+              className="mx-2"
+              onClick={() => handleAddToCart(id)}
+              size="sm"
+              disabled={true}
+            >
+              Add to Cart
+            </Button>
+          );
+        }
+      }
+    }
+
+    return (
+      <Button
+        variant="dark"
+        className="mx-2"
+        onClick={() => handleAddToCart(id)}
+        size="sm"
+      >
+        Add to Cart
+      </Button>
+    );
+
+
+    }
+
+  };
+
+
   return (
     <div>
       <AppLogo />
@@ -113,7 +218,6 @@ export default function GameDetails() {
         <HomeNavbar />
       )}
 
-
       <Row className="mt-5">
         <Col xl={6} className="d-flex justify-content-end">
           <img src={itemImage} alt="" width="400px" height="400px" />
@@ -121,16 +225,14 @@ export default function GameDetails() {
         <Col xl={6}>
           <Row>
             <Col>
-              {itemQuantity > 0 ? <b style={{color: "green"}}>Available now</b> : <b style={{color: "red"}}>Not available</b>}
-              <Button
-                      variant="dark"
-                      className="mx-3"
-                      size="sm"
-                      onClick={() => handleAddToCart(itemId)}
-                      disabled={itemQuantity > 0 ? false : true}
-                    >
-                      Add to Cart
-                    </Button>
+              {itemQuantity > 0 ? (
+                <b style={{ color: "green" }}>Available now</b>
+              ) : (
+                <b style={{ color: "red" }}>Not available</b>
+              )}
+
+              {disableAddToCartButton(id, itemQuantity)}
+
             </Col>
           </Row>
           <Row className="mt-4">
@@ -141,28 +243,45 @@ export default function GameDetails() {
 
           <Row>
             <Col>
-              <p><b>Price:</b> {itemOnSale ? <div><s>${itemPrice}</s><div className="mr-4">${(itemPrice - itemSaleValue * itemPrice / 100).toFixed(2)} <ImFire size="1.5em" color="red"/> <Badge>{itemSaleValue}% Sale</Badge></div></div> : <>${itemPrice}</>}</p>
-            </Col>             
-          </Row>
-
-          <Row>
-            <Col>
-              <p><b>Category:</b> {itemCategory}</p>
+              <p>
+                <b>Price:</b>{" "}
+                {itemOnSale ? (
+                  <>
+                    <s>${itemPrice}</s>$
+                    {(itemPrice - (itemSaleValue * itemPrice) / 100).toFixed(2)}{" "}
+                    <ImFire size="1.5em" color="red" />{" "}
+                    <Badge>{itemSaleValue}% Sale</Badge>
+                  </>
+                ) : (
+                  <>${itemPrice}</>
+                )}
+              </p>
             </Col>
           </Row>
 
           <Row>
             <Col>
-              <p><b>Platform:</b> {itemPlatform}</p>
+              <p>
+                <b>Category:</b> {itemCategory}
+              </p>
             </Col>
           </Row>
 
           <Row>
             <Col>
-              <p><b>Description:</b> {itemDescription}</p>
+              <p>
+                <b>Platform:</b> {itemPlatform}
+              </p>
             </Col>
           </Row>
 
+          <Row>
+            <Col>
+              <p>
+                <b>Description:</b> {itemDescription}
+              </p>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </div>

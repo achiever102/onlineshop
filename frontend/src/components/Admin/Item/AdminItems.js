@@ -122,7 +122,12 @@ export default function AdminItems() {
   }
 
   const handleSearchFieldChange = (event) => {
-    if (event.target.name === "searchField") {
+    if(event.target.name === "searchField")
+    setState({...state, searchField: event.target.value})
+  }
+
+  const handleSearchFieldClick = () => {
+    if (state.searchField != "") {
       axios
       .get(UrlLocator.getApiUrl("GET_ADMIN_ITEMS"), {
         headers: {
@@ -130,17 +135,101 @@ export default function AdminItems() {
         },
       })
       .then((response) => {
-          setState({...state, items: response.data.items.filter((item) => item.itemName.toLowerCase().includes(event.target.value.toLowerCase())), 
+          setState({...state, items: response.data.items.filter((item) => item.itemName.toLowerCase().includes(state.searchField.toLowerCase())), 
             platforms: response.data.platforms,
             categories: response.data.categories,
             modalShow: false,
-            searchField: event.target.value})
+            searchField: state.searchField})
       });
-
+    } else {
+      getAllItems();
     }
   }
 
+
   const sortItemsByPice = () => {
+    //if (this.state.searchField === "") {
+      if (
+        state.sortDirection === "" ||
+        state.sortDirection === "DOWN"
+      ) {
+
+        let sortedItems = state.items
+        .sort((a, b) => {
+          return b.itemPrice - a.itemPrice;
+        });
+
+        setState({ ...state,
+          items: sortedItems,
+          modalShow: false,
+          sortDirection: "UP",
+        });
+
+      } else {
+        let sortedItems = state.items
+        .sort((a, b) => {
+          return a.itemPrice - b.itemPrice;
+        });
+
+        setState({ ...state,
+              items: sortedItems,
+              modalShow: false,
+              sortDirection: "DOWN",
+            });
+      }
+    /*} else {
+      if (
+        this.state.sortDirection === "" ||
+        this.state.sortDirection === "DOWN"
+      ) {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter(
+                  (item) =>
+                    item.itemName
+                      .toLowerCase()
+                      .includes(this.state.searchField.toLowerCase()) &&
+                    item.itemStatus === "ACTIVE"
+                )
+                .sort((a, b) => {
+                  return b.itemPrice - a.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "UP",
+            });
+          });
+      } else {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter(
+                  (item) =>
+                    item.itemName
+                      .toLowerCase()
+                      .includes(this.state.searchField.toLowerCase()) &&
+                    item.itemStatus === "ACTIVE"
+                )
+                .sort((a, b) => {
+                  return a.itemPrice - b.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "DOWN",
+            });
+          });
+      }
+    }*/
+  };
+
+  /*const sortItemsByPice = () => {
     if(state.searchField === ""){
       if(state.sortDirection === "" || state.sortDirection === "DOWN"){
         axios
@@ -198,7 +287,7 @@ export default function AdminItems() {
       });
       }
     }
-  }
+  }*/
 
 
 
@@ -331,7 +420,8 @@ export default function AdminItems() {
                 (item) => item.itemStatus === "ACTIVE"
               ),
               platforms: response.data.platforms,
-              categories: response.data.categories
+              categories: response.data.categories,
+              searchField: ""
             });           
           }
         })
@@ -352,13 +442,13 @@ export default function AdminItems() {
           </Button>
                 <FormControl
                   placeholder="Search by name ..."
-                  aria-label="searchField"
                   id="searchField"
                   name="searchField"
                   onChange={handleSearchFieldChange}
+                  value={state.searchField}
                   size={"lg"}
                 />
-                <Button variant="dark">
+                <Button variant="dark" onClick={handleSearchFieldClick}>
                   Search
                 </Button>
                 <Button
@@ -393,7 +483,7 @@ export default function AdminItems() {
           </Row>
           <Row>
             {state.showAdvancedSearchMenu ? (
-              <Alert variant="light">
+              <Alert variant="dark">
                 <Row>
                   <Col>
                     <h5>
@@ -415,7 +505,7 @@ export default function AdminItems() {
 
                   <Col>
                   <h5>
-                      <u>Categories</u>
+                      <u>CATEGORIES</u>
                     </h5>
                     {state.categories.map((item) => {
                       return (
