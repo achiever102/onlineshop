@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 import {ImFire} from'react-icons/im';
 
+import { IoCaretDown, IoCaretUp } from "react-icons/io5";
+
 import {
   Card,
   Button,
@@ -16,7 +18,7 @@ import {
   FormControl,
   Row,
   Col,
-  Badge
+  Badge, Alert, Form
 } from "react-bootstrap";
 
 
@@ -47,6 +49,10 @@ export default function AdminItems() {
       itemOnSale: false,
       itemDescription: "",
       searchField: "",
+      sortDirection: "",
+      selectedPlatforms: [],
+      selectedCategories: [],
+      showAvailableItemsOnly: false,
       editItem: {
         id: -1,
         itemPrice: 0,
@@ -221,43 +227,233 @@ export default function AdminItems() {
       });
   };
 
-  
-
   const hideModal = () => {
     setState({...state, showNewModal: false, showEditModal: false})
   }
 
+  const ShowAdvancedSearchMenu = () => {
+    setState({...state, 
+      showAdvancedSearchMenu: !state.showAdvancedSearchMenu,
+    });
+  };
+
+  const handleAdvancedSearchField = (event) => {
+    if(event.target.name === "availableItemsOnlyCheckbox"){
+      setState({...state, showAvailableItemsOnly: event.target.checked})
+    }
+
+    if(event.target.name.includes("selectedPlatform-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < state.selectedPlatforms.length; i++){
+          if(state.selectedPlatforms[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedPlatforms = state.selectedPlatforms;
+          selectedPlatforms.push(event.target.id);
+          setState({...state, selectedPlatforms: selectedPlatforms});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < state.selectedPlatforms.length; i++){
+          if(state.selectedPlatforms[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedPlatforms = state.selectedPlatforms;
+          selectedPlatforms.splice(itemExists, 1);
+          setState({...state, selectedPlatforms: selectedPlatforms});
+        }
+
+        
+      }
+    }
+
+    if(event.target.name.includes("selectedCategory-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < state.selectedCategories.length; i++){
+          if(state.selectedCategories[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedCategories = state.selectedCategories;
+          selectedCategories.push(event.target.id);
+          setState({...state, selectedCategories: selectedCategories});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < state.selectedCategories.length; i++){
+          if(state.selectedCategories[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedCategories = state.selectedCategories;
+          selectedCategories.splice(itemExists, 1);
+          setState({...state, selectedCategories: selectedCategories});
+        }
+
+        
+      }
+    }
+  }
+
+  const handleAdvancedSearch = () => {
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("selectedPlatforms", JSON.stringify(state.selectedPlatforms));
+    bodyFormData.append("selectedCategories", JSON.stringify(state.selectedCategories));
+    bodyFormData.append("showAvailableItemsOnly", state.showAvailableItemsOnly);
+
+      axios
+        .post(
+          `${UrlLocator.getApiUrl('HOME_GET_ALL_ITEMS')}`,
+          bodyFormData, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            }
+          })
+        .then((response) => {
+          if (response.status === 200) {
+            setState({...state, 
+              items: response.data.items.filter(
+                (item) => item.itemStatus === "ACTIVE"
+              ),
+              platforms: response.data.platforms,
+              categories: response.data.categories
+            });           
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+  }
+
   return (
     <div className="container">
-      <Row className="mt-3">
-        <Col lg={{ span: 8, offset: 0 }} className="mt-3">
-          <InputGroup>
-            <FormControl
-              placeholder="Search for item..."
-              aria-label="searchField"
-              id="searchField"
-              name="searchField"
-              aria-describedby="basic-addon1"
-              onChange={handleSearchFieldChange}
-            />
-          </InputGroup>
-        </Col>
-        <Col className="d-flex align-items-center mt-3">
-          <Button
-                    variant="dark"
-                    className="mx-3"
-                    size="md"
-                    onClick={sortItemsByPice}
-                  >
-                    Price {state.sortDirection === 'DOWN' || state.sortDirection === '' ? <BiSortUp size="1.5rem"/> : <BiSortDown size="1.5rem"/>}
-                  </Button>
-        </Col>
-        <Col className="d-flex justify-content-end mt-3">
-          <Button variant="outline-dark" onClick={showModal}>
+      
+          <Row className="mt-3">
+            <Col lg={{ span: 12, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+              <Button variant="dark" onClick={showModal} className="mx-2">
             Add New Item
           </Button>
-        </Col>
-      </Row>
+                <FormControl
+                  placeholder="Search by name ..."
+                  aria-label="searchField"
+                  id="searchField"
+                  name="searchField"
+                  onChange={handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark">
+                  Search
+                </Button>
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={sortItemsByPice}
+                >
+                  Price{" "}
+                  {state.sortDirection === "DOWN" ||
+                  state.sortDirection === "" ? (
+                    <BiSortUp size="1.5rem" />
+                  ) : (
+                    <BiSortDown size="1.5rem" />
+                  )}
+                </Button>
+
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={ShowAdvancedSearchMenu}
+                >
+                  {state.showAdvancedSearchMenu ? (
+                    <IoCaretUp style={{ color: "white", fontSize: "1.5em" }} />
+                  ) : (
+                    <IoCaretDown
+                      style={{ color: "white", fontSize: "1.5em" }}
+                    />
+                  )}
+                </Button>
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row>
+            {state.showAdvancedSearchMenu ? (
+              <Alert variant="light">
+                <Row>
+                  <Col>
+                    <h5>
+                      <u>PLATFORMS</u>
+                    </h5>
+                    {state.platforms.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.platformName}
+                          name={`selectedPlatform-${item.id}`}
+                          onChange={handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                  <h5>
+                      <u>Categories</u>
+                    </h5>
+                    {state.categories.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.categoryName}
+                          name={`selectedCategory-${item.id}`}
+                          onChange={handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      name="availableItemsOnlyCheckbox"
+                      label="Available items only"
+                      onChange={handleAdvancedSearchField}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col>
+                    <Button variant="dark" onClick={handleAdvancedSearch}>
+                      Search
+                    </Button>
+                  </Col>
+                </Row>
+              </Alert>
+            ) : null}
+          </Row>
+
+
+      
+
 
 {
         state.showNewModal ?

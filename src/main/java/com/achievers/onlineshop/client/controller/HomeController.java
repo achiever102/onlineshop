@@ -18,7 +18,7 @@ import com.achievers.onlineshop.admin.service.ItemService;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/api/home")
 public class HomeController {
@@ -105,6 +105,81 @@ public class HomeController {
     @GetMapping("/getParamValueByName/{param}")
     public Setting getParamValueByName(@PathVariable("param") String param){
         return settingRepository.getParamValueByName(param);
+    }
+
+    @PostMapping("/getAll")
+    public CustomItemsObject getAllFilteredItems(@RequestParam("selectedCategories") String selectedCategoriesJson,
+                @RequestParam("selectedPlatforms") String selectedPlatformsJson, @RequestParam("showAvailableItemsOnly") String showAvailableItemsOnly ){
+
+        List<String> selectedCategories = new ArrayList<>();
+        ObjectMapper objectMapper1 = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper1.readTree(selectedCategoriesJson);
+            selectedCategories = objectMapper1.convertValue(jsonNode, new TypeReference<List<String>>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        List<String> selectedPlatforms = new ArrayList<>();
+        ObjectMapper objectMapper2 = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper2.readTree(selectedPlatformsJson);
+            selectedPlatforms = objectMapper2.convertValue(jsonNode, new TypeReference<List<String>>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        List<Item> allItems = itemService.getAll();
+        List<Item> filteredItems = new ArrayList<>();
+
+        if(selectedPlatforms.size() > 0 && selectedCategories.size() > 0) {
+            for (Item item : allItems) {
+                for (String x : selectedPlatforms) {
+                    for (String y : selectedCategories) {
+                        if (Integer.parseInt(x) == item.getItemPlatform() && Integer.parseInt(y) == item.getItemCategory()) {
+                            filteredItems.add(item);
+                        }
+                    }
+                }
+            }
+        } else if(selectedCategories.size() > 0) {
+            for (Item item : allItems) {
+                    for (String y : selectedCategories) {
+                        if (Integer.parseInt(y) == item.getItemCategory()) {
+                            filteredItems.add(item);
+                        }
+                    }
+                }
+        } else if(selectedPlatforms.size() > 0) {
+            for (Item item : allItems) {
+                for (String y : selectedPlatforms) {
+                    if (Integer.parseInt(y) == item.getItemPlatform()) {
+                        filteredItems.add(item);
+                    }
+                }
+            }
+        } else {
+            filteredItems = allItems;
+        }
+
+        List<Item> availableItems = new ArrayList<>();
+        if(Boolean.valueOf(showAvailableItemsOnly)){
+            for(Item item: filteredItems){
+                if(item.getItemQuantity() > 0){
+                    availableItems.add(item);
+                }
+            }
+        } else {
+            availableItems = filteredItems;
+        }
+
+
+        List<Category> categories = categoryService.getAll();
+        List<Platform> platforms = platformService.getAll();
+
+        CustomItemsObject customItemsObject = new CustomItemsObject(availableItems, platforms, categories);
+
+        return customItemsObject;
     }
 
 }

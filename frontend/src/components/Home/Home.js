@@ -3,7 +3,18 @@ import HomeNavbar from "../AppNavbar/HomeNavbar";
 import UrlLocator from "../../helpers/UrlLocator";
 
 import axios from "axios";
-import {Row, Col, Card, Container, Button, InputGroup, FormControl, Badge} from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Card,
+  Container,
+  Button,
+  InputGroup,
+  FormControl,
+  Badge,
+  Form,
+  Alert,
+} from "react-bootstrap";
 import AppCarousel from "../AppCarousel/AppCarousel";
 import AppNewsletter from "../AppNewsletter/AppNewsletter";
 import AppFooter from "../AppFooter/AppFooter";
@@ -11,9 +22,11 @@ import AppLogo from "../AppLogo/AppLogo";
 import GameDetails from "./GameDetails";
 import { Link } from "react-router-dom";
 
-import {ImFire} from 'react-icons/im';
+import { ImFire } from "react-icons/im";
 
-import {BiSortUp, BiSortDown} from 'react-icons/bi'
+import { BiSortUp, BiSortDown } from "react-icons/bi";
+
+import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 
 import AuthContext from "../../context/AuthContext";
 
@@ -27,9 +40,15 @@ class Home extends Component {
     this.state = {
       modalShow: false,
       items: [],
+      platforms: [],
+      categories: [],
       count: 0,
+      showAdvancedSearchMenu: false,
       searchField: "",
-      sortDirection: ""
+      sortDirection: "",
+      selectedPlatforms: [],
+      selectedCategories: [],
+      showAvailableItemsOnly: false
     };
   }
 
@@ -38,8 +57,7 @@ class Home extends Component {
   }
 
   handleAddToCart = (itemId) => {
-
-    const { setCartItems} = this.context;
+    const { setCartItems } = this.context;
 
     let cart;
 
@@ -53,58 +71,42 @@ class Home extends Component {
       localStorage.getItem("isAuthenticated") === "true" &&
       localStorage.getItem("username") !== "manager"
     ) {
-      
     } else {
-
-      if(cart.length > 0){
+      if (cart.length > 0) {
         let itemUpdated = false;
-        for(let i = 0 ; i < cart.length; i++){
-          if(cart[i].itemId === itemId){
+        for (let i = 0; i < cart.length; i++) {
+          if (cart[i].itemId === itemId) {
             cart[i].itemQuantity = cart[i].itemQuantity + 1;
             itemUpdated = true;
           }
         }
 
         // if item does not exist in the original array
-        if(itemUpdated === false){
-          cart.push({itemId: itemId, itemQuantity: 1});
+        if (itemUpdated === false) {
+          cart.push({ itemId: itemId, itemQuantity: 1 });
         }
       } else {
-        cart.push({itemId: itemId, itemQuantity: 1});
+        cart.push({ itemId: itemId, itemQuantity: 1 });
       }
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      //cart.push(itemId);
-      //cart = cart.filter((item, index) => cart.indexOf(item) === index);
-      //localStorage.setItem("cart", JSON.stringify(cart));
       setCartItems(cart);
 
-
-/*
-      let filtered = tempAppliedCoupons.filter(
-        (value, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.id === value.id && t.couponId === value.couponId
-          )
-      );*/
     }
-
   };
 
-  disableAddToCartButton = function(id, quantity) {
-
-    if(quantity === 0){
+  disableAddToCartButton = function (id, quantity) {
+    if (quantity === 0) {
       return (
         <Button
-        variant="dark"
-        className="mx-1"
-        onClick={() => this.handleAddToCart(id)}
-        size='sm'
-        disabled={true}
-      >
-        Add to Cart
-      </Button>
+          variant="dark"
+          className="mx-1"
+          onClick={() => this.handleAddToCart(id)}
+          size="sm"
+          disabled={true}
+        >
+          Add to Cart
+        </Button>
       );
     }
 
@@ -116,48 +118,47 @@ class Home extends Component {
       cart = [];
     }
 
-    for(var i = 0; i < cart.length; i++){
-      if(cart[i].itemId === id){
-        if(cart[i].itemQuantity >= quantity){
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].itemId === id) {
+        if (cart[i].itemQuantity >= quantity) {
           return (
             <Button
-            variant="dark"
-            className="mx-1"
-            onClick={() => this.handleAddToCart(id)}
-            size='sm'
-            disabled={true}
-          >
-            Add to Cart
-          </Button>
+              variant="dark"
+              className="mx-1"
+              onClick={() => this.handleAddToCart(id)}
+              size="sm"
+              disabled={true}
+            >
+              Add to Cart
+            </Button>
           );
         }
       }
     }
 
-    
-      return (
-        <Button
+    return (
+      <Button
         variant="dark"
         className="mx-1"
         onClick={() => this.handleAddToCart(id)}
-        size='sm'
+        size="sm"
       >
         Add to Cart
       </Button>
-      );
-    
-    
-}
+    );
+  };
 
   getAllItems = () => {
-    const {setCartCount} = this.context;
-    axios
-    .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-    .then((response) => {
-        this.setState({items: response.data.items.filter((item) => item.itemStatus === 'ACTIVE'), 
-          platforms: response.data.platforms,
-          categories: response.data.categories});
-          setCartCount();
+    const { setCartCount } = this.context;
+    axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
+      this.setState({
+        items: response.data.items.filter(
+          (item) => item.itemStatus === "ACTIVE"
+        ),
+        platforms: response.data.platforms,
+        categories: response.data.categories
+      });
+      setCartCount();
     });
   };
 
@@ -166,75 +167,234 @@ class Home extends Component {
   };
 
   showPlatform = (itemPlatform) => {
-    return this.state.platforms.filter((item) => itemPlatform === item.id )[0].platformName;
-  }
+    return this.state.platforms.filter((item) => itemPlatform === item.id)[0]
+      .platformName;
+  };
+
+  sortItemsByPice = () => {
+    if (this.state.searchField === "") {
+      if (
+        this.state.sortDirection === "" ||
+        this.state.sortDirection === "DOWN"
+      ) {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter((item) => item.itemStatus === "ACTIVE")
+                .sort((a, b) => {
+                  return b.itemPrice - a.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "UP",
+            });
+          });
+      } else {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter((item) => item.itemStatus === "ACTIVE")
+                .sort((a, b) => {
+                  return a.itemPrice - b.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "DOWN",
+            });
+          });
+      }
+    } else {
+      if (
+        this.state.sortDirection === "" ||
+        this.state.sortDirection === "DOWN"
+      ) {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter(
+                  (item) =>
+                    item.itemName
+                      .toLowerCase()
+                      .includes(this.state.searchField.toLowerCase()) &&
+                    item.itemStatus === "ACTIVE"
+                )
+                .sort((a, b) => {
+                  return b.itemPrice - a.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "UP",
+            });
+          });
+      } else {
+        axios
+          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
+          .then((response) => {
+            this.setState({
+              items: response.data.items
+                .filter(
+                  (item) =>
+                    item.itemName
+                      .toLowerCase()
+                      .includes(this.state.searchField.toLowerCase()) &&
+                    item.itemStatus === "ACTIVE"
+                )
+                .sort((a, b) => {
+                  return a.itemPrice - b.itemPrice;
+                }),
+              platforms: response.data.platforms,
+              categories: response.data.categories,
+              modalShow: false,
+              sortDirection: "DOWN",
+            });
+          });
+      }
+    }
+  };
+
 
   handleSearchFieldChange = (event) => {
     if (event.target.name === "searchField") {
+      axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
+        this.setState({
+          items: response.data.items.filter(
+            (item) =>
+              item.itemName
+                .toLowerCase()
+                .includes(event.target.value.toLowerCase()) &&
+              item.itemStatus === "ACTIVE"
+          ),
+          platforms: response.data.platforms,
+          categories: response.data.categories,
+          modalShow: false,
+          searchField: event.target.value,
+        });
+      });
+    }
+  };
+
+  ShowAdvancedSearchMenu = () => {
+    this.setState({
+      showAdvancedSearchMenu: !this.state.showAdvancedSearchMenu,
+    });
+  };
+
+  handleAdvancedSearchField = (event) => {
+    if(event.target.name === "availableItemsOnlyCheckbox"){
+      this.setState({showAvailableItemsOnly: event.target.checked})
+    }
+
+    if(event.target.name.includes("selectedPlatform-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
+          if(this.state.selectedPlatforms[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedPlatforms = this.state.selectedPlatforms;
+          selectedPlatforms.push(event.target.id);
+          this.setState({selectedPlatforms: selectedPlatforms});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
+          if(this.state.selectedPlatforms[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedPlatforms = this.state.selectedPlatforms;
+          selectedPlatforms.splice(itemExists, 1);
+          this.setState({selectedPlatforms: selectedPlatforms});
+        }
+
+        
+      }
+    }
+
+    if(event.target.name.includes("selectedCategory-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < this.state.selectedCategories.length; i++){
+          if(this.state.selectedCategories[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedCategories = this.state.selectedCategories;
+          selectedCategories.push(event.target.id);
+          this.setState({selectedCategories: selectedCategories});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < this.state.selectedCategories.length; i++){
+          if(this.state.selectedCategories[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedCategories = this.state.selectedCategories;
+          selectedCategories.splice(itemExists, 1);
+          this.setState({selectedCategories: selectedCategories});
+        }
+
+        
+      }
+    }
+  }
+
+  handleAdvancedSearch = () => {
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("selectedPlatforms", JSON.stringify(this.state.selectedPlatforms));
+    bodyFormData.append("selectedCategories", JSON.stringify(this.state.selectedCategories));
+    bodyFormData.append("showAvailableItemsOnly", this.state.showAvailableItemsOnly);
+
       axios
-      .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-      .then((response) => {
-        this.setState({items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(event.target.value.toLowerCase()) && item.itemStatus === 'ACTIVE')), 
-          platforms: response.data.platforms,
-          categories: response.data.categories,
-          modalShow: false,
-        searchField: event.target.value})
-      });
+        .post(
+          `${UrlLocator.getApiUrl('HOME_GET_ALL_ITEMS')}`,
+          bodyFormData
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            this.setState({
+              items: response.data.items.filter(
+                (item) => item.itemStatus === "ACTIVE"
+              ),
+              platforms: response.data.platforms,
+              categories: response.data.categories
+            });           
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    }
   }
 
-  sortItemsByPice = () => {
-    if(this.state.searchField === ""){
-      if(this.state.sortDirection === "" || this.state.sortDirection === "DOWN"){
-        axios
-        .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-        .then((response) => {
-          this.setState({items: response.data.items.filter((item) => (item.itemStatus === 'ACTIVE')).sort((a, b) => { return b.itemPrice - a.itemPrice; }), 
-            platforms: response.data.platforms,
-            categories: response.data.categories,
-            modalShow: false,
-            sortDirection: "UP"})
-        });
-      }else {
-        axios
-      .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-      .then((response) => {
-        this.setState({items: response.data.items.filter((item) => (item.itemStatus === 'ACTIVE')).sort((a, b) => { return a.itemPrice - b.itemPrice; }), 
-          platforms: response.data.platforms,
-          categories: response.data.categories,
-          modalShow: false,
-          sortDirection: "DOWN"})
-      });
-      }
-    } else {
-      if(this.state.sortDirection === "" || this.state.sortDirection === "DOWN"){
-        axios
-        .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-        .then((response) => {
-          this.setState({items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(this.state.searchField.toLowerCase()) && item.itemStatus === 'ACTIVE')).sort((a, b) => { return b.itemPrice - a.itemPrice; }), 
-            platforms: response.data.platforms,
-            categories: response.data.categories,
-            modalShow: false,
-            sortDirection: "UP"})
-        });
-      }else {
-        axios
-      .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-      .then((response) => {
-        this.setState({items: response.data.items.filter((item) => (item.itemName.toLowerCase().includes(this.state.searchField.toLowerCase()) && item.itemStatus === 'ACTIVE')).sort((a, b) => { return a.itemPrice - b.itemPrice; }), 
-          platforms: response.data.platforms,
-          categories: response.data.categories,
-          modalShow: false,
-          sortDirection: "DOWN"})
-      });
-      }
-    }
-  }
+  showCategory = (itemCategory) => {
+    return this.state.categories.filter((item) => itemCategory === item.id)[0]
+      .categoryName;
+  };
 
   render() {
-    //console.log(this.context)
-    //const {username, isAuthenticated, login, logout} = this.context;
     return (
       <div>
         <AppLogo />
@@ -242,34 +402,113 @@ class Home extends Component {
         <HomeNavbar />
 
         <Container>
-          <AppCarousel />
+          <Row className="mt-3">
+            <Col lg={{ span: 12, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search by name ..."
+                  aria-label="searchField"
+                  id="searchField"
+                  name="searchField"
+                  onChange={this.handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark" onClick={this.searchByName}>
+                  Search
+                </Button>
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={this.sortItemsByPice}
+                >
+                  Price{" "}
+                  {this.state.sortDirection === "DOWN" ||
+                  this.state.sortDirection === "" ? (
+                    <BiSortUp size="1.5rem" />
+                  ) : (
+                    <BiSortDown size="1.5rem" />
+                  )}
+                </Button>
+
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={this.ShowAdvancedSearchMenu}
+                >
+                  {this.state.showAdvancedSearchMenu ? (
+                    <IoCaretUp style={{ color: "white", fontSize: "1.5em" }} />
+                  ) : (
+                    <IoCaretDown
+                      style={{ color: "white", fontSize: "1.5em" }}
+                    />
+                  )}
+                </Button>
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row>
+            {this.state.showAdvancedSearchMenu ? (
+              <Alert variant="light">
+                <Row>
+                  <Col>
+                    <h5>
+                      <u>PLATFORMS</u>
+                    </h5>
+                    {this.state.platforms.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.platformName}
+                          name={`selectedPlatform-${item.id}`}
+                          onChange={this.handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                  <h5>
+                      <u>Categories</u>
+                    </h5>
+                    {this.state.categories.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.categoryName}
+                          name={`selectedCategory-${item.id}`}
+                          onChange={this.handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      name="availableItemsOnlyCheckbox"
+                      label="Available items only"
+                      onChange={this.handleAdvancedSearchField}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col>
+                    <Button variant="dark" onClick={this.handleAdvancedSearch}>
+                      Search
+                    </Button>
+                  </Col>
+                </Row>
+              </Alert>
+            ) : null}
+          </Row>
         </Container>
 
         <Container>
-        <Row className="mt-3">
-          <Col lg={{ span: 8, offset: 0 }} className="mt-3">
-            <InputGroup>
-              <FormControl
-                placeholder="Search for item..."
-                aria-label="searchField"
-                id="searchField"
-                name="searchField"
-                aria-describedby="basic-addon1"
-                onChange={this.handleSearchFieldChange}
-              />
-            </InputGroup>
-          </Col>
-          <Col className="d-flex align-items-center mt-3">
-            <Button
-                      variant="dark"
-                      className="mx-3"
-                      size="md"
-                      onClick={this.sortItemsByPice}
-                    >
-                      Price {this.state.sortDirection === 'DOWN' || this.state.sortDirection === '' ? <BiSortUp size="1.5rem"/> : <BiSortDown size="1.5rem"/>}
-                    </Button>
-          </Col>
-        </Row>
+          <AppCarousel />
         </Container>
 
         <div className="d-flex flex-wrap justify-content-center container my-4">
@@ -305,21 +544,53 @@ class Home extends Component {
                   </Card.Text>
 
                   <Row>
-                    <Col>{item.itemQuantity > 0 ? <b style={{color: "green"}}>Available now</b> : <b style={{color: "red"}}>Not available</b>}</Col>
+                    <Col>
+                      {item.itemQuantity > 0 ? (
+                        <b style={{ color: "green" }}>Available now</b>
+                      ) : (
+                        <b style={{ color: "red" }}>Not available</b>
+                      )}
+                    </Col>
                     <Col></Col>
                   </Row>
 
                   <Row className="mt-2">
-                    <Col><b>Price:</b></Col>
-                    <Col>{item.itemOnSale ? <div><s>${item.itemPrice}</s><div className="mr-4">${(item.itemPrice - item.itemSaleValue * item.itemPrice / 100).toFixed(2)} <ImFire size="1.5em" color="red"/> <Badge>{item.itemSaleValue}% Sale</Badge></div></div> : <>${item.itemPrice}</>}</Col>
+                    <Col>
+                      <b>Price:</b>
+                    </Col>
+                    <Col>
+                      {item.itemOnSale ? (
+                        <div>
+                          <s>${item.itemPrice}</s>
+                          <div className="mr-4">
+                            $
+                            {(
+                              item.itemPrice -
+                              (item.itemSaleValue * item.itemPrice) / 100
+                            ).toFixed(2)}{" "}
+                            <ImFire size="1.5em" color="red" />{" "}
+                            <Badge>{item.itemSaleValue}% Sale</Badge>
+                          </div>
+                        </div>
+                      ) : (
+                        <>${item.itemPrice}</>
+                      )}
+                    </Col>
                   </Row>
 
                   <Row className="mt-2">
-                    <Col><b>Platform:</b></Col>
+                    <Col>
+                      <b>Platform:</b>
+                    </Col>
                     <Col>{this.showPlatform(item.itemPlatform)}</Col>
                   </Row>
 
-                  <Row></Row>
+                  <Row className="mt-2">
+                    <Col>
+                      <b>Category:</b>
+                    </Col>
+                    <Col>{this.showCategory(item.itemCategory)}</Col>
+                  </Row>
                 </Card.Body>
                 <Card.Footer>
                   <div className="text-center">
@@ -341,52 +612,9 @@ class Home extends Component {
         <AppNewsletter />
 
         <AppFooter />
-
-        {/*<h1>User: {username}</h1>
-        <h1>Authenticated: {isAuthenticated ? "Authenticated" : "Not Authenticated"}</h1>
-        <button onClick={() => login("Jim")}>Log In</button>
-    <button onClick={logout}>Logout</button>*/}
       </div>
     );
   }
 }
-
-//Home.contextType = AuthContext;
-
-
-
-
-// for method 3: the reason you would use this is that you can consume multiple contexts (nexted) and also providers can be nested
-/*export class Home2 extends Component {
-  render() {
-    return (
-      <div>
-        <HomeNavbar />
-        <AuthConsumer>
-          {
-            props => {
-              const {username, isAuthenticated, login, logout} = props;
-              return (
-                <div>
-                  <HomeNavbar />
-                  <h1>User: {username}</h1>
-                  <h1>Authenticated: {isAuthenticated ? "Authenticated" : "Not Authenticated"}</h1>
-                  <button onClick={login}>Log In</button>
-                  <button onClick={logout}>Logout</button>
-                  </div>
-              );
-            }
-          }
-        </AuthConsumer>
-      </div>
-    );
-  }
-}*/
-
-
-
-
-
-
 
 export default Home;

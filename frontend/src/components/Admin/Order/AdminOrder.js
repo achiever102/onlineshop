@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, InputGroup, Button, FormControl } from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
 
 class AdminOrder extends Component {
@@ -8,6 +8,9 @@ class AdminOrder extends Component {
     super(props);
     this.state = {
       items: [],
+      orderIdSearchField: "",
+      dateSearchField: "",
+      clientNameSearchField: ""
     };
   }
 
@@ -26,9 +29,107 @@ class AdminOrder extends Component {
       });
   }
 
+  handleSearchFieldChange = (event) => {
+    this.setState({[event.target.name]: event.target.value}, () => {
+      console.log(this.state)
+    });
+  }
+
+  searchByDate = () => {
+    axios
+      .get(
+        `${UrlLocator.getApiUrl('GET_ADMIN_ORDERS_BY_DATE')}/${this.state.dateSearchField}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({ items: res.data });
+      });
+  }
+
+  searchByOrderId = () => {
+    axios
+      .get(
+        `${UrlLocator.getApiUrl('GET_ADMIN_ORDERS_BY_ORDER_ID')}/${this.state.orderIdSearchField}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({ items: res.data });
+      });
+  }
+
+  searchByClientName = () => {
+    axios
+    .get(
+      `${UrlLocator.getApiUrl('GET_ADMIN_ORDERS_BY_CLIENT_NAME')}/${this.state.clientNameSearchField}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
+    .then((res) => {
+      this.setState({ items: res.data });
+    });
+  }
+
   render() {
     return (
       <div className="container">
+
+<Row className="mt-3">
+            <Col lg={{ span: 6, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search by order ID ..."
+                  id="orderIdSearchField"
+                  name="orderIdSearchField"
+                  onChange={this.handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark" onClick={this.searchByOrderId}>
+                  Search
+                </Button>
+                </InputGroup>
+</Col>
+<Col lg={{ span: 6, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search by order Date ..."
+                  id="dateSearchField"
+                  name="dateSearchField"
+                  onChange={this.handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark" onClick={this.searchByDate}>
+                  Search
+                </Button>
+                </InputGroup>
+</Col>
+</Row>
+<Row>
+<Col lg={{ span: 6, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search by client name ..."
+                  id="clientNameSearchField"
+                  name="clientNameSearchField"
+                  onChange={this.handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark" onClick={this.searchByClientName}>
+                  Search
+                </Button>
+                </InputGroup>
+</Col>
+</Row>
         {this.state.items.map((item) => {
           return (
             <Card key={item.orderId} className="my-3">

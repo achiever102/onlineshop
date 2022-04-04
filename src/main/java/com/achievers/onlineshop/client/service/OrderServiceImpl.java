@@ -46,4 +46,29 @@ public class OrderServiceImpl implements OrderService {
     public void updateCSVFileDirectory(Order order) {
         orderRepository.save(order);
     }
+
+    @Override
+    public List<Order> getOrderByOrderId(String orderId) {
+        return orderRepository.getOrderByOrderId(orderId);
+    }
+
+    @Override
+    public List<Order> getOrderByClientName(long userId) {
+        return orderRepository.getOrderByClientName(userId);
+    }
+
+    @Override
+    public List<Order> getOrderByDate(String orderDate) {
+        return orderRepository.getOrderByDate(orderDate);
+    }
+
+    @Override
+    public List<Order> getByUserIdAndOrderDate(long userId, String orderDate) {
+        return orderRepository.getByUserIdAndOrderDate(userId, orderDate);
+    }
+
+    @Override
+    public List<Order> getByUserIdAndOrderId(long userId, String orderId) {
+        return orderRepository.getByUserIdAndOrderId(userId, orderId);
+    }
 }

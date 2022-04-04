@@ -15,6 +15,13 @@ export default class UrlLocator {
     const GET_ADMIN_ORDERS = '/getAdminOrders';
     const GET_USER_ORDERS = '/getUserOrders';
 
+    const GET_ADMIN_ORDERS_BY_DATE = '/getAdminOrdersByDate';
+    const GET_ADMIN_ORDERS_BY_ORDER_ID = '/getAdminOrdersByOrderId';
+    const GET_ADMIN_ORDERS_BY_CLIENT_NAME = '/getAdminOrdersByClientName';
+
+    const GET_USER_ORDERS_BY_DATE = '/getUserOrdersByDate';
+    const GET_USER_ORDERS_BY_ORDER_ID = '/getUserOrdersByOrderId';
+
     const SAVE_COUPON = "/save";
     const GET_COUPONS = "/getAll";
     const DELETE_COUPON = "/delete";
@@ -80,6 +87,23 @@ export default class UrlLocator {
         return ORDERS_API_URL + GET_ADMIN_ORDERS;
         case "GET_USER_ORDERS":
           return ORDERS_API_URL + GET_USER_ORDERS;
+
+          case "GET_USER_ORDERS_BY_DATE":
+          return ORDERS_API_URL + GET_USER_ORDERS_BY_DATE;
+
+          case "GET_USER_ORDERS_BY_ORDER_ID":
+          return ORDERS_API_URL + GET_USER_ORDERS_BY_ORDER_ID;
+
+          case "GET_ADMIN_ORDERS_BY_DATE":
+          return ORDERS_API_URL + GET_ADMIN_ORDERS_BY_DATE;
+
+          case "GET_ADMIN_ORDERS_BY_ORDER_ID":
+          return ORDERS_API_URL + GET_ADMIN_ORDERS_BY_ORDER_ID;
+
+          case "GET_ADMIN_ORDERS_BY_CLIENT_NAME":
+          return ORDERS_API_URL + GET_ADMIN_ORDERS_BY_CLIENT_NAME;
+
+          
       case "SAVE_COUPON":
         return COUPON_API_URL + SAVE_COUPON;
       case "GET_COUPONS":
