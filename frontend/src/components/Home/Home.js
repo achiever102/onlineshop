@@ -172,44 +172,37 @@ class Home extends Component {
   };
 
   sortItemsByPice = () => {
-    if (this.state.searchField === "") {
+    //if (this.state.searchField === "") {
       if (
         this.state.sortDirection === "" ||
         this.state.sortDirection === "DOWN"
       ) {
-        axios
-          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-          .then((response) => {
-            this.setState({
-              items: response.data.items
-                .filter((item) => item.itemStatus === "ACTIVE")
-                .sort((a, b) => {
-                  return b.itemPrice - a.itemPrice;
-                }),
-              platforms: response.data.platforms,
-              categories: response.data.categories,
-              modalShow: false,
-              sortDirection: "UP",
-            });
-          });
+
+        let sortedItems = this.state.items.filter((item) => item.itemStatus === "ACTIVE")
+        .sort((a, b) => {
+          return b.itemPrice - a.itemPrice;
+        });
+
+        this.setState({
+          items: sortedItems,
+          modalShow: false,
+          sortDirection: "UP",
+        });
+
       } else {
-        axios
-          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-          .then((response) => {
-            this.setState({
-              items: response.data.items
-                .filter((item) => item.itemStatus === "ACTIVE")
-                .sort((a, b) => {
-                  return a.itemPrice - b.itemPrice;
-                }),
-              platforms: response.data.platforms,
-              categories: response.data.categories,
+        let sortedItems = this.state.items
+        .filter((item) => item.itemStatus === "ACTIVE")
+        .sort((a, b) => {
+          return a.itemPrice - b.itemPrice;
+        });
+
+        this.setState({
+              items: sortedItems,
               modalShow: false,
               sortDirection: "DOWN",
             });
-          });
       }
-    } else {
+    /*} else {
       if (
         this.state.sortDirection === "" ||
         this.state.sortDirection === "DOWN"
@@ -258,27 +251,33 @@ class Home extends Component {
             });
           });
       }
-    }
+    }*/
   };
 
 
   handleSearchFieldChange = (event) => {
-    if (event.target.name === "searchField") {
+    this.setState({[event.target.name]: event.target.value})
+  }
+  
+  handleSearchFieldClick = () => {
+    if (this.state.searchField != "") {
       axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
         this.setState({
           items: response.data.items.filter(
             (item) =>
               item.itemName
                 .toLowerCase()
-                .includes(event.target.value.toLowerCase()) &&
+                .includes(this.state.searchField) &&
               item.itemStatus === "ACTIVE"
           ),
           platforms: response.data.platforms,
           categories: response.data.categories,
           modalShow: false,
-          searchField: event.target.value,
+          showAdvancedSearchMenu: false
         });
       });
+    } else {
+      this.getAllItems();
     }
   };
 
@@ -379,7 +378,8 @@ class Home extends Component {
                 (item) => item.itemStatus === "ACTIVE"
               ),
               platforms: response.data.platforms,
-              categories: response.data.categories
+              categories: response.data.categories,
+              searchField: ""
             });           
           }
         })
@@ -411,9 +411,10 @@ class Home extends Component {
                   id="searchField"
                   name="searchField"
                   onChange={this.handleSearchFieldChange}
+                  value={this.state.searchField}
                   size={"lg"}
                 />
-                <Button variant="dark" onClick={this.searchByName}>
+                <Button variant="dark" onClick={this.handleSearchFieldClick}>
                   Search
                 </Button>
                 <Button
@@ -448,7 +449,7 @@ class Home extends Component {
           </Row>
           <Row>
             {this.state.showAdvancedSearchMenu ? (
-              <Alert variant="light">
+              <Alert variant="dark">
                 <Row>
                   <Col>
                     <h5>
@@ -470,7 +471,7 @@ class Home extends Component {
 
                   <Col>
                   <h5>
-                      <u>Categories</u>
+                      <u>CATEGORIES</u>
                     </h5>
                     {this.state.categories.map((item) => {
                       return (
@@ -496,7 +497,7 @@ class Home extends Component {
                   </Col>
                 </Row>
                 <Row className="mt-2">
-                  <Col>
+                  <Col className="d-flex justify-content-center">
                     <Button variant="dark" onClick={this.handleAdvancedSearch}>
                       Search
                     </Button>
