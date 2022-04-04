@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Button, Row, Col, Form, Container, Modal } from "react-bootstrap";
+import UrlLocator from "../../helpers/UrlLocator";
 
 class AppNewsletter extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class AppNewsletter extends Component {
       });
     } else {
       axios
-        .post("http://localhost:8080/api/newsletter/save", {
+        .post(UrlLocator.getApiUrl('SAVE_NEWLETTER'), {
           emailAddress: this.state.emailAddress,
         })
         .then((res) => {

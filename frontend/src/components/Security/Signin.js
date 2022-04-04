@@ -4,6 +4,7 @@ import { Alert, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
+import UrlLocator from "../../helpers/UrlLocator";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export default function Signin() {
       }));
     } else {
       axios
-        .post("http://localhost:8080/api/auth/signin", {
+        .post(UrlLocator.getApiUrl('SIGNIN_URL'), {
           username: state.username,
           password: state.password,
         })
@@ -81,7 +82,7 @@ export default function Signin() {
               localStorage.removeItem("cart");
               axios
                 .post(
-                  "http://localhost:8080/api/cart/createCartRecords",
+                  UrlLocator.getApiUrl('CREATE_CART_RECORD'),
                   bodyFormData,
                   {
                     headers: {

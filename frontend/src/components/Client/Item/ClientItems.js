@@ -53,7 +53,7 @@ class ClientItems extends Component {
     axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
       axios
         .get(
-          `http://localhost:8080/api/cart/getUserCart/${localStorage.getItem(
+          `${UrlLocator.getApiUrl('GET_USER_CART')}/${localStorage.getItem(
             "userId"
           )}`,
           {
@@ -111,7 +111,7 @@ class ClientItems extends Component {
     ) {
       axios
         .post(
-          `http://localhost:8080/api/cart/createSingleCartRecord/${localStorage.getItem(
+          `${UrlLocator.getApiUrl('CREATE_SINGLE_CART_RECORD')}/${localStorage.getItem(
             "userId"
           )}/${itemId}`,
           {},

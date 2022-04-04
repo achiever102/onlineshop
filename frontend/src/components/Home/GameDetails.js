@@ -44,7 +44,7 @@ export default function GameDetails() {
 
     if(localStorage.getItem("isAuthenticated") === "true" && localStorage.getItem("username") !== "manager"){
         
-        axios.post(`http://localhost:8080/api/cart/createSingleCartRecord/${localStorage.getItem("userId")}/${itemId}`,{}, {
+        axios.post(`${UrlLocator.getApiUrl('CREATE_SINGLE_CART_RECORD')}/${localStorage.getItem("userId")}/${itemId}`,{}, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
               },

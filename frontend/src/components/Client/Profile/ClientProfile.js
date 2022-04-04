@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Form, Button, Row, Col, Card } from "react-bootstrap";
 
 import AuthContext from "../../../context/AuthContext";
+import UrlLocator from "../../../helpers/UrlLocator";
 
 class ClientProfile extends Component {
   static contextType = AuthContext;
@@ -26,7 +27,7 @@ class ClientProfile extends Component {
     const { accessToken, username } = this.context;
 
     axios
-      .get(`http://localhost:8080/api/profile/getAll/${username}`, {
+      .get(`${UrlLocator.getApiUrl('GET_ALL_USER_PROFILE')}/${username}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -108,7 +109,7 @@ class ClientProfile extends Component {
     } else {
       axios
         .put(
-          `http://localhost:8080/api/profile/updatePaymentMethod/${userId}`,
+          `${UrlLocator.getApiUrl('UPDATE_PAYMENT_METHOD')}/${userId}`,
           {
             cardName: this.state.cardName,
             cardNumber: this.state.cardNumber,
@@ -168,7 +169,7 @@ class ClientProfile extends Component {
     } else {
       axios
         .put(
-          `http://localhost:8080/api/profile/updateUserDetails/${userId}`,
+          `${UrlLocator.getApiUrl('UPDATE_USER_DETAILS')}/${userId}`,
           {
             fullName: this.state.fullName,
             username: this.state.username,

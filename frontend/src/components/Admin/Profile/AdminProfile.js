@@ -3,6 +3,7 @@ import {  Form, Button, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 
 import AuthContext from "../../../context/AuthContext";
+import UrlLocator from "../../../helpers/UrlLocator";
 
 class AdminProfile extends Component {
   static contextType = AuthContext;
@@ -22,7 +23,7 @@ class AdminProfile extends Component {
   componentDidMount(){
     const { accessToken, username } = this.context;
 
-    axios.get(`http://localhost:8080/api/profile/getAdminUserDetails/${username}`, {
+    axios.get(`${UrlLocator.getApiUrl('ADMIN_PROFILE_DETAILS')}/${username}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -66,7 +67,7 @@ class AdminProfile extends Component {
     } else
     {
 
-    axios.put(`http://localhost:8080/api/profile/updateUserDetails/${userId}`, {
+    axios.put(`${UrlLocator.getApiUrl('UPDATE_ADMIN_PROFILE_DETAILS')}/${userId}`, {
       fullName: this.state.fullName,
       username: this.state.username
     }, {
@@ -74,8 +75,6 @@ class AdminProfile extends Component {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => {
-      //console.log("xxxxxxxxxxxxxxxxxxxx")
-      //updateUserProfileDetails(this.state.username, this.state.fullName);
       if(res.status === 200){
         logout();
       }
