@@ -35,6 +35,7 @@ export default function AdminNavbar(){
               <NavLink style={{fontSize: "18px"}}  to="/adminCategories" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>CATEGORIES</NavLink>
               <NavLink style={{fontSize: "18px"}}  to="/adminPlatforms" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>PLATFORMS</NavLink>
               <NavLink style={{fontSize: "18px"}}  to="/adminOrders" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>ORDERS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminImagesCarousel" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>CAROUSEL</NavLink>
               </Nav>
               
               <Nav>

@@ -10,7 +10,17 @@ export default class UrlLocator {
     const LICENSES_API_URL = "/api/admin/licenses";
     const ORDERS_API_URL = "/api/orders";
     const CART_API_URL = "/api/cart";
+    const CAROUSEL_API_URL = "/api/admin/carousel";
+
+    const HOME_CAROUSEL_API_URL = '/api/home/carousel';
+
+    const GET_HOME_CAROUSEL_IMAGES = '/getAllCarouselImages';
+
     const PLACE_ORDER = '/placeAnOrder';
+
+    const GET_CAROUSEL_IMAGES = '/getAll';
+    const DELETE_CAROUSEL_IMAGE = '/delete';
+    const SAVE_CAROUSEL_IMAGE = '/save';
 
     const GET_ADMIN_ORDERS = '/getAdminOrders';
     const GET_USER_ORDERS = '/getUserOrders';
@@ -70,6 +80,9 @@ export default class UrlLocator {
     const CHECKOUT_USER_CART = '/checkoutUserCart'
 
     switch (service) {
+
+      case "GET_HOME_CAROUSEL_IMAGES":
+        return HOME_CAROUSEL_API_URL + GET_HOME_CAROUSEL_IMAGES;
 
       case "CHECKOUT_USER_CART":
         return CART_API_URL + CHECKOUT_USER_CART;
@@ -180,6 +193,14 @@ export default class UrlLocator {
         return HOME_API_URL + HOME_GET_CUSTOM_ITEM_BY_ID;
       case "HOME_GET_ARRAY_OF_ITEMS":
         return HOME_API_URL + HOME_GET_ARRAY_OF_ITEMS;
+
+        case "GET_CAROUSEL_IMAGES":
+        return CAROUSEL_API_URL + GET_CAROUSEL_IMAGES;
+        case "DELETE_CAROUSEL_IMAGE":
+        return CAROUSEL_API_URL + DELETE_CAROUSEL_IMAGE;
+        case "SAVE_CAROUSEL_IMAGE":
+        return CAROUSEL_API_URL + SAVE_CAROUSEL_IMAGE;
+
       default:
         return "Service not found!";
     }
