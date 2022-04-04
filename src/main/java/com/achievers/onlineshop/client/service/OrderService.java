@@ -21,5 +21,15 @@ public interface OrderService {
 
     public void updateCSVFileDirectory(Order order);
 
+    public List<Order> getOrderByOrderId(String orderId);
+
+    public List<Order> getOrderByClientName(long userId);
+
+    public List<Order> getOrderByDate(String orderDate);
+
+    public List<Order> getByUserIdAndOrderDate(long userId, String orderDate);
+
+    public List<Order> getByUserIdAndOrderId(long userId, String orderId);
+
 }
 

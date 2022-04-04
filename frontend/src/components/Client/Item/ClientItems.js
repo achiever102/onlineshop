@@ -11,6 +11,7 @@ import {
   InputGroup,
   FormControl,
   Badge,
+  Form, Alert
 } from "react-bootstrap";
 import AppCarousel from "../../AppCarousel/AppCarousel";
 import AppNewsletter from "../../AppNewsletter/AppNewsletter";
@@ -19,6 +20,8 @@ import GameDetails from "../../Home/GameDetails";
 import { Link } from "react-router-dom";
 
 import { ImFire } from "react-icons/im";
+
+import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 
 import { BiSortUp, BiSortDown } from "react-icons/bi";
 
@@ -31,7 +34,13 @@ class ClientItems extends Component {
     super();
     this.state = {
       items: [],
-      searchField: ""
+      categories: [],
+      platforms: [],
+      searchField: "",
+      sortDirection: "",
+      selectedPlatforms: [],
+      selectedCategories: [],
+      showAvailableItemsOnly: false
     };
   }
 
@@ -137,26 +146,6 @@ class ClientItems extends Component {
   showPlatform = (itemPlatform) => {
     return this.state.platforms.filter((item) => itemPlatform === item.id)[0]
       .platformName;
-  };
-
-  handleSearchFieldChange = (event) => {
-    if (event.target.name === "searchField") {
-      axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
-        this.setState({
-          items: response.data.items.filter(
-            (item) =>
-              item.itemName
-                .toLowerCase()
-                .includes(event.target.value.toLowerCase()) &&
-              item.itemStatus === "ACTIVE"
-          ),
-          platforms: response.data.platforms,
-          categories: response.data.categories,
-          modalShow: false,
-          searchField: event.target.value,
-        });
-      });
-    }
   };
 
   sortItemsByPice = () => {
@@ -298,14 +287,148 @@ class ClientItems extends Component {
     );
   };
 
+
+
+
+  
+  handleSearchFieldChange = (event) => {
+    if (event.target.name === "searchField") {
+      axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
+        this.setState({
+          items: response.data.items.filter(
+            (item) =>
+              item.itemName
+                .toLowerCase()
+                .includes(event.target.value.toLowerCase()) &&
+              item.itemStatus === "ACTIVE"
+          ),
+          platforms: response.data.platforms,
+          categories: response.data.categories,
+          modalShow: false,
+          searchField: event.target.value,
+        });
+      });
+    }
+  };
+
+  ShowAdvancedSearchMenu = () => {
+    this.setState({
+      showAdvancedSearchMenu: !this.state.showAdvancedSearchMenu,
+    });
+  };
+
+  handleAdvancedSearchField = (event) => {
+    if(event.target.name === "availableItemsOnlyCheckbox"){
+      this.setState({showAvailableItemsOnly: event.target.checked})
+    }
+
+    if(event.target.name.includes("selectedPlatform-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
+          if(this.state.selectedPlatforms[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedPlatforms = this.state.selectedPlatforms;
+          selectedPlatforms.push(event.target.id);
+          this.setState({selectedPlatforms: selectedPlatforms});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
+          if(this.state.selectedPlatforms[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedPlatforms = this.state.selectedPlatforms;
+          selectedPlatforms.splice(itemExists, 1);
+          this.setState({selectedPlatforms: selectedPlatforms});
+        }
+
+        
+      }
+    }
+
+    if(event.target.name.includes("selectedCategory-")){
+      if(event.target.checked === true){
+        let itemExists = false;
+        for(let i = 0; i < this.state.selectedCategories.length; i++){
+          if(this.state.selectedCategories[i] === event.target.id){
+            itemExists = true;
+          }
+        }
+        if(itemExists === false){
+          let selectedCategories = this.state.selectedCategories;
+          selectedCategories.push(event.target.id);
+          this.setState({selectedCategories: selectedCategories});
+        }
+      }
+
+      if(event.target.checked === false){
+        let itemExists = -1;
+        for(let i = 0; i < this.state.selectedCategories.length; i++){
+          if(this.state.selectedCategories[i] === event.target.id){
+            itemExists = i;
+          }
+        }
+
+        if(itemExists > -1){
+          let selectedCategories = this.state.selectedCategories;
+          selectedCategories.splice(itemExists, 1);
+          this.setState({selectedCategories: selectedCategories});
+        }
+
+        
+      }
+    }
+  }
+
+  handleAdvancedSearch = () => {
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("selectedPlatforms", JSON.stringify(this.state.selectedPlatforms));
+    bodyFormData.append("selectedCategories", JSON.stringify(this.state.selectedCategories));
+    bodyFormData.append("showAvailableItemsOnly", this.state.showAvailableItemsOnly);
+
+      axios
+        .post(
+          `${UrlLocator.getApiUrl('HOME_GET_ALL_ITEMS')}`,
+          bodyFormData
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            this.setState({
+              items: response.data.items.filter(
+                (item) => item.itemStatus === "ACTIVE"
+              ),
+              platforms: response.data.platforms,
+              categories: response.data.categories
+            });           
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+  }
+
+  showCategory = (itemCategory) => {
+    return this.state.categories.filter((item) => itemCategory === item.id)[0]
+      .categoryName;
+  };
+
   render() {
     return (
       <div>
-        <Container>
-          <AppCarousel />
-        </Container>
+        
 
-        <Container>
+        {/*<Container>
           <Row className="mt-3">
             <Col lg={{ span: 8, offset: 0 }} className="mt-3">
               <InputGroup>
@@ -336,6 +459,117 @@ class ClientItems extends Component {
               </Button>
             </Col>
           </Row>
+        </Container>*/}
+
+
+<Container>
+          <Row className="mt-3">
+            <Col lg={{ span: 12, offset: 0 }} className="mt-3">
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search by name ..."
+                  aria-label="searchField"
+                  id="searchField"
+                  name="searchField"
+                  onChange={this.handleSearchFieldChange}
+                  size={"lg"}
+                />
+                <Button variant="dark" onClick={this.searchByName}>
+                  Search
+                </Button>
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={this.sortItemsByPice}
+                >
+                  Price{" "}
+                  {this.state.sortDirection === "DOWN" ||
+                  this.state.sortDirection === "" ? (
+                    <BiSortUp size="1.5rem" />
+                  ) : (
+                    <BiSortDown size="1.5rem" />
+                  )}
+                </Button>
+
+                <Button
+                  variant="dark"
+                  className="mx-2"
+                  onClick={this.ShowAdvancedSearchMenu}
+                >
+                  {this.state.showAdvancedSearchMenu ? (
+                    <IoCaretUp style={{ color: "white", fontSize: "1.5em" }} />
+                  ) : (
+                    <IoCaretDown
+                      style={{ color: "white", fontSize: "1.5em" }}
+                    />
+                  )}
+                </Button>
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row>
+            {this.state.showAdvancedSearchMenu ? (
+              <Alert variant="light">
+                <Row>
+                  <Col>
+                    <h5>
+                      <u>PLATFORMS</u>
+                    </h5>
+                    {this.state.platforms.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.platformName}
+                          name={`selectedPlatform-${item.id}`}
+                          onChange={this.handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                  <h5>
+                      <u>Categories</u>
+                    </h5>
+                    {this.state.categories.map((item) => {
+                      return (
+                        <Form.Check
+                          key={item.id}
+                          type="checkbox"
+                          id={item.id}
+                          label={item.categoryName}
+                          name={`selectedCategory-${item.id}`}
+                          onChange={this.handleAdvancedSearchField}
+                        />
+                      );
+                    })}
+                  </Col>
+
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      name="availableItemsOnlyCheckbox"
+                      label="Available items only"
+                      onChange={this.handleAdvancedSearchField}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col>
+                    <Button variant="dark" onClick={this.handleAdvancedSearch}>
+                      Search
+                    </Button>
+                  </Col>
+                </Row>
+              </Alert>
+            ) : null}
+          </Row>
+        </Container>
+
+        <Container>
+          <AppCarousel />
         </Container>
 
         <div className="d-flex flex-wrap justify-content-center container my-4">
@@ -410,6 +644,13 @@ class ClientItems extends Component {
                       <b>Platform:</b>
                     </Col>
                     <Col>{this.showPlatform(item.itemPlatform)}</Col>
+                  </Row>
+
+                  <Row className="mt-2">
+                    <Col>
+                      <b>Category:</b>
+                    </Col>
+                    <Col>{this.showCategory(item.itemCategory)}</Col>
                   </Row>
 
                   <Row></Row>

@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/api/orders")
 public class OrdersController {
@@ -60,7 +60,7 @@ public class OrdersController {
         return itemService.getAll();
     }
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-YYYY");
 
 
     @PostMapping(path = "/placeAnOrder/{userId}")
@@ -219,14 +219,181 @@ public class OrdersController {
         return customOrderObjects;
     }
 
-    /*@GetMapping("/downloadLicensesCsv")
-    public ResponseEntity<Resource> getFile() {
-        String filename = "ludos_order_id_licenses.csv";
-        InputStreamResource file = new InputStreamResource(csvService.load(licenseList));
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/csv"))
-                .body(file);
-    }*/
 
+    @GetMapping("/getAdminOrdersByOrderId/{orderId}")
+    public List<CustomOrderObject> getAdminOrdersByOrderId(@PathVariable("orderId") String orderId){
+
+        List<CustomOrderObject> customOrderObjects = new ArrayList<>();
+
+        List<Order> orderList = orderService.getOrderByOrderId(orderId);
+
+        for(int i = 0; i < orderList.size(); i++){
+            //List<Item> itemList = new ArrayList<>();
+            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderList.get(i).getId());
+
+            //for(OrderItem item:orderItems){
+            //   itemList.add(itemService.getById(item.getGameId()));
+            //}
+
+            List<CustomOrderItemObject> customOrderItemObjects = new ArrayList<>();
+
+            for(OrderItem item:orderItems){
+                CustomOrderItemObject customOrderItemObject = new CustomOrderItemObject();
+                customOrderItemObject.setItemId(item.getGameId());
+                customOrderItemObject.setItemImage(itemService.getById(item.getGameId()).getItemImage());
+                customOrderItemObject.setItemName(itemService.getById(item.getGameId()).getItemName());
+                customOrderItemObject.setItemOnSale(item.isOnSale());
+                customOrderItemObject.setItemSaleValue(item.getSaleValue());
+                customOrderItemObject.setItemPrice(item.getAmount());
+                customOrderItemObject.setItemQuantity(item.getQuantity());
+                customOrderItemObject.setItemPlatform(itemService.getById(item.getGameId()).getItemPlatform());
+                customOrderItemObjects.add(customOrderItemObject);
+                //itemList.add(itemService.getById(item.getGameId()));
+            }
+
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
+        }
+
+        return customOrderObjects;
+    }
+
+    @GetMapping("/getAdminOrdersByClientName/{clientName}")
+    public List<CustomOrderObject> getAdminOrdersByClientName(@PathVariable("clientName") String clientName){
+
+        List<CustomOrderObject> customOrderObjects = new ArrayList<>();
+
+
+
+        User user = userRepository.findByFullName(clientName).get();
+
+        if(user != null) {
+
+            List<Order> orderList = orderService.getOrderByClientName(user.getId());
+
+            for (int i = 0; i < orderList.size(); i++) {
+                List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderList.get(i).getId());
+
+                List<CustomOrderItemObject> customOrderItemObjects = new ArrayList<>();
+
+                for (OrderItem item : orderItems) {
+                    CustomOrderItemObject customOrderItemObject = new CustomOrderItemObject();
+                    customOrderItemObject.setItemId(item.getGameId());
+                    customOrderItemObject.setItemImage(itemService.getById(item.getGameId()).getItemImage());
+                    customOrderItemObject.setItemName(itemService.getById(item.getGameId()).getItemName());
+                    customOrderItemObject.setItemOnSale(item.isOnSale());
+                    customOrderItemObject.setItemSaleValue(item.getSaleValue());
+                    customOrderItemObject.setItemPrice(item.getAmount());
+                    customOrderItemObject.setItemQuantity(item.getQuantity());
+                    customOrderItemObject.setItemPlatform(itemService.getById(item.getGameId()).getItemPlatform());
+                    customOrderItemObjects.add(customOrderItemObject);
+                    //itemList.add(itemService.getById(item.getGameId()));
+                }
+
+                customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
+            }
+        }
+        return customOrderObjects;
+    }
+
+    @GetMapping("/getAdminOrdersByDate/{orderDate}")
+    public List<CustomOrderObject> getAdminOrdersByDate(@PathVariable("orderDate") String orderDate){
+
+        List<CustomOrderObject> customOrderObjects = new ArrayList<>();
+
+        List<Order> orderList = orderService.getOrderByDate(orderDate);
+
+        for(int i = 0; i < orderList.size(); i++){
+            //List<Item> itemList = new ArrayList<>();
+            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderList.get(i).getId());
+
+            //for(OrderItem item:orderItems){
+            //   itemList.add(itemService.getById(item.getGameId()));
+            //}
+
+            List<CustomOrderItemObject> customOrderItemObjects = new ArrayList<>();
+
+            for(OrderItem item:orderItems){
+                CustomOrderItemObject customOrderItemObject = new CustomOrderItemObject();
+                customOrderItemObject.setItemId(item.getGameId());
+                customOrderItemObject.setItemImage(itemService.getById(item.getGameId()).getItemImage());
+                customOrderItemObject.setItemName(itemService.getById(item.getGameId()).getItemName());
+                customOrderItemObject.setItemOnSale(item.isOnSale());
+                customOrderItemObject.setItemSaleValue(item.getSaleValue());
+                customOrderItemObject.setItemPrice(item.getAmount());
+                customOrderItemObject.setItemQuantity(item.getQuantity());
+                customOrderItemObject.setItemPlatform(itemService.getById(item.getGameId()).getItemPlatform());
+                customOrderItemObjects.add(customOrderItemObject);
+                //itemList.add(itemService.getById(item.getGameId()));
+            }
+
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
+        }
+
+        return customOrderObjects;
+    }
+
+
+    @GetMapping("/getUserOrdersByOrderId/{userId}/{orderId}")
+    public List<CustomOrderObject> getUserOrdersByOrderId(@PathVariable("userId") long userId, @PathVariable("orderId") String orderId){
+
+        List<CustomOrderObject> customOrderObjects = new ArrayList<>();
+
+        List<Order> orderList = orderService.getByUserIdAndOrderId(userId, orderId);
+
+        for(int i = 0; i < orderList.size(); i++){
+            //List<Item> itemList = new ArrayList<>();
+            List<CustomOrderItemObject> customOrderItemObjects = new ArrayList<>();
+            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderList.get(i).getId());
+
+            for(OrderItem item:orderItems){
+                CustomOrderItemObject customOrderItemObject = new CustomOrderItemObject();
+                customOrderItemObject.setItemId(item.getGameId());
+                customOrderItemObject.setItemImage(itemService.getById(item.getGameId()).getItemImage());
+                customOrderItemObject.setItemName(itemService.getById(item.getGameId()).getItemName());
+                customOrderItemObject.setItemOnSale(item.isOnSale());
+                customOrderItemObject.setItemSaleValue(item.getSaleValue());
+                customOrderItemObject.setItemPrice(item.getAmount());
+                customOrderItemObject.setItemQuantity(item.getQuantity());
+                customOrderItemObject.setItemPlatform(itemService.getById(item.getGameId()).getItemPlatform());
+                customOrderItemObjects.add(customOrderItemObject);
+                //itemList.add(itemService.getById(item.getGameId()));
+            }
+
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
+        }
+
+        return customOrderObjects;
+    }
+
+    @GetMapping("/getUserOrdersByDate/{userId}/{orderDate}")
+    public List<CustomOrderObject> getUserOrdersByDate(@PathVariable("userId") long userId, @PathVariable("orderDate") String orderDate){
+
+        List<CustomOrderObject> customOrderObjects = new ArrayList<>();
+
+        List<Order> orderList = orderService.getByUserIdAndOrderDate(userId, orderDate);
+
+        for(int i = 0; i < orderList.size(); i++){
+            //List<Item> itemList = new ArrayList<>();
+            List<CustomOrderItemObject> customOrderItemObjects = new ArrayList<>();
+            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderList.get(i).getId());
+
+            for(OrderItem item:orderItems){
+                CustomOrderItemObject customOrderItemObject = new CustomOrderItemObject();
+                customOrderItemObject.setItemId(item.getGameId());
+                customOrderItemObject.setItemImage(itemService.getById(item.getGameId()).getItemImage());
+                customOrderItemObject.setItemName(itemService.getById(item.getGameId()).getItemName());
+                customOrderItemObject.setItemOnSale(item.isOnSale());
+                customOrderItemObject.setItemSaleValue(item.getSaleValue());
+                customOrderItemObject.setItemPrice(item.getAmount());
+                customOrderItemObject.setItemQuantity(item.getQuantity());
+                customOrderItemObject.setItemPlatform(itemService.getById(item.getGameId()).getItemPlatform());
+                customOrderItemObjects.add(customOrderItemObject);
+                //itemList.add(itemService.getById(item.getGameId()));
+            }
+
+            customOrderObjects.add(new CustomOrderObject(orderList.get(i).getOrderId(), userRepository.findById(orderList.get(i).getUserId()).orElse(new User()).getFullName(), customOrderItemObjects, orderList.get(i).getOrderDate(), orderList.get(i).getOrderTotalAmount(), orderList.get(i).getOrderAppliedCoupons(), orderList.get(i).getOrderItemsCount(), orderList.get(i).getCsvFileDirectory()));
+        }
+
+        return customOrderObjects;
+    }
 }
