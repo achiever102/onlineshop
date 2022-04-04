@@ -2,6 +2,7 @@ package com.achievers.onlineshop.client.controller;
 
 import com.achievers.onlineshop.admin.model.*;
 import com.achievers.onlineshop.admin.repository.SettingRepository;
+import com.achievers.onlineshop.admin.service.CarouselService;
 import com.achievers.onlineshop.admin.service.CategoryService;
 import com.achievers.onlineshop.admin.service.PlatformService;
 import com.achievers.onlineshop.client.model.CustomClientCartObject;
@@ -34,6 +35,9 @@ public class HomeController {
 
     @Autowired
     private PlatformService platformService;
+
+    @Autowired
+    private CarouselService carouselService;
 
     @GetMapping("/getAll")
     public CustomItemsObject getAll(){
@@ -180,6 +184,11 @@ public class HomeController {
         CustomItemsObject customItemsObject = new CustomItemsObject(availableItems, platforms, categories);
 
         return customItemsObject;
+    }
+
+    @GetMapping("/carousel/getAllCarouselImages")
+    public List<Carousel> getAllCarouselImages(){
+        return carouselService.getAll();
     }
 
 }

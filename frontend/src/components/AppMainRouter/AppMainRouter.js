@@ -27,6 +27,8 @@ class AppMainRouter extends Component {
           <Route exact path="/adminCategories" element={<Authenticator url="/adminCategories" />} />
           <Route exact path="/adminPlatforms" element={<Authenticator url="/adminPlatforms" />} />
 
+          <Route exact path="/adminImagesCarousel" element={<Authenticator url="/adminImagesCarousel" />} />
+
           <Route exact path="/clientItems" element={<Authenticator url="/clientItems" />} />
           <Route exact path="/clientOrders" element={<Authenticator url="/clientOrders" />} />
           <Route exact path="/cart" element={<Cart />} />

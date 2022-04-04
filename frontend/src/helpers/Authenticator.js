@@ -13,6 +13,8 @@ import Settings from "../components/Admin/Settings/Settings";
 import AppLogo from "../components/AppLogo/AppLogo";
 import CategoriesTable from "../components/Admin/Categories/CategoriesTable";
 
+import Carousel from '../components/Admin/Carousel/Carousel'
+
 import AuthContext from "../context/AuthContext";
 import HomeNavbar from "../components/AppNavbar/HomeNavbar";
 import AppNewsletter from "../components/AppNewsletter/AppNewsletter";
@@ -136,6 +138,16 @@ const Authenticator = (props) => {
             <LicensesTable itemId={id} />
           </>
         );
+
+        case "/adminImagesCarousel":
+         return (
+          <>
+            <AppLogo />
+            <AdminNavbar />
+            <Carousel />
+          </>
+        );
+
       default:
         return null;
     }
