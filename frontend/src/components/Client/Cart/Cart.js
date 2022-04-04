@@ -11,6 +11,7 @@ import { ImFire } from "react-icons/im";
 
 import AuthContext from "../../../context/AuthContext";
 import Checkout from "../Checkout/Checkout";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class Cart extends Component {
   static contextType = AuthContext;
@@ -412,9 +413,7 @@ class Cart extends Component {
           <HomeNavbar />
         )}
 
-        <Container className="my-3">
-
-
+        <Container className="my-5">
           {/*
             this.state.showMessage ? 
             (<Row>
@@ -533,6 +532,7 @@ class Cart extends Component {
             />
           ) : null}
         </Container>
+        <AppFooter></AppFooter>
       </div>
     );
   }

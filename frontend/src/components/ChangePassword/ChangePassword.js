@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Form, Button, Row, Col, Card } from "react-bootstrap";
+import {Form, Button, Row, Col, Card, Container} from "react-bootstrap";
 import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
+import AppFooter from "../AppFooter/AppFooter";
 
 class ChangePassword extends Component {
 
@@ -30,18 +31,18 @@ class ChangePassword extends Component {
     const { userId, logout, accessToken } = this.context;
 
     let validationErrors = {};
-    
+
 
     let failed = false;
     if (this.state.newPassword === "") {
       failed = true;
       validationErrors["newPassword"] = "Cannot be empty";
-    } 
+    }
 
     if (this.state.currentPassword === "") {
       failed = true;
       validationErrors["currentPassword"] = "Cannot be empty";
-    } 
+    }
 
 
     if (failed === true) {
@@ -64,9 +65,9 @@ class ChangePassword extends Component {
       //console.log("xxxxxxxxxxxxxxxxxxxx")
       //updateUserProfileDetails(this.state.username, this.state.fullName);
       if(res.status === 200){
-        
+
         logout();
-      } 
+      }
     }).catch((error) => {
       this.setState({
         errors: validationErrors
@@ -77,8 +78,8 @@ class ChangePassword extends Component {
 
   render() {
     return (
-      <div className="container">
-
+      <div className="h-auto">
+      <Container>
         <Card className="mt-5">
           <Card.Header>Change Password</Card.Header>
           <Card.Body>
@@ -135,10 +136,8 @@ class ChangePassword extends Component {
             </Form>
           </Card.Body>
         </Card>
-
-
-       
-
+      </Container>
+        <AppFooter></AppFooter>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Form, Button, Row, Col, Card } from "react-bootstrap";
+import {Form, Button, Row, Col, Card, Container} from "react-bootstrap";
 
 import AuthContext from "../../../context/AuthContext";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class ClientProfile extends Component {
   static contextType = AuthContext;
@@ -196,7 +197,8 @@ class ClientProfile extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
+        <Container>
         <Card className="mt-5">
           <Card.Header>User Details</Card.Header>
           <Card.Body>
@@ -400,6 +402,8 @@ class ClientProfile extends Component {
             </Form>
           </Card.Body>
         </Card>
+          <AppFooter></AppFooter>
+        </Container>
       </div>
     );
   }

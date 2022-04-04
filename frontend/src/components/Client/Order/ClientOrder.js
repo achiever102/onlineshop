@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import {Row, Col, Card, Container} from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class ClientOrder extends Component {
   constructor(props) {
@@ -28,7 +29,8 @@ class ClientOrder extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
+        <Container>
         {this.state.items.map((item) => {
           return (
             <Card key={item.orderId} className="my-3">
@@ -79,6 +81,8 @@ class ClientOrder extends Component {
             </Card>
           );
         })}
+        </Container>
+        <AppFooter/>
       </div>
     );
   }
