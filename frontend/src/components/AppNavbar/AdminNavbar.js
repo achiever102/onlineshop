@@ -36,17 +36,20 @@ export default function AdminNavbar(){
               <NavLink style={{fontSize: "18px"}}  to="/adminPlatforms" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>PLATFORMS</NavLink>
               <NavLink style={{fontSize: "18px"}}  to="/adminOrders" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>ORDERS</NavLink>
               <NavLink style={{fontSize: "18px"}}  to="/adminImagesCarousel" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>CAROUSEL</NavLink>
+
+              <NavLink style={{fontSize: "18px"}}  to="/adminUsersManagement" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>USERS</NavLink>
+
               </Nav>
               
               <Nav>
 
-            <div>
+            {/*<div>
               <img className="thumbnail-image" 
                   src={'https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/399fe0cc-0155-43a0-a424-a5626ba1ee36/399fe0cc-0155-43a0-a424-a5626ba1ee36-07.jpg'} 
                   alt=""
                   style={{width: "40px", height: "40px", borderRadius: "10px"}}
               />
-          </div>
+  </div>*/}
           
 
       <NavDropdown

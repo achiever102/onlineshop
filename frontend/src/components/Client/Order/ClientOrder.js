@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Row, Col, Card, InputGroup, FormControl, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import UrlLocator from "../../../helpers/UrlLocator";
 
 class ClientOrder extends Component {
@@ -24,6 +25,7 @@ class ClientOrder extends Component {
         }
       )
       .then((res) => {
+        console.log(res.data)
         this.setState({ items: res.data });
       });
   }
@@ -74,7 +76,7 @@ class ClientOrder extends Component {
                   id="orderIdSearchField"
                   name="orderIdSearchField"
                   onChange={this.handleSearchFieldChange}
-                  size={"lg"}
+                  size={"sm"}
                 />
                 <Button variant="dark" onClick={this.searchByOrderId}>
                   Search
@@ -88,7 +90,7 @@ class ClientOrder extends Component {
                   id="dateSearchField"
                   name="dateSearchField"
                   onChange={this.handleSearchFieldChange}
-                  size={"lg"}
+                  size={"sm"}
                 />
                 <Button variant="dark" onClick={this.searchByDate}>
                   Search
@@ -104,15 +106,17 @@ class ClientOrder extends Component {
                 <Row>
                 <Col><p><b>Order ID:</b> {item.orderId}</p></Col>
                   <Col><p><b>Order Date:</b> {item.orderDate}</p></Col>
-                </Row>
-                <Row>
                   <Col><p><b>Total Amount:</b> ${parseFloat(item.orderTotalAmount).toFixed(2)}</p></Col>
-                  <Col><p><b>Applied Coupons:</b> {item.appliedCoupons != null ? item.appliedCoupons : "-"}</p></Col>
                 </Row>
                 <Row>
+                  
+                  <Col><p><b>Applied Coupons:</b> {item.appliedCoupons != null ? item.appliedCoupons : "-"}</p></Col>
                   <Col><p><b>Count:</b> {item.orderItemsCount}</p></Col>
-                  <Col><p><b>Licenses File:</b> <a href={item.licensesCsvFileDirectory} className="link-success">Download Licenses CSV File</a></p></Col>
+                  
+                  <Col><a href={item.licensesCsvFileDirectory} className="btn btn-dark btn-sm">Download Licenses File</a> |{' '} <Link to={{ pathname: `/orders/printInvoice/${item.orderId}` }} className="btn btn-dark btn-sm">Print Invoice</Link></Col>
+               
                 </Row>
+
               </Card.Header>
               <Card.Body>
                   {item.itemsList.map((game) => {

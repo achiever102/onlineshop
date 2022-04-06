@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Row, Col, Card, InputGroup, Button, FormControl } from "react-bootstrap";
+import { Row, Col, Card, InputGroup, Button, FormControl, Form } from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
+
+import {IoReload} from 'react-icons/io5'
 
 class AdminOrder extends Component {
   constructor(props) {
@@ -85,44 +87,50 @@ class AdminOrder extends Component {
       <div className="container">
 
 <Row className="mt-3">
-            <Col lg={{ span: 6, offset: 0 }} className="mt-3">
+            <Col lg={{ span: 4, offset: 0 }} className="mt-3">
               <InputGroup className="mb-3">
                 <FormControl
                   placeholder="Search by order ID ..."
                   id="orderIdSearchField"
                   name="orderIdSearchField"
                   onChange={this.handleSearchFieldChange}
-                  size={"lg"}
+                  size={"sm"}
                 />
                 <Button variant="dark" onClick={this.searchByOrderId}>
                   Search
                 </Button>
                 </InputGroup>
 </Col>
-<Col lg={{ span: 6, offset: 0 }} className="mt-3">
+<Col lg={{ span: 4, offset: 0 }} className="mt-3">
               <InputGroup className="mb-3">
                 <FormControl
                   placeholder="Search by order Date ..."
                   id="dateSearchField"
                   name="dateSearchField"
                   onChange={this.handleSearchFieldChange}
-                  size={"lg"}
+                  size={"sm"}
                 />
-                <Button variant="dark" onClick={this.searchByDate}>
+
+                {/*<Form.Select name="searchBySelectedValue" style={{width: "100px"}}>
+                  <option value="1">Order ID</option>
+                  <option value="2">Date</option>
+                  <option value="3">Client Name</option>
+    </Form.Select>*/}
+                <Button  variant="dark" className="mx-1"><IoReload /></Button>
+                <Button variant="dark"  onClick={this.searchByDate}>
                   Search
                 </Button>
                 </InputGroup>
 </Col>
-</Row>
-<Row>
-<Col lg={{ span: 6, offset: 0 }} className="mt-3">
+
+<Col lg={{ span: 4, offset: 0 }} className="mt-3">
               <InputGroup className="mb-3">
                 <FormControl
                   placeholder="Search by client name ..."
                   id="clientNameSearchField"
                   name="clientNameSearchField"
                   onChange={this.handleSearchFieldChange}
-                  size={"lg"}
+                  size={"sm"}
                 />
                 <Button variant="dark" onClick={this.searchByClientName}>
                   Search
@@ -137,19 +145,20 @@ class AdminOrder extends Component {
                 <Row>
                   <Col><p><b>Order ID:</b> {item.orderId}</p></Col>
                   <Col><p><b>Customer Name:</b> {item.username}</p></Col>
-                </Row>
-                <Row>
                   <Col><p><b>Order Date:</b> {item.orderDate}</p></Col>
-                  <Col><p><b>Total Amount:</b> ${parseFloat(item.orderTotalAmount).toFixed(2)}</p></Col>
                 </Row>
                 <Row>
+                  
+                  <Col><p><b>Total Amount:</b> ${parseFloat(item.orderTotalAmount).toFixed(2)}</p></Col>
                   <Col><p><b>Applied Coupons:</b> {item.appliedCoupons != null ? item.appliedCoupons : "-"}</p></Col>
                   <Col><p><b>Count:</b> {item.orderItemsCount}</p></Col>
                 </Row>
-                <Row>
-                <Col><p><b>Licenses File:</b> <a href={item.licensesCsvFileDirectory} className="link-success">Download Licenses CSV File</a></p></Col>
-                <Col></Col>
-                </Row>
+                
+              <Row>
+              <Col>
+                            <a href={item.licensesCsvFileDirectory} className="btn btn-sm btn-dark">Download Licenses CSV File</a>
+                            </Col>
+              </Row>
               </Card.Header>
               <Card.Body>
                   {item.itemsList.map((game) => {

@@ -102,7 +102,7 @@ public class OrdersController {
                 itemTotalAmount = (item.getItemPrice() * cart.getQuantity());
             }
 
-            OrderItem orderItem = new OrderItem(cart.getGameId(), order, cart.getQuantity(), itemTotalAmount , item.isItemOnSale(), item.getItemSaleValue());
+            OrderItem orderItem = new OrderItem(cart.getGameId(), order, cart.getQuantity(), itemTotalAmount , item.isItemOnSale(), item.getItemSaleValue(), cart.getUserId());
             orderItems.add(orderItem);
 
             licenseList.addAll(licensesService.getTopNLicences(orderItem.getGameId(), orderItem.getQuantity()));
@@ -129,8 +129,8 @@ public class OrdersController {
         order.setItems(orderItems);
         order.setOrderItemsCount(count);
         order.setOrderAppliedCoupons(couponsString.toString());
-        String csvFileUrl = csvService.load(licenseList, order.getOrderId());
-        order.setCsvFileDirectory(csvFileUrl);
+        //String csvFileUrl = csvService.load(licenseList, order.getOrderId());
+        //order.setCsvFileDirectory(csvFileUrl);
         Order savedOrder = orderService.add(order);
 
         for(License license: licenseList){
@@ -147,7 +147,7 @@ public class OrdersController {
             itemService.updateItemStatusOrQuantity(item);
         }
 
-        return ResponseEntity.ok(csvFileUrl);
+        return ResponseEntity.ok("");
     }
 
     @GetMapping("/getUserOrders/{userId}")
