@@ -22,6 +22,8 @@ export default class UrlLocator {
     const UPDATE_USER_DETAILS="/updateUserDetails";
 
     const GET_ALL_USER_PROFILE="/getAll";
+    const GET_ALL_USERS = "/getAllUsers"
+    const DELETE_USER_DETAILS = "/deleteUserDetails";
 
     const UPDATE_PAYMENT_METHOD = "/updatePaymentMethod"
 
@@ -126,6 +128,14 @@ export default class UrlLocator {
 
         case "GET_ALL_USER_PROFILE":
         return ADMIN_PROFILE_URL + GET_ALL_USER_PROFILE;
+
+        case "GET_ALL_USERS":
+        return ADMIN_PROFILE_URL + GET_ALL_USERS;
+
+        case "DELETE_USER_DETAILS":
+        return ADMIN_PROFILE_URL + DELETE_USER_DETAILS;
+
+        
 
       case "GET_HOME_CAROUSEL_IMAGES":
         return HOME_CAROUSEL_API_URL + GET_HOME_CAROUSEL_IMAGES;

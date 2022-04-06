@@ -61,7 +61,7 @@ export default function ClientNavbar() {
           </Nav>
 
           <Nav>
-            <div>
+            {/*<div>
               <img
                 className="thumbnail-image"
                 src={
@@ -70,7 +70,7 @@ export default function ClientNavbar() {
                 alt=""
                 style={{ width: "40px", height: "40px", borderRadius: "10px" }}
               />
-            </div>
+              </div>*/}
 
             <NavDropdown
               id="nav-dropdown-dark-example"

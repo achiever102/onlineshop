@@ -28,9 +28,11 @@ import SuccessfulOrder from "../components/Client/Checkout/SuccessfulOrder";
 
 import { useParams } from "react-router-dom";
 import LicensesTable from "../components/Admin/Licenses/LicensesTable";
+import PrintInvoice from "../components/Client/Invoice/PrintInvoice";
+import UsersManagement from "../components/Admin/UsersManagement/UsersManagement";
 
 const Authenticator = (props) => {
-  let { id } = useParams();
+  let { id, orderId } = useParams();
   const { username, isAuthenticated } = useContext(AuthContext);
 
   const [state, setState] = useState({ isAuthenticated: false });
@@ -148,6 +150,15 @@ const Authenticator = (props) => {
           </>
         );
 
+        case "/adminUsersManagement":
+         return (
+          <>
+            <AppLogo />
+            <AdminNavbar />
+            <UsersManagement />
+          </>
+        );
+
       default:
         return null;
     }
@@ -169,6 +180,16 @@ const Authenticator = (props) => {
             <ClientItems />
           </>
         );
+
+      case "/printInvoice":
+        return (
+          <>
+            <AppLogo />
+            <ClientNavbar />
+            <PrintInvoice orderId={orderId} />
+          </>
+        );
+
       case "/clientOrders":
         return (
           <>

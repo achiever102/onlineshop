@@ -45,6 +45,12 @@ class AppMainRouter extends Component {
 
           <Route exact path="/adminItems/:id/licenses" element={<Authenticator url="/adminLicenses" />} />
 
+          <Route exact path="/orders/printInvoice/:orderId" element={<Authenticator url="/printInvoice" />} />
+
+          <Route exact path="/adminUsersManagement" element={<Authenticator url="/adminUsersManagement" />} />
+          
+
+
         </Routes>
       </Router>
     );

@@ -29,14 +29,17 @@ public class OrderItem {
     @Column(name="SALE_VALUE")
     private float saleValue;
 
+    @Column(name="USER_ID")
+    private long userId;
 
-    public OrderItem(long gameId, Order order, int quantity, float amount, boolean onSale, float saleValue) {
+    public OrderItem(long gameId, Order order, int quantity, float amount, boolean onSale, float saleValue, long userId) {
         this.gameId = gameId;
         this.order = order;
         this.quantity = quantity;
         this.amount = amount;
         this.onSale = onSale;
         this.saleValue = saleValue;
+        this.userId = userId;
     }
 
     public boolean isOnSale() {
@@ -96,5 +99,13 @@ public class OrderItem {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

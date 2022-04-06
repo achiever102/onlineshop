@@ -13,6 +13,7 @@ import com.achievers.onlineshop.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -119,6 +120,40 @@ public class ProfileController {
     }
 
 
+    @GetMapping("/getAllUsers")
+    public List<CustomUserObject> getAllUsers(){
 
+        List<User> usersList = userRepository.findAll();
+        List<CustomUserObject> customUserObjects = new ArrayList<>();
+        for(User user: usersList){
+            if(!user.getUsername().equals("manager")) {
+                CustomUserObject customUserObject = new CustomUserObject(user.getId(), user.getUsername(), user.getEmail(), user.getFullName());
+                customUserObjects.add(customUserObject);
+            }
+        }
+
+        return customUserObjects;
+    }
+
+    @Transactional
+    @DeleteMapping("/deleteUserDetails/{username}")
+    public ResponseEntity deleteUSerDetails(@PathVariable("username") String username){
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        userRepository.deleteUserCart(user.get().getId());
+
+        userRepository.deleteUserPaymentMethods(user.get().getId());
+
+        userRepository.deleteUserOrderItems(user.get().getId());
+
+        userRepository.deleteUserOrders(user.get().getId());
+
+        userRepository.deleteUserRole(user.get().getId());
+
+        userRepository.deleteUser(user.get().getId());
+
+        return ResponseEntity.ok("success");
+    }
 
 }
