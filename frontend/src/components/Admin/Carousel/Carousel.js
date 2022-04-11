@@ -2,8 +2,16 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Table, Button, Form, Card } from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
-
 import AuthContext from "../../../context/AuthContext";
+import styled from 'styled-components';
+
+const StyledTable = styled.table`
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+`;
 
 class Carousel extends Component {
   constructor(props) {
@@ -113,7 +121,7 @@ class Carousel extends Component {
   render() {
     return (
       <div className="container">
-        <Card className="mt-5">
+        <Card className="mt-5" style={{borderRadius: "10px"}}>
           <Card.Header className="text-center h3">
             Carousel Images
           </Card.Header>
@@ -150,7 +158,7 @@ class Carousel extends Component {
             </div>
           </Card.Body>
         </Card>
-
+          <StyledTable>
         <Table striped bordered hover size="sm" className="mt-5">
           <thead>
             <tr>
@@ -158,7 +166,7 @@ class Carousel extends Component {
               <th>Image URL</th>
               <th>Actions</th>
             </tr>
-          </thead>
+          </thead >
           <tbody>
             {this.state.items.map((element) => (
               <tr key={element.id}>
@@ -178,6 +186,7 @@ class Carousel extends Component {
             ))}
           </tbody>
         </Table>
+          </StyledTable>
       </div>
     );
   }

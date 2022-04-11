@@ -4,6 +4,15 @@ import { Table, Button } from "react-bootstrap";
 import CouponModal from "./CouponModal";
 import CouponRecord from "./CouponRecord";
 import UrlLocator from "../../../helpers/UrlLocator";
+import styled from 'styled-components';
+
+const StyledTable = styled.table`
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+`;
 
 class CouponsTable extends Component {
   constructor(props) {
@@ -109,11 +118,11 @@ class CouponsTable extends Component {
       null
       }
 
-        <Button variant="outline-dark mt-5" onClick={() => this.showModal()}>
+        <Button variant="outline-light mt-5" onClick={() => this.showModal()}>
           Add New Coupon
         </Button>
-
-        <Table striped bordered hover size="sm" className="mt-5">
+        <StyledTable>
+        <Table striped bordered hover className="mt-5">
           <thead>
             <tr>
               <th>#</th>
@@ -133,6 +142,7 @@ class CouponsTable extends Component {
             ))}
           </tbody>
         </Table>
+        </StyledTable>
       </div>
     );
   }

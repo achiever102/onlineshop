@@ -136,10 +136,6 @@ class ChangePassword extends Component {
             </Form>
           </Card.Body>
         </Card>
-
-
-       
-
       </div>
     );
   }

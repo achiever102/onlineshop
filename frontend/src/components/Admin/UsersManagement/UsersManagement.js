@@ -2,8 +2,15 @@ import axios from 'axios';
 import React, {Component} from 'react';
 import {Container, Table, ButtonGroup, Button, Modal, Form} from 'react-bootstrap';
 import UrlLocator from '../../../helpers/UrlLocator';
-
 import AuthContext from "../../../context/AuthContext";
+import styled from "styled-components";
+const StyledTable = styled.table`
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+`;
 
 class UsersManagement extends Component{
 
@@ -228,7 +235,7 @@ class UsersManagement extends Component{
         </Modal.Footer>
       </Modal>
 
-
+                <StyledTable>
                 <Table striped bordered hover size="sm" className="mt-5">
           <thead>
             <tr>
@@ -258,6 +265,7 @@ class UsersManagement extends Component{
             }
           </tbody>
         </Table>
+                </StyledTable>
             </Container>
         )
     }

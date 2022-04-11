@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Row, Col, Button} from 'react-bootstrap';
 import UrlLocator from '../../helpers/UrlLocator';
 
+
 class Signup extends Component {
 
     constructor(props){
@@ -93,11 +94,10 @@ class Signup extends Component {
 
   render(){
     return (
-        <form className="container my-5 p-5" style={{borderRadius: "20px", width: ""}}>
+        <form className="container my-5 p-5" style={{borderRadius: "20px", width: "", color: "white"}}>
             <Row>
             <Col xl={6} sm={12} md={6} lg={6}>
-            
-                <h3 className='my-3'>Sign Up</h3>
+                <h3 className='my-3' >Sign Up</h3>
                 <div className="form-group mt-2">
                     <label>Full Name</label>
                     <input type="text" className="form-control" placeholder="Full name" name="fullName" onChange={this.handleChange}
@@ -170,8 +170,7 @@ class Signup extends Component {
                             
                 </Col>
                 <Col xl={6} sm={12} md={6} lg={6}></Col>
-                </Row>  
-
+                </Row>
             </form>
     );
   }

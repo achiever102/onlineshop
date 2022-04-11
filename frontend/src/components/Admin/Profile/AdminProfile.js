@@ -91,7 +91,7 @@ class AdminProfile extends Component {
   render() {
     return (
       <div className="container">
-<Card className="mt-5">
+<Card className="mt-5" style={{borderRadius: "10px"}}>
           <Card.Header>User Details</Card.Header>
           <Card.Body>
           <Form>

@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "react-bootstrap";
+import AppNewsletter from "../AppNewsletter/AppNewsletter";
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+    color: white;
+    bottom: 0;
+    min-height: 445.43px;
+    position: absolute;
+    width: 100%;
+`;
 
 class AppFooter extends Component {
   render() {
     return (
-      <div className="Jumbotron bg-light py-5">
+        <StyledDiv>
+            <AppNewsletter/>
+      <div className="Jumbotron bg-dark py-5">
         
          <Container>
          <Row>
@@ -17,8 +29,8 @@ class AppFooter extends Component {
             <Col className="text-center">© 2022 LUDOS FOR VIDEO GAMES</Col>
           </Row>
          </Container>
-        
       </div>
+        </StyledDiv>
     );
   }
 }

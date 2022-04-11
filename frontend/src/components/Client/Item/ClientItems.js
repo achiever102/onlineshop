@@ -671,9 +671,6 @@ class ClientItems extends Component {
           })}
         </div>
 
-        <AppNewsletter />
-
-        <AppFooter />
       </div>
     );
   }
