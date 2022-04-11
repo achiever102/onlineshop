@@ -121,7 +121,7 @@ export default function Signin() {
   return (
     <form
       className="container my-5 p-5"
-      style={{ borderRadius: "20px", width: "" }}
+      style={{ borderRadius: "20px", color: "white"}}
     >
       <Row>
         <Col xl={6} sm={12} md={6} lg={6}>
