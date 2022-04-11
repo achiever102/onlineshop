@@ -5,7 +5,6 @@ import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
 import UrlLocator from "../../helpers/UrlLocator";
-import AppFooter from "../AppFooter/AppFooter";
 
 export default function Signin() {
   const navigate = useNavigate();

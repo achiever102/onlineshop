@@ -7,8 +7,8 @@ const StyledDiv = styled.div`
     color: white;
     bottom: 0;
     min-height: 445.43px;
-    position: absolute;
     width: 100%;
+    position: relative;
 `;
 
 class AppFooter extends Component {
