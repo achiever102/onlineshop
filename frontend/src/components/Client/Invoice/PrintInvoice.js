@@ -12,7 +12,6 @@ class PrintInvoice extends Component{
     }
 
     componentDidMount(){
-        console.log(this.props.orderId)
 
         axios
     .get(

@@ -4,6 +4,8 @@ import { Row, Col, Card, InputGroup, FormControl, Button } from "react-bootstrap
 import { Link } from "react-router-dom";
 import UrlLocator from "../../../helpers/UrlLocator";
 
+import AppFooter from "../../AppFooter/AppFooter";
+
 class ClientOrder extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,6 @@ class ClientOrder extends Component {
         }
       )
       .then((res) => {
-        console.log(res.data)
         this.setState({ items: res.data });
       });
   }
@@ -151,6 +152,8 @@ class ClientOrder extends Component {
             </Card>
           );
         })}
+
+        <AppFooter />
       </div>
     );
   }

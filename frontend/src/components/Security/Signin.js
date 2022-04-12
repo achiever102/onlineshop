@@ -5,6 +5,7 @@ import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
 import UrlLocator from "../../helpers/UrlLocator";
+import AppFooter from "../AppFooter/AppFooter";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -118,9 +119,11 @@ export default function Signin() {
   };
 
   return (
+
+    <div>
     <form
       className="container my-5 p-5"
-      style={{ borderRadius: "20px", width: "" }}
+      style={{ borderRadius: "20px", color: "white"}}
     >
       <Row>
         <Col xl={6} sm={12} md={6} lg={6}>
@@ -176,7 +179,7 @@ export default function Signin() {
 
           <div className="my-2">
             <NavLink
-              to="/signin"
+              to="/forgotPassword"
               style={{ display: "inline-block" }}
               className="btn btn-dark btn-md"
             >
@@ -201,5 +204,8 @@ export default function Signin() {
         <Col xl={6} sm={12} md={6} lg={6}></Col>
       </Row>
     </form>
+
+<AppFooter/>
+</div>
   );
 }

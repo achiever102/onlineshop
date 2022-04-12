@@ -30,9 +30,12 @@ import { useParams } from "react-router-dom";
 import LicensesTable from "../components/Admin/Licenses/LicensesTable";
 import PrintInvoice from "../components/Client/Invoice/PrintInvoice";
 import UsersManagement from "../components/Admin/UsersManagement/UsersManagement";
+import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
+import ResetPassword from "../components/ForgotPassword/ResetPassword";
 
 const Authenticator = (props) => {
-  let { id, orderId } = useParams();
+  let { id, orderId, resetPasswordTokenId } = useParams();
+
   const { username, isAuthenticated } = useContext(AuthContext);
 
   const [state, setState] = useState({ isAuthenticated: false });
@@ -46,12 +49,23 @@ const Authenticator = (props) => {
     }
   }, []);
 
-  if (!isAuthenticated && props.url !== "/") {
+  if (!isAuthenticated && props.url === "/resetPassword") {
     return (
       <>
         <AppLogo />
         <HomeNavbar />
-        <Signin />
+        <ResetPassword resetPasswordTokenId={resetPasswordTokenId} />
+        <AppNewsletter />
+        <AppFooter />
+      </>
+    );
+  }
+  else if (!isAuthenticated && props.url !== "/") {
+    return (
+      <>
+        <AppLogo />
+        <HomeNavbar />
+        {props.url === "/forgotPassword" ? <ForgotPassword /> : <Signin />}
         <AppNewsletter />
         <AppFooter />
       </>

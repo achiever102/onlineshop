@@ -32,9 +32,7 @@ class AdminOrder extends Component {
   }
 
   handleSearchFieldChange = (event) => {
-    this.setState({[event.target.name]: event.target.value}, () => {
-      console.log(this.state)
-    });
+    this.setState({[event.target.name]: event.target.value});
   }
 
   searchByDate = () => {

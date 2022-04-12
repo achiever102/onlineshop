@@ -610,8 +610,6 @@ class Home extends Component {
           })}
         </div>
 
-        <AppNewsletter />
-
         <AppFooter />
       </div>
     );

@@ -129,8 +129,8 @@ public class OrdersController {
         order.setItems(orderItems);
         order.setOrderItemsCount(count);
         order.setOrderAppliedCoupons(couponsString.toString());
-        //String csvFileUrl = csvService.load(licenseList, order.getOrderId());
-        //order.setCsvFileDirectory(csvFileUrl);
+        String csvFileUrl = csvService.load(licenseList, order.getOrderId());
+        order.setCsvFileDirectory(csvFileUrl);
         Order savedOrder = orderService.add(order);
 
         for(License license: licenseList){

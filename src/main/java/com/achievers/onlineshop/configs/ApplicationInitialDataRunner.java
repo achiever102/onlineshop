@@ -72,17 +72,15 @@ public class ApplicationInitialDataRunner implements CommandLineRunner {
 
         carouselRepository.deleteAll();
 
-        Carousel carousel1 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/3fcc5db4-6056-47e3-8aa4-5275e1526233.jpg");
-        Carousel carousel2 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/ebf2a308-2bf1-4849-b125-17d7ef2a6b77.jpg");
-        Carousel carousel3 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/1dc0fa99-d0e2-4665-b20d-3c8e0d1f4b95.jpg");
-        Carousel carousel4 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/bb8e2098-4b24-4c2f-a7eb-3c9ddeabc0a6.jpg");
-        Carousel carousel5 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/11398910-eda4-4dbe-8a65-de285ab3eee5.jpg");
-        Carousel carousel6 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/6a8fa430-cfbc-4950-a6e8-82100b98820e.jpg");
-        Carousel carousel7 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/f4fae789-237d-4e64-9a23-c942ec7ad099.jpg");
-        Carousel carousel8 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/aeacdb03-16ba-4823-bc5d-6157d47d7af1.jpg");
-        Carousel carousel9 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/8df4c21e-2f2f-48a6-85c9-bb5d65111002.jpg");
-        Carousel carousel10 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/252aae5d-3f37-4146-992f-ac6635124877.jpg");
-        Carousel carousel11 = new Carousel("https://wfisher-sw-project-image-upload-001.s3.us-east-2.amazonaws.com/carousel/eaf7191e-b539-43cb-967b-a1c6bc108145.jpg");
+        Carousel carousel1 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/f622bfb7-d1b5-4113-b125-742ca2ab4d7a.jpg");
+        Carousel carousel2 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/3dfb4b3e-1319-4d9c-a31f-74002faa9722.jpg");
+        Carousel carousel3 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/66b94ed7-ce73-4b78-ac2c-aaee022ba60d.jpg");
+        Carousel carousel4 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/b2a9f80c-de8f-4bef-bb95-b5ef41ef201b.jpg");
+        Carousel carousel5 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/9569d629-8d8f-4ab1-8f76-73fde2ccd92d.jpg");
+        Carousel carousel6 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/f62801ea-baea-4836-b66a-05c6cdd446db.jpg");
+        Carousel carousel7 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/41fa2e72-6467-4a02-a3c5-928f9ae3abbd.jpg");
+        Carousel carousel8 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/6236601d-3495-421f-9e8e-c3e9070ada84.jpg");
+        Carousel carousel9 = new Carousel("https://sw-eng-project-72867.s3.us-east-2.amazonaws.com/carousel/a65b650c-2c0c-467c-909d-07831710ac29.jpg");
 
         carouselRepository.save(carousel1 );
         carouselRepository.save(carousel2 );
@@ -93,8 +91,6 @@ public class ApplicationInitialDataRunner implements CommandLineRunner {
         carouselRepository.save(carousel7 );
         carouselRepository.save(carousel8 );
         carouselRepository.save(carousel9 );
-        carouselRepository.save(carousel10);
-        carouselRepository.save(carousel11);
 
 
         logger.info("Application started!");

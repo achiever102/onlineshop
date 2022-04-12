@@ -30,6 +30,10 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String fullName;
+
+    private String passwordResetToken;
+    private long passwordResetTokenValidUntil;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -80,5 +84,21 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public long getPasswordResetTokenValidUntil() {
+        return passwordResetTokenValidUntil;
+    }
+
+    public void setPasswordResetTokenValidUntil(long passwordResetTokenValidUntil) {
+        this.passwordResetTokenValidUntil = passwordResetTokenValidUntil;
     }
 }
