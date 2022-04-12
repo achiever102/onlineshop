@@ -208,7 +208,7 @@ export default function GameDetails() {
 
 
   return (
-    <div>
+    <div style={{color: "white"}}>
       <AppLogo />
       {localStorage.getItem("username") &&
       localStorage.getItem("username") !== "" &&

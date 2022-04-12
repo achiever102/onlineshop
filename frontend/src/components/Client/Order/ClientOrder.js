@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Row, Col, Card, InputGroup, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UrlLocator from "../../../helpers/UrlLocator";
+import App from "../../../App";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class ClientOrder extends Component {
   constructor(props) {
@@ -151,6 +153,7 @@ class ClientOrder extends Component {
             </Card>
           );
         })}
+
       </div>
     );
   }

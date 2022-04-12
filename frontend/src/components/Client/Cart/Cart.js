@@ -11,6 +11,7 @@ import { ImFire } from "react-icons/im";
 
 import AuthContext from "../../../context/AuthContext";
 import Checkout from "../Checkout/Checkout";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class Cart extends Component {
   static contextType = AuthContext;
@@ -412,7 +413,7 @@ class Cart extends Component {
           <HomeNavbar />
         )}
 
-        <Container className="my-3">
+        <Container className="my-3" style={{color: "white"}}>
 
 
           {/*
@@ -518,10 +519,10 @@ class Cart extends Component {
           ) : (
             <div className="mt-5">
               <div className="text-center">
-                <FaOpencart size="6em" />
+                <FaOpencart size="6em" style={{color: "white"}}/>
               </div>
 
-              <h1 className="text-center mt-5">YOUR CART IS EMPTY</h1>
+              <h1 className="text-center mt-5" style={{color: "white"}}>YOUR CART IS EMPTY</h1>
             </div>
           )}
           <hr />
@@ -533,6 +534,7 @@ class Cart extends Component {
             />
           ) : null}
         </Container>
+        <AppFooter/>
       </div>
     );
   }
