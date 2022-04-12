@@ -5,6 +5,15 @@ import UrlLocator from '../../../helpers/UrlLocator';
 
 import AuthContext from "../../../context/AuthContext";
 
+import styled from "styled-components";
+const StyledTable = styled.table`
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+`;
+
 class UsersManagement extends Component{
 
     static contextType = AuthContext;
@@ -46,7 +55,6 @@ class UsersManagement extends Component{
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       }).then((res) => {
-          console.log(res.data.customUserObject)
           this.setState({userId:res.data.customUserObject.userId, username: res.data.customUserObject.username, fullName: res.data.customUserObject.fullName, email: res.data.customUserObject.email, showModal: true})
       })
     }
@@ -132,7 +140,7 @@ class UsersManagement extends Component{
               }
             ).then((res) => {
                 if(res.status === 200){
-                    console.log('deleted successfully')
+                  this.getAllRecords();
                 }
             })
     }
@@ -228,7 +236,7 @@ class UsersManagement extends Component{
         </Modal.Footer>
       </Modal>
 
-
+      <StyledTable>
                 <Table striped bordered hover size="sm" className="mt-5">
           <thead>
             <tr>
@@ -258,6 +266,7 @@ class UsersManagement extends Component{
             }
           </tbody>
         </Table>
+        </StyledTable>
             </Container>
         )
     }

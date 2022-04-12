@@ -3,6 +3,15 @@ import React, { Component } from "react";
 import { Table, Button, Modal, Form, Row, Col } from "react-bootstrap";
 import UrlLocator from "../../../helpers/UrlLocator";
 
+import styled from 'styled-components';
+
+const StyledTable = styled.table`
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+`;
+
 class SettingsTable extends Component {
   constructor(props) {
     super();
@@ -101,7 +110,7 @@ class SettingsTable extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container mt-5">
                 
                 <Modal
           show={this.state.modalShow}
@@ -170,7 +179,7 @@ class SettingsTable extends Component {
 
 
 
-
+        <StyledTable>
         <Table striped bordered hover size="sm" className="mt-5">
           <thead>
             <tr>
@@ -197,6 +206,7 @@ class SettingsTable extends Component {
             
           </tbody>
         </Table>
+        </StyledTable>
       </div>
     );
   }

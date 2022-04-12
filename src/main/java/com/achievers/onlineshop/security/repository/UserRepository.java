@@ -14,11 +14,17 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
+    @Query(value = "SELECT * FROM users WHERE email=:email", nativeQuery = true)
+    Optional<User> findByEmailAddress(String email);
+
     @Query(value = "SELECT * FROM users WHERE full_name=:fullName", nativeQuery = true)
     Optional<User> findByFullName(String fullName);
 
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+
+    @Query(value = "SELECT * FROM users WHERE password_reset_token=:resetTokenId", nativeQuery = true)
+    Optional<User> getUserByResetTokenId(String resetTokenId);
 
     @Query(value = "select id, email, username, full_name from users", nativeQuery = true)
     List<User> getAllUsers();
@@ -49,10 +55,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteUserOrders(@Param("userId") long userId);
 
     @Modifying
-    @Query(value = "DELETE FROM user_role c WHERE c.user_id=:userId", nativeQuery = true)
+    @Query(value = "DELETE FROM user_roles c WHERE c.user_id=:userId", nativeQuery = true)
     void deleteUserRole(@Param("userId") long userId);
 
     @Modifying
-    @Query(value = "DELETE FROM USER c WHERE c.id=:userId", nativeQuery = true)
+    @Query(value = "DELETE FROM USERS c WHERE c.id=:userId", nativeQuery = true)
     void deleteUser(@Param("userId") long userId);
 }

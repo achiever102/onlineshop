@@ -7,6 +7,8 @@ import ClientNavbar from "../AppNavbar/ClientNavbar";
 import HomeNavbar from "../AppNavbar/HomeNavbar";
 import { Row, Col, Button, Badge } from "react-bootstrap";
 
+import AppFooter from "../AppFooter/AppFooter";
+
 import AuthContext from "../../context/AuthContext";
 
 import { ImFire } from "react-icons/im";
@@ -207,7 +209,8 @@ export default function GameDetails() {
 
 
   return (
-    <div>
+    <div style={{color: "white"}}>
+
       <AppLogo />
       {localStorage.getItem("username") &&
       localStorage.getItem("username") !== "" &&
@@ -284,6 +287,8 @@ export default function GameDetails() {
           </Row>
         </Col>
       </Row>
+
+      <AppFooter />
     </div>
   );
 }

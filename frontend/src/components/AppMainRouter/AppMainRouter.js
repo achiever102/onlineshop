@@ -9,6 +9,7 @@ import HomeNavbar from "../AppNavbar/HomeNavbar";
 import AppLogo from "../AppLogo/AppLogo";
 import AppNewsletter from "../AppNewsletter/AppNewsletter";
 import AppFooter from "../AppFooter/AppFooter";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 class AppMainRouter extends Component {
       render() {
@@ -16,8 +17,8 @@ class AppMainRouter extends Component {
       <Router>
         <Routes>
           <Route exact path="/" element={<Authenticator url="/" />} />
-          <Route exact path="/signin" element={<><AppLogo/><HomeNavbar /><Signin/><AppNewsletter /><AppFooter/></>} />
-          <Route exact path="/signup" element={<><AppLogo/><HomeNavbar /><Signup/><AppNewsletter /><AppFooter/></>} />
+          <Route exact path="/signin" element={<><AppLogo/><HomeNavbar /><Signin/></>} />
+          <Route exact path="/signup" element={<><AppLogo/><HomeNavbar /><Signup/></>} />
 
           <Route exact path="/adminCoupons" element={<Authenticator url="/adminCoupons" />} />
           <Route exact path="/adminSettings" element={<Authenticator url="/adminSettings" />} />
@@ -49,7 +50,9 @@ class AppMainRouter extends Component {
 
           <Route exact path="/adminUsersManagement" element={<Authenticator url="/adminUsersManagement" />} />
           
+          <Route exact path="/forgotPassword" element={<Authenticator url="/forgotPassword" />} />
 
+          <Route exact path="/resetPassword/:resetPasswordTokenId" element={<Authenticator url="/resetPassword" />} />
 
         </Routes>
       </Router>

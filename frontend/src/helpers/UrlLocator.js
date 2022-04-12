@@ -11,10 +11,14 @@ export default class UrlLocator {
     const ORDERS_API_URL = "/api/orders";
     const CART_API_URL = "/api/cart";
     const CAROUSEL_API_URL = "/api/admin/carousel";
+    const FORGOT_PASSWORD_API = "/api/admin/forgotPassword";
 
     const AUTH_API_URL="/api/auth";
     const SIGNUP_URL="/signup";
     const SIGNIN_URL="/signin";
+
+    const FORGOT_PASSWORD = "/forgot";
+    const RESET_PASSWORD = "/reset";
 
     const GET_USER_CART="/getUserCart";
     const DELETE_USER_CART="/deleteCartItem"
@@ -135,7 +139,11 @@ export default class UrlLocator {
         case "DELETE_USER_DETAILS":
         return ADMIN_PROFILE_URL + DELETE_USER_DETAILS;
 
-        
+        case "RESET_PASSWORD":
+        return FORGOT_PASSWORD_API + RESET_PASSWORD;
+
+        case "FORGOT_PASSWORD":
+        return FORGOT_PASSWORD_API + FORGOT_PASSWORD;
 
       case "GET_HOME_CAROUSEL_IMAGES":
         return HOME_CAROUSEL_API_URL + GET_HOME_CAROUSEL_IMAGES;

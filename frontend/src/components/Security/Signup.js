@@ -93,7 +93,7 @@ class Signup extends Component {
 
   render(){
     return (
-        <form className="container my-5 p-5" style={{borderRadius: "20px", width: ""}}>
+      <form className="container my-5 p-5" style={{borderRadius: "20px", width: "", color: "white"}}>
             <Row>
             <Col xl={6} sm={12} md={6} lg={6}>
             
@@ -163,7 +163,7 @@ class Signup extends Component {
                 <div className="form-group mt-2">
                       <div className='d-flex justify-content-between'>
                         <Button variant="dark" onClick={this.handleSubmit}>Sign Up</Button>
-                        <NavLink to="/signin" className="btn btn-dark" style={{display: "inline-block"}}>Have an account? Sign In</NavLink>
+                        <NavLink to="/signin" className="btn btn-dark" style={{display: "inline-block"}}>Already have an account? Sign In</NavLink>
                       </div>
                 </div>
 

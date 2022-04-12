@@ -287,7 +287,6 @@ class ClientItems extends Component {
   }
   
   handleSearchFieldClick = () => {
-    console.log(this.state.searchField)
     if (this.state.searchField != "") {
       axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
         this.setState({
@@ -670,10 +669,7 @@ class ClientItems extends Component {
             );
           })}
         </div>
-
-        <AppNewsletter />
-
-        <AppFooter />
+        <AppFooter/>
       </div>
     );
   }
