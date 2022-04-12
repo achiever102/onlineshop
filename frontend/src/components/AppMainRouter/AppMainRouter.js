@@ -16,8 +16,8 @@ class AppMainRouter extends Component {
       <Router>
         <Routes>
           <Route exact path="/" element={<Authenticator url="/" />} />
-          <Route exact path="/signin" element={<><AppLogo/><HomeNavbar /><Signin/><AppNewsletter /><AppFooter/></>} />
-          <Route exact path="/signup" element={<><AppLogo/><HomeNavbar /><Signup/><AppNewsletter /><AppFooter/></>} />
+          <Route exact path="/signin" element={<><AppLogo/><HomeNavbar /><Signin/></>} />
+          <Route exact path="/signup" element={<><AppLogo/><HomeNavbar /><Signup/></>} />
 
           <Route exact path="/adminCoupons" element={<Authenticator url="/adminCoupons" />} />
           <Route exact path="/adminSettings" element={<Authenticator url="/adminSettings" />} />

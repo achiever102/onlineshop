@@ -5,6 +5,7 @@ import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
 import UrlLocator from "../../helpers/UrlLocator";
+import AppFooter from "../AppFooter/AppFooter";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -118,6 +119,7 @@ export default function Signin() {
   };
 
   return (
+      <div>
     <form
       className="container my-5 p-5"
       style={{ borderRadius: "20px", color: "white"}}
@@ -201,5 +203,8 @@ export default function Signin() {
         <Col xl={6} sm={12} md={6} lg={6}></Col>
       </Row>
     </form>
+        <AppFooter/>
+      </div>
+
   );
 }

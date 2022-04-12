@@ -10,6 +10,7 @@ import { Row, Col, Button, Badge } from "react-bootstrap";
 import AuthContext from "../../context/AuthContext";
 
 import { ImFire } from "react-icons/im";
+import AppFooter from "../AppFooter/AppFooter";
 
 export default function GameDetails() {
   const { setCartCount, setCartItems, cartItems } = useContext(AuthContext);
@@ -284,6 +285,7 @@ export default function GameDetails() {
           </Row>
         </Col>
       </Row>
+      <AppFooter/>
     </div>
   );
 }

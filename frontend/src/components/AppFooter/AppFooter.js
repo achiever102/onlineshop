@@ -9,6 +9,7 @@ const StyledDiv = styled.div`
     min-height: 445.43px;
     width: 100%;
     position: relative;
+    background: #282c34;
 `;
 
 class AppFooter extends Component {
@@ -16,7 +17,7 @@ class AppFooter extends Component {
     return (
         <StyledDiv>
             <AppNewsletter/>
-      <div className="Jumbotron bg-dark py-5">
+      <div className="Jumbotron py-5"  >
         
          <Container>
          <Row>

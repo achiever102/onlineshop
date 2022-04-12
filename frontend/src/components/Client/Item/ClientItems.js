@@ -651,7 +651,6 @@ class ClientItems extends Component {
                     </Col>
                     <Col>{this.showCategory(item.itemCategory)}</Col>
                   </Row>
-
                   <Row></Row>
                 </Card.Body>
                 <Card.Footer>
@@ -670,7 +669,7 @@ class ClientItems extends Component {
             );
           })}
         </div>
-
+        <AppFooter/>
       </div>
     );
   }
