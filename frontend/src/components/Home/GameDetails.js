@@ -116,7 +116,7 @@ export default function GameDetails() {
     if (quantity === 0) {
       return (
         <Button
-          variant="dark"
+          variant="outline-light"
           className="mx-2"
           onClick={() => handleAddToCart(id)}
           size="sm"
@@ -138,7 +138,7 @@ export default function GameDetails() {
           if (cartItems[i].itemQuantity >= quantity) {
             return (
               <Button
-                variant="dark"
+              variant="outline-light"
                 className="mx-2"
                 onClick={() => handleAddToCart(id)}
                 size="sm"
@@ -153,7 +153,7 @@ export default function GameDetails() {
   
       return (
         <Button
-          variant="dark"
+        variant="outline-light"
           className="mx-2"
           onClick={() => handleAddToCart(id)}
           size="sm"
@@ -178,7 +178,7 @@ export default function GameDetails() {
         if (cart[i].itemQuantity >= quantity) {
           return (
             <Button
-              variant="dark"
+            variant="outline-light"
               className="mx-2"
               onClick={() => handleAddToCart(id)}
               size="sm"
@@ -193,7 +193,7 @@ export default function GameDetails() {
 
     return (
       <Button
-        variant="dark"
+      variant="outline-light"
         className="mx-2"
         onClick={() => handleAddToCart(id)}
         size="sm"

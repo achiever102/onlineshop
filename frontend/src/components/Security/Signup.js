@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import {Row, Col, Button} from 'react-bootstrap';
 import UrlLocator from '../../helpers/UrlLocator';
+import AppFooter from '../AppFooter/AppFooter';
 
 class Signup extends Component {
 
@@ -93,6 +94,7 @@ class Signup extends Component {
 
   render(){
     return (
+      <div>
       <form className="container my-5 p-5" style={{borderRadius: "20px", width: "", color: "white"}}>
             <Row>
             <Col xl={6} sm={12} md={6} lg={6}>
@@ -162,8 +164,8 @@ class Signup extends Component {
 
                 <div className="form-group mt-2">
                       <div className='d-flex justify-content-between'>
-                        <Button variant="dark" onClick={this.handleSubmit}>Sign Up</Button>
-                        <NavLink to="/signin" className="btn btn-dark" style={{display: "inline-block"}}>Already have an account? Sign In</NavLink>
+                        <Button variant="outline-light" onClick={this.handleSubmit}>Sign Up</Button>
+                        <NavLink to="/signin" className="btn btn-outline-light" style={{display: "inline-block"}}>Already have an account? Sign In</NavLink>
                       </div>
                 </div>
 
@@ -173,6 +175,9 @@ class Signup extends Component {
                 </Row>  
 
             </form>
+
+<AppFooter />
+</div>
     );
   }
 }

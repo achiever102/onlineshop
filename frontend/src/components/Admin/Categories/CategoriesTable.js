@@ -5,16 +5,6 @@ import CategoriesModal from "./CategoriesModal";
 import CategoriesRecord from "./CategoriesRecord";
 import UrlLocator from "../../../helpers/UrlLocator";
 
-import styled from 'styled-components';
-
-const StyledTable = styled.table`
-  background: white;
-  border-radius: 10px;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-`;
-
 class CategoriesTable extends Component {
   constructor(props) {
     super(props);
@@ -119,8 +109,7 @@ class CategoriesTable extends Component {
           Add New Category
         </Button>
 
-        <StyledTable>
-        <Table striped bordered hover size="sm" className="mt-5">
+        <Table striped bordered hover size="md" className="mt-3 bg-light">
           <thead>
             <tr>
               <th>#</th>
@@ -139,7 +128,6 @@ class CategoriesTable extends Component {
             ))}
           </tbody>
         </Table>
-        </StyledTable>
       </div>
     );
   }

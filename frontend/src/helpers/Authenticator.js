@@ -17,8 +17,6 @@ import Carousel from '../components/Admin/Carousel/Carousel'
 
 import AuthContext from "../context/AuthContext";
 import HomeNavbar from "../components/AppNavbar/HomeNavbar";
-import AppNewsletter from "../components/AppNewsletter/AppNewsletter";
-import AppFooter from "../components/AppFooter/AppFooter";
 import Home from "../components/Home/Home";
 import PlatformTable from "../components/Admin/Platform/PlatformTable";
 
@@ -55,8 +53,7 @@ const Authenticator = (props) => {
         <AppLogo />
         <HomeNavbar />
         <ResetPassword resetPasswordTokenId={resetPasswordTokenId} />
-        <AppNewsletter />
-        <AppFooter />
+
       </>
     );
   }
@@ -66,8 +63,7 @@ const Authenticator = (props) => {
         <AppLogo />
         <HomeNavbar />
         {props.url === "/forgotPassword" ? <ForgotPassword /> : <Signin />}
-        <AppNewsletter />
-        <AppFooter />
+        
       </>
     );
   } else if (!isAuthenticated && props.url === "/") {

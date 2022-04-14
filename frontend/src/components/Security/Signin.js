@@ -171,7 +171,7 @@ export default function Signin() {
 
           <button
             type="button"
-            className="btn btn-dark  btn-md"
+            className="btn btn-outline-light  btn-md"
             onClick={handleSubmit}
           >
             Sign In
@@ -181,7 +181,7 @@ export default function Signin() {
             <NavLink
               to="/forgotPassword"
               style={{ display: "inline-block" }}
-              className="btn btn-dark btn-md"
+              className="btn btn-outline-light btn-md"
             >
               Forgot password?
             </NavLink>
@@ -189,7 +189,7 @@ export default function Signin() {
             <NavLink
               to="/signup"
               style={{ display: "inline-block" }}
-              className="btn btn-dark btn-md mx-2"
+              className="btn btn-outline-light btn-md mx-2"
             >
               Create an account?
             </NavLink>

@@ -18,13 +18,13 @@ class HomeNavbar extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-          <NavLink to="/" style={{fontSize: "18px"}} className={isActive => "nav-link" + (!isActive ? " unselected " : "")}>HOME</NavLink>
-          <NavLink to="/cart" style={{fontSize: "18px"}}  className={isActive => "nav-link " + (!isActive ? " unselected " : "")}>CART <Badge bg="light" text="dark">{cartCount}</Badge></NavLink>
+          <NavLink to="/" style={{fontSize: "18px"}}  className="nav-link">HOME</NavLink>
+          <NavLink to="/cart" style={{fontSize: "18px"}}   className="nav-link">CART <Badge bg="light" text="dark">{cartCount}</Badge></NavLink>
           </Nav>
           <Nav className="ms-auto">
           
-              <NavLink to="/signin" style={{fontSize: "18px"}}  className={isActive => "nav-link " + (!isActive ? " unselected " : "")}>SIGN IN</NavLink>
-              <NavLink to="/signup"  style={{fontSize: "18px"}} className={isActive => "nav-link " + (!isActive ? " unselected " : "")}>SIGN UP</NavLink>
+              <NavLink to="/signin" style={{fontSize: "18px"}}   className="nav-link">SIGN IN</NavLink>
+              <NavLink to="/signup"  style={{fontSize: "18px"}}  className="nav-link">SIGN UP</NavLink>
           </Nav>
           </Navbar.Collapse>
         </Container>

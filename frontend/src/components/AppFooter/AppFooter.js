@@ -5,9 +5,7 @@ import AppNewsletter from "../AppNewsletter/AppNewsletter";
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
-    color: white;
     bottom: 0;
-    min-height: 445.43px;
     position: relative;
     width: 100%;
     background: #282c34;
@@ -16,24 +14,26 @@ const StyledDiv = styled.div`
 class AppFooter extends Component {
   render() {
     return (
-      <StyledDiv>
+      <div>
             <AppNewsletter/>
       <div className="Jumbotron py-5">
         
          <Container>
-         <Row>
+           <StyledDiv>
+         <Row className="text-white">
               <Col><h5><u>CONTACT</u></h5></Col>
               <Col><h5><u>CUSTOMER SERVICE</u></h5></Col>
               <Col><h5><u>CONTACT</u></h5></Col>
               <Col><h5><u>CONTACT</u></h5></Col>
           </Row>
           <Row className="mt-5">
-            <Col className="text-center">© 2022 LUDOS FOR VIDEO GAMES</Col>
+            <Col className="text-center text-white">© 2022 LUDOS FOR VIDEO GAMES</Col>
           </Row>
+          </StyledDiv>
          </Container>
         
       </div>
-      </StyledDiv>
+      </div>
     );
   }
 }

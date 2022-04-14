@@ -31,18 +31,14 @@ export default function ClientNavbar() {
             <NavLink
               to="/clientItems"
               style={{ fontSize: "18px" }}
-              className={(isActive) =>
-                "nav-link" + (!isActive ? " unselected" : "")
-              }
+              className="nav-link"
             >
               HOME
             </NavLink>
             <NavLink
               to="/cart"
               style={{ fontSize: "18px" }}
-              className={(isActive) =>
-                "nav-link" + (!isActive ? " unselected" : "")
-              }
+              className="nav-link"
             >
               CART{" "}
               <Badge bg="light" text="dark">
@@ -52,9 +48,7 @@ export default function ClientNavbar() {
             <NavLink
               to="/clientOrders"
               style={{ fontSize: "18px" }}
-              className={(isActive) =>
-                "nav-link" + (!isActive ? " unselected" : "")
-              }
+              className="nav-link"
             >
               ORDERS
             </NavLink>
