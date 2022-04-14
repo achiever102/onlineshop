@@ -516,6 +516,7 @@ class Home extends Component {
                   width: "18rem",
                   margin: "10px",
                 }}
+                className="cardHoverStyling"
               >
                 {/*<Card.Header>{item.itemName}</Card.Header>*/}
                 {item.id ? (
@@ -527,7 +528,7 @@ class Home extends Component {
                   />
                 ) : null}
 
-                <Card.Body>
+                <Card.Body className="cardBodyAndFooterColor">
                   <Card.Title>{item.itemName}</Card.Title>
                   <Card.Text
                     style={{
@@ -588,7 +589,7 @@ class Home extends Component {
                     <Col>{this.showCategory(item.itemCategory)}</Col>
                   </Row>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className="cardBodyAndFooterColor">
                   <div className="text-center">
                     <Link
                       className="btn btn-dark btn-sm"

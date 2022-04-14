@@ -229,13 +229,12 @@ class NewItemModal extends Component {
                       }
                     : null
                 }>
-                
                 {this.props.categories.map((item) => {
-                  return (
-                    <option key={item.id} value={item.id}>
-                      {item.categoryName}
-                    </option>
-                  );
+                    return (
+                      <option key={item.id} value={item.id}>
+                        {item.categoryName}
+                      </option>
+                    );
                 })}
               </Form.Select>
               <span style={{ color: "red" }}>{this.state.errors["itemCategory"]}</span>
@@ -260,11 +259,13 @@ class NewItemModal extends Component {
                     : null
                 }>
                 {this.props.platforms.map((item) => {
+                  
                   return (
                     <option key={item.id} value={item.id}>
                       {item.platformName}
                     </option>
                   );
+                  
                 })}
               </Form.Select>
               <span style={{ color: "red" }}>{this.state.errors["itemPlatform"]}</span>

@@ -24,6 +24,7 @@ public class CategoriesController {
         if(itemExists.size() > 0){
             return ResponseEntity.badRequest().body("Category already exists!");
         } else {
+            category.setCategoryStatus("ACTIVE");
             categoryService.add(category);
             return ResponseEntity.ok("Created!");
         }
@@ -41,9 +42,19 @@ public class CategoriesController {
         return category;
     }
 
-    @DeleteMapping(path = "/delete/{id}")
+    @PutMapping(path = "/delete/{id}")
     public ResponseEntity deleteCategoryById(@PathVariable("id") long id){
-        categoryService.delete(id);
+        Category category = categoryService.getById(id);
+        category.setCategoryStatus("DELETED");
+        categoryService.add(category);
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping(path = "/reactivate/{id}")
+    public ResponseEntity reactivateCategoryById(@PathVariable("id") long id){
+        Category category = categoryService.getById(id);
+        category.setCategoryStatus("ACTIVE");
+        categoryService.add(category);
         return ResponseEntity.ok("");
     }
 }

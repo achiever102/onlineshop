@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import UrlLocator from "../../../helpers/UrlLocator";
 
+
+
 import axios from "axios";
 import {
   Row,
@@ -11,7 +13,8 @@ import {
   InputGroup,
   FormControl,
   Badge,
-  Form, Alert
+  Form,
+  Alert,
 } from "react-bootstrap";
 import AppCarousel from "../../AppCarousel/AppCarousel";
 import AppFooter from "../../AppFooter/AppFooter";
@@ -39,7 +42,7 @@ class ClientItems extends Component {
       sortDirection: "",
       selectedPlatforms: [],
       selectedCategories: [],
-      showAvailableItemsOnly: false
+      showAvailableItemsOnly: false,
     };
   }
 
@@ -52,7 +55,7 @@ class ClientItems extends Component {
     axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
       axios
         .get(
-          `${UrlLocator.getApiUrl('GET_USER_CART')}/${localStorage.getItem(
+          `${UrlLocator.getApiUrl("GET_USER_CART")}/${localStorage.getItem(
             "userId"
           )}`,
           {
@@ -110,9 +113,9 @@ class ClientItems extends Component {
     ) {
       axios
         .post(
-          `${UrlLocator.getApiUrl('CREATE_SINGLE_CART_RECORD')}/${localStorage.getItem(
-            "userId"
-          )}/${itemId}`,
+          `${UrlLocator.getApiUrl(
+            "CREATE_SINGLE_CART_RECORD"
+          )}/${localStorage.getItem("userId")}/${itemId}`,
           {},
           {
             headers: {
@@ -149,36 +152,35 @@ class ClientItems extends Component {
 
   sortItemsByPice = () => {
     //if (this.state.searchField === "") {
-      if (
-        this.state.sortDirection === "" ||
-        this.state.sortDirection === "DOWN"
-      ) {
-
-        let sortedItems = this.state.items.filter((item) => item.itemStatus === "ACTIVE")
+    if (
+      this.state.sortDirection === "" ||
+      this.state.sortDirection === "DOWN"
+    ) {
+      let sortedItems = this.state.items
+        .filter((item) => item.itemStatus === "ACTIVE")
         .sort((a, b) => {
           return b.itemPrice - a.itemPrice;
         });
 
-        this.setState({
-          items: sortedItems,
-          modalShow: false,
-          sortDirection: "UP",
-        });
-
-      } else {
-        let sortedItems = this.state.items
+      this.setState({
+        items: sortedItems,
+        modalShow: false,
+        sortDirection: "UP",
+      });
+    } else {
+      let sortedItems = this.state.items
         .filter((item) => item.itemStatus === "ACTIVE")
         .sort((a, b) => {
           return a.itemPrice - b.itemPrice;
         });
 
-        this.setState({
-              items: sortedItems,
-              modalShow: false,
-              sortDirection: "DOWN",
-            });
-      }
-    };
+      this.setState({
+        items: sortedItems,
+        modalShow: false,
+        sortDirection: "DOWN",
+      });
+    }
+  };
 
   disableAddToCartButton = function (id, quantity) {
     const { cartItems } = this.context;
@@ -229,12 +231,10 @@ class ClientItems extends Component {
     );
   };
 
-
-
   handleSearchFieldChange = (event) => {
-    this.setState({[event.target.name]: event.target.value})
-  }
-  
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   handleSearchFieldClick = () => {
     if (this.state.searchField != "") {
       axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
@@ -249,7 +249,7 @@ class ClientItems extends Component {
           platforms: response.data.platforms,
           categories: response.data.categories,
           modalShow: false,
-          showAdvancedSearchMenu: false
+          showAdvancedSearchMenu: false,
         });
       });
     } else {
@@ -264,106 +264,106 @@ class ClientItems extends Component {
   };
 
   handleAdvancedSearchField = (event) => {
-    if(event.target.name === "availableItemsOnlyCheckbox"){
-      this.setState({showAvailableItemsOnly: event.target.checked})
+    if (event.target.name === "availableItemsOnlyCheckbox") {
+      this.setState({ showAvailableItemsOnly: event.target.checked });
     }
 
-    if(event.target.name.includes("selectedPlatform-")){
-      if(event.target.checked === true){
+    if (event.target.name.includes("selectedPlatform-")) {
+      if (event.target.checked === true) {
         let itemExists = false;
-        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
-          if(this.state.selectedPlatforms[i] === event.target.id){
+        for (let i = 0; i < this.state.selectedPlatforms.length; i++) {
+          if (this.state.selectedPlatforms[i] === event.target.id) {
             itemExists = true;
           }
         }
-        if(itemExists === false){
+        if (itemExists === false) {
           let selectedPlatforms = this.state.selectedPlatforms;
           selectedPlatforms.push(event.target.id);
-          this.setState({selectedPlatforms: selectedPlatforms});
+          this.setState({ selectedPlatforms: selectedPlatforms });
         }
       }
 
-      if(event.target.checked === false){
+      if (event.target.checked === false) {
         let itemExists = -1;
-        for(let i = 0; i < this.state.selectedPlatforms.length; i++){
-          if(this.state.selectedPlatforms[i] === event.target.id){
+        for (let i = 0; i < this.state.selectedPlatforms.length; i++) {
+          if (this.state.selectedPlatforms[i] === event.target.id) {
             itemExists = i;
           }
         }
 
-        if(itemExists > -1){
+        if (itemExists > -1) {
           let selectedPlatforms = this.state.selectedPlatforms;
           selectedPlatforms.splice(itemExists, 1);
-          this.setState({selectedPlatforms: selectedPlatforms});
+          this.setState({ selectedPlatforms: selectedPlatforms });
         }
-
-        
       }
     }
 
-    if(event.target.name.includes("selectedCategory-")){
-      if(event.target.checked === true){
+    if (event.target.name.includes("selectedCategory-")) {
+      if (event.target.checked === true) {
         let itemExists = false;
-        for(let i = 0; i < this.state.selectedCategories.length; i++){
-          if(this.state.selectedCategories[i] === event.target.id){
+        for (let i = 0; i < this.state.selectedCategories.length; i++) {
+          if (this.state.selectedCategories[i] === event.target.id) {
             itemExists = true;
           }
         }
-        if(itemExists === false){
+        if (itemExists === false) {
           let selectedCategories = this.state.selectedCategories;
           selectedCategories.push(event.target.id);
-          this.setState({selectedCategories: selectedCategories});
+          this.setState({ selectedCategories: selectedCategories });
         }
       }
 
-      if(event.target.checked === false){
+      if (event.target.checked === false) {
         let itemExists = -1;
-        for(let i = 0; i < this.state.selectedCategories.length; i++){
-          if(this.state.selectedCategories[i] === event.target.id){
+        for (let i = 0; i < this.state.selectedCategories.length; i++) {
+          if (this.state.selectedCategories[i] === event.target.id) {
             itemExists = i;
           }
         }
 
-        if(itemExists > -1){
+        if (itemExists > -1) {
           let selectedCategories = this.state.selectedCategories;
           selectedCategories.splice(itemExists, 1);
-          this.setState({selectedCategories: selectedCategories});
+          this.setState({ selectedCategories: selectedCategories });
         }
-
-        
       }
     }
-  }
+  };
 
   handleAdvancedSearch = () => {
-
     const bodyFormData = new FormData();
-    bodyFormData.append("selectedPlatforms", JSON.stringify(this.state.selectedPlatforms));
-    bodyFormData.append("selectedCategories", JSON.stringify(this.state.selectedCategories));
-    bodyFormData.append("showAvailableItemsOnly", this.state.showAvailableItemsOnly);
+    bodyFormData.append(
+      "selectedPlatforms",
+      JSON.stringify(this.state.selectedPlatforms)
+    );
+    bodyFormData.append(
+      "selectedCategories",
+      JSON.stringify(this.state.selectedCategories)
+    );
+    bodyFormData.append(
+      "showAvailableItemsOnly",
+      this.state.showAvailableItemsOnly
+    );
 
-      axios
-        .post(
-          `${UrlLocator.getApiUrl('HOME_GET_ALL_ITEMS')}`,
-          bodyFormData
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            this.setState({
-              items: response.data.items.filter(
-                (item) => item.itemStatus === "ACTIVE"
-              ),
-              platforms: response.data.platforms,
-              categories: response.data.categories,
-              searchField: ""
-            });           
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-  }
+    axios
+      .post(`${UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")}`, bodyFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            items: response.data.items.filter(
+              (item) => item.itemStatus === "ACTIVE"
+            ),
+            platforms: response.data.platforms,
+            categories: response.data.categories,
+            searchField: "",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   showCategory = (itemCategory) => {
     return this.state.categories.filter((item) => itemCategory === item.id)[0]
@@ -373,9 +373,7 @@ class ClientItems extends Component {
   render() {
     return (
       <div>
-        
-
-<Container>
+        <Container>
           <Row>
             <Col lg={{ span: 12, offset: 0 }} className="mt-3">
               <InputGroup className="mb-3">
@@ -387,11 +385,16 @@ class ClientItems extends Component {
                   value={this.state.searchField}
                   size={"lg"}
                 />
-                <Button variant="outline-light" className="mx-1" onClick={this.handleSearchFieldClick}>
+                <Button
+                  variant="outline-light"
+                  className="mx-1"
+                  onClick={this.handleSearchFieldClick}
+                >
                   Search
                 </Button>
                 <Button
-                  variant="outline-light" className="mx-1"
+                  variant="outline-light"
+                  className="mx-1"
                   onClick={this.sortItemsByPice}
                 >
                   Price{" "}
@@ -404,15 +407,14 @@ class ClientItems extends Component {
                 </Button>
 
                 <Button
-                  variant="outline-light" className="mx-1"
+                  variant="outline-light"
+                  className="mx-1"
                   onClick={this.ShowAdvancedSearchMenu}
                 >
                   {this.state.showAdvancedSearchMenu ? (
                     <IoCaretUp style={{ fontSize: "1.5em" }} />
                   ) : (
-                    <IoCaretDown
-                      style={{ fontSize: "1.5em" }}
-                    />
+                    <IoCaretDown style={{ fontSize: "1.5em" }} />
                   )}
                 </Button>
               </InputGroup>
@@ -441,7 +443,7 @@ class ClientItems extends Component {
                   </Col>
 
                   <Col>
-                  <h5>
+                    <h5>
                       <u>Categories</u>
                     </h5>
                     {this.state.categories.map((item) => {
@@ -492,6 +494,8 @@ class ClientItems extends Component {
                   width: "18rem",
                   margin: "10px",
                 }}
+
+                className="cardHoverStyling"
               >
                 {/*<Card.Header>{item.itemName}</Card.Header>*/}
                 {item.id ? (
@@ -503,7 +507,7 @@ class ClientItems extends Component {
                   />
                 ) : null}
 
-                <Card.Body>
+                <Card.Body className="cardBodyAndFooterColor">
                   <Card.Title>{item.itemName}</Card.Title>
                   <Card.Text
                     style={{
@@ -566,7 +570,7 @@ class ClientItems extends Component {
 
                   <Row></Row>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className="cardBodyAndFooterColor">
                   <div className="text-center">
                     <Link
                       className="btn btn-dark btn-sm"
@@ -582,7 +586,7 @@ class ClientItems extends Component {
             );
           })}
         </div>
-        <AppFooter/>
+        <AppFooter />
       </div>
     );
   }

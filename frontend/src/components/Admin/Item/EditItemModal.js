@@ -225,7 +225,15 @@ class EditItemModal extends Component{
                 name="itemCategory"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemCategory}
-              >
+                style={
+                  this.state.errors["itemCategory"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }>
                 {this.props.categories.map((item) => {
                   return (
                     <option key={item.id} value={item.id}>
@@ -234,6 +242,7 @@ class EditItemModal extends Component{
                   );
                 })}
               </Form.Select>
+              <span style={{ color: "red" }}>{this.state.errors["itemCategory"]}</span>
             </Col>
           </Row>
           <Row className="mt-2">
@@ -246,7 +255,15 @@ class EditItemModal extends Component{
                 name="itemPlatform"
                 onChange={this.handleChange}
                 defaultValue={this.state.itemPlatform}
-              >
+                style={
+                  this.state.errors["itemPlatform"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }>
                 {this.props.platforms.map((item) => {
                   return (
                     <option key={item.id} value={item.id}>
@@ -255,6 +272,7 @@ class EditItemModal extends Component{
                   );
                 })}
               </Form.Select>
+              <span style={{ color: "red" }}>{this.state.errors["itemPlatform"]}</span>
             </Col>
 
             <Col>

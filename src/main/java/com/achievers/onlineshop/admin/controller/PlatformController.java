@@ -41,9 +41,19 @@ public class PlatformController {
         return platform;
     }
 
-    @DeleteMapping(path = "/delete/{id}")
+    @PutMapping(path = "/delete/{id}")
     public ResponseEntity deletePlatformById(@PathVariable("id") long id){
-        platformService.delete(id);
+        Platform platform = platformService.getById(id);
+        platform.setPlatformStatus("DELETED");
+        platformService.add(platform);
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping(path = "/reactivate/{id}")
+    public ResponseEntity reactivatePlatformById(@PathVariable("id") long id){
+        Platform platform = platformService.getById(id);
+        platform.setPlatformStatus("ACTIVE");
+        platformService.add(platform);
         return ResponseEntity.ok("");
     }
 }

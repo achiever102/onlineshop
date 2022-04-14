@@ -60,7 +60,19 @@ class PlatformTable extends Component {
 
   handleDelete = (id) => {
     axios
-      .delete(`${UrlLocator.getApiUrl("DELETE_PLATFORM")}/${id}`, {
+      .put(`${UrlLocator.getApiUrl("DELETE_PLATFORM")}/${id}`,{}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) this.getAllPlatforms();
+      });
+  };
+
+  handleReactivate = (id) => {
+    axios
+      .put(`${UrlLocator.getApiUrl("REACTIVATE_PLATFORM")}/${id}`,{}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -117,6 +129,7 @@ class PlatformTable extends Component {
             <tr>
               <th>#</th>
               <th>Platform Name</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -127,6 +140,7 @@ class PlatformTable extends Component {
                 element={element}
                 handleDelete={this.handleDelete}
                 handleEdit={this.handleEdit}
+                handleReactivate={this.handleReactivate}
               />
             ))}
           </tbody>
