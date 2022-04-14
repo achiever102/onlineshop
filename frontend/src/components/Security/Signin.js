@@ -25,7 +25,7 @@ export default function Signin() {
 
     setState((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -51,16 +51,15 @@ export default function Signin() {
         ...prevState,
         errors: validationErrors,
         showAlert: false,
-        alertMessageContent: ''
+        alertMessageContent: "",
       }));
     } else {
       axios
-        .post(UrlLocator.getApiUrl('SIGNIN_URL'), {
+        .post(UrlLocator.getApiUrl("SIGNIN_URL"), {
           username: state.username,
           password: state.password,
         })
         .then((res) => {
-         
           login(
             res.data.accessToken,
             res.data.username,
@@ -83,7 +82,7 @@ export default function Signin() {
               localStorage.removeItem("cart");
               axios
                 .post(
-                  UrlLocator.getApiUrl('CREATE_CART_RECORD'),
+                  UrlLocator.getApiUrl("CREATE_CART_RECORD"),
                   bodyFormData,
                   {
                     headers: {
@@ -105,13 +104,16 @@ export default function Signin() {
           if (err.response.status === 401) {
             setState((prevState) => ({
               ...prevState,
-              showAlert: true, alertMessageContent: `ERR: Invalid username or password`, errors: validationErrors
+              showAlert: true,
+              alertMessageContent: `ERR: Invalid username or password`,
+              errors: validationErrors,
             }));
           } else {
             setState((prevState) => ({
               ...prevState,
               showAlert: true,
-              alertMessageContent: `ERR: Failed with error code ${err.response.status}`, errors: validationErrors
+              alertMessageContent: `ERR: Failed with error code ${err.response.status}`,
+              errors: validationErrors,
             }));
           }
         });
@@ -119,93 +121,91 @@ export default function Signin() {
   };
 
   return (
-
     <div>
-    <form
-      className="container my-5 p-5"
-      style={{ borderRadius: "20px", color: "white"}}
-    >
-      <Row>
-        <Col xl={6} sm={12} md={6} lg={6}>
-          <h3 className="my-2">Sign In</h3>
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Username"
-              name="username"
-              onChange={handleChange}
-              style={
-                state.errors["username"] !== undefined
-                  ? {
-                      borderWidth: "1px",
-                      borderColor: "red",
-                      borderStyle: "solid",
-                    }
-                  : null
-              }
-            />
-            <span style={{ color: "red" }}>{state.errors["username"]}</span>
-          </div>
-          <div className="form-group my-2">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Enter password"
-              name="password"
-              onChange={handleChange}
-              style={
-                state.errors["password"] !== undefined
-                  ? {
-                      borderWidth: "1px",
-                      borderColor: "red",
-                      borderStyle: "solid",
-                    }
-                  : null
-              }
-            />
-            <span style={{ color: "red" }}>{state.errors["password"]}</span>
-          </div>
+      <form
+        className="container my-5 p-5"
+        style={{ borderRadius: "20px", color: "white" }}
+      >
+        <Row>
+          <Col sm={12} lg={6}>
+            <h3 className="my-2">Sign In</h3>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Username"
+                name="username"
+                onChange={handleChange}
+                style={
+                  state.errors["username"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }
+              />
+              <span style={{ color: "red" }}>{state.errors["username"]}</span>
+            </div>
+            <div className="form-group my-2">
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter password"
+                name="password"
+                onChange={handleChange}
+                style={
+                  state.errors["password"] !== undefined
+                    ? {
+                        borderWidth: "1px",
+                        borderColor: "red",
+                        borderStyle: "solid",
+                      }
+                    : null
+                }
+              />
+              <span style={{ color: "red" }}>{state.errors["password"]}</span>
+            </div>
 
-          <button
-            type="button"
-            className="btn btn-outline-light  btn-md"
-            onClick={handleSubmit}
-          >
-            Sign In
-          </button>
+            <div className="d-grid gap-2 mt-3">
+              <button
+                type="button"
+                className="btn btn-outline-light  btn-md"
+                onClick={handleSubmit}
+              >
+                Sign In
+              </button>
 
-          <div className="my-2">
-            <NavLink
-              to="/forgotPassword"
-              style={{ display: "inline-block" }}
-              className="btn btn-outline-light btn-md"
-            >
-              Forgot password?
-            </NavLink>
+              <NavLink
+                to="/forgotPassword"
+                style={{ display: "inline-block" }}
+                className="btn btn-outline-light btn-md"
+              >
+                Forgot password?
+              </NavLink>
 
-            <NavLink
-              to="/signup"
-              style={{ display: "inline-block" }}
-              className="btn btn-outline-light btn-md mx-2"
-            >
-              Create an account?
-            </NavLink>
-          </div>
+              <NavLink
+                to="/signup"
+                style={{ display: "inline-block" }}
+                className="btn btn-outline-light btn-md"
+              >
+                Create an account
+              </NavLink>
+            </div>
 
-          {state.showAlert ? (
-            <Alert variant="danger" className="mt-3">
-              {state.alertMessageContent}
-            </Alert>
-          ) : null}
-        </Col>
-        <Col xl={6} sm={12} md={6} lg={6}></Col>
-      </Row>
-    </form>
+            {state.showAlert ? (
+              <Alert variant="danger" className="mt-3">
+                {state.alertMessageContent}
+              </Alert>
+            ) : null}
+          </Col>
+        </Row>
+      </form>
 
-<AppFooter/>
-</div>
+      <AppFooter />
+    </div>
   );
 }

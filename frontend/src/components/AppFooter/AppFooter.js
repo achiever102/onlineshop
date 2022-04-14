@@ -21,10 +21,10 @@ class AppFooter extends Component {
          <Container>
            <StyledDiv>
          <Row className="text-white">
-              <Col><h5><u>CONTACT</u></h5></Col>
-              <Col><h5><u>CUSTOMER SERVICE</u></h5></Col>
-              <Col><h5><u>CONTACT</u></h5></Col>
-              <Col><h5><u>CONTACT</u></h5></Col>
+              <Col sm={12} md={4} lg={3} className="text-center"><h5><u>CONTACT</u></h5></Col>
+              <Col sm={12} md={4} lg={3} className="text-center"><h5><u>CUSTOMER SERVICE</u></h5></Col>
+              <Col sm={12} md={4} lg={3} className="text-center"><h5><u>CONTACT</u></h5></Col>
+              <Col sm={12} md={4} lg={3} className="text-center"><h5><u>CONTACT</u></h5></Col>
           </Row>
           <Row className="mt-5">
             <Col className="text-center text-white">© 2022 LUDOS FOR VIDEO GAMES</Col>

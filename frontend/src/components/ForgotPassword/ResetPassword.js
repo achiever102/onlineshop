@@ -78,14 +78,15 @@ export default function ResetPassword(props) {
         style={{ borderRadius: "20px", width: "" }}
       >
         <Row>
-          <Col xl={6} sm={12} md={6} lg={6}>
-            <h3 className="my-2 text-white">Reset Password</h3>
+        <Col xl={5} sm={12} md={6} lg={5}>
+          
+            <h3 className="my-2 text-white">Enter your new password</h3>
+            <label className='text-white'>New Password</label>
             <div className="form-group">
-              <label>New Password</label>
               <input
                 type="password"
                 className="form-control"
-                placeholder="Enter Your New Password"
+                placeholder="New Password"
                 name="newPassword"
                 onChange={handleChange}
                 value={state.newPassword}
@@ -104,13 +105,15 @@ export default function ResetPassword(props) {
               </span>
             </div>
 
+            <div className="d-grid gap-2 mt-3">
             <button
               type="button"
-              className="btn btn-outline-light btn-md mt-3"
+              className="btn btn-outline-light btn-md"
               onClick={handleSubmit}
             >
               Reset Password
             </button>
+            </div>
             {state.showSuccessResponseMessage ? (
               <p style={{ color: "green", marginTop: "10px" }}>
                 Your password was successfully reset!
@@ -123,7 +126,6 @@ export default function ResetPassword(props) {
               </p>
             ) : null}
           </Col>
-          <Col xl={6} sm={12} md={6} lg={6}></Col>
         </Row>
       </form>
 

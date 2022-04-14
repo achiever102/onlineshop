@@ -50,10 +50,10 @@ handleSubmit = () => {
       style={{ borderRadius: "20px", width: "" }}
     >
       <Row>
-        <Col xl={6} sm={12} md={6} lg={6}>
-          <h3 className="my-2 text-white">Send Password Reset Email</h3>
+        <Col xl={5} sm={12} md={6} lg={5}>
+          <h3 className="my-2 text-white">Reset your password</h3>
           <div className="form-group">
-            <label>Email Address</label>
+            <label className='text-white'>Email Address</label>
             <input
               type="text"
               className="form-control"
@@ -74,17 +74,17 @@ handleSubmit = () => {
             <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
             
           </div>
-
+          <div className="d-grid gap-2 mt-3">
           <button
             type="button"
-            className="btn btn-outline-light btn-md mt-3"
+            className="btn btn-outline-light btn-md"
             onClick={this.handleSubmit}
           >
             Send Email
           </button>
+          </div>
           {this.state.showResponseMessage ? <p style={{ color: "green", marginTop: "10px" }}>You will receive a reset password link in your email if your email address exists in our system.</p> : null}
         </Col>
-        <Col xl={6} sm={12} md={6} lg={6}></Col>
       </Row>
     </form>
 <AppFooter />
