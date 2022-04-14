@@ -3,7 +3,7 @@
 }
 
 .cardBodyAndFooterColor {
-    background-color: #d6d3b3;
+    background-color: #a5bac9;
 }
 
 .adminHeaderBackgroundColor {
@@ -11,13 +11,13 @@
 }
 
 .adminCardBodyAndFooterBackgroundColor {
-    background-color: #d6d3b3;
-}
-
-.ordersHeaderBgColor {
     background-color: #a5bac9;
 }
 
+.ordersHeaderBgColor {
+    background-color: #588693;
+}
+
 .ordersBodyBgColor {
-    background-color: #d6d3b3;
+    background-color: #a5bac9;
 }
