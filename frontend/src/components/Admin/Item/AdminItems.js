@@ -441,8 +441,8 @@ export default function AdminItems() {
       {state.showNewModal ? (
         <NewItemModal
           showNewModal={state.showNewModal}
-          platforms={state.platforms}
-          categories={state.categories}
+          platforms={state.platforms.filter((item) => {return item.platformStatus === 'ACTIVE'})}
+          categories={state.categories.filter((item) => {return item.categoryStatus === 'ACTIVE'})}
           hideModal={hideModal}
           getAllItems={getAllItems}
         />
@@ -468,8 +468,9 @@ export default function AdminItems() {
                 width: "100%",
                 margin: "10px",
               }}
+              className="cardHoverStyling"
             >
-              <Card.Header className="text-center">
+              <Card.Header className="text-center adminHeaderBackgroundColor">
                 {/*<Card.Header>{item.itemName}</Card.Header>*/}
                 {item.id ? (
                   <Card.Img
@@ -481,7 +482,7 @@ export default function AdminItems() {
                 ) : null}
               </Card.Header>
 
-              <Card.Body>
+              <Card.Body className="adminCardBodyAndFooterBackgroundColor">
                 <Card.Title>{item.itemName}</Card.Title>
                 <Card.Text> </Card.Text>
 
@@ -567,7 +568,7 @@ export default function AdminItems() {
                   </Col>
                 </Row>
               </Card.Body>
-              <Card.Footer>
+              <Card.Footer className="adminCardBodyAndFooterBackgroundColor">
                 <Button
                   variant="dark"
                   size="md"

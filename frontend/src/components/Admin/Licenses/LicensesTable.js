@@ -159,7 +159,7 @@ class LicensesTable extends Component {
           </Card.Body>
         </Card>
 
-        <Table striped bordered hover size="sm" className="mt-5">
+        <Table striped bordered hover size="md" className="mt-5 bg-light">
           <thead>
             <tr>
               <th>#</th>

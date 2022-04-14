@@ -59,7 +59,18 @@ class CategoriesTable extends Component {
 
   handleDelete = (id) => {
     axios
-      .delete(`${UrlLocator.getApiUrl("DELETE_CATEGORY")}/${id}`, {
+      .put(`${UrlLocator.getApiUrl("DELETE_CATEGORY")}/${id}`,{}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) this.getAllCategories();
+      });
+  };
+
+  handleReactivate = (id) => {
+    axios.put(`${UrlLocator.getApiUrl("REACTIVATE_CATEGORY")}/${id}`,{}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -114,6 +125,7 @@ class CategoriesTable extends Component {
             <tr>
               <th>#</th>
               <th>Category Name</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -124,6 +136,7 @@ class CategoriesTable extends Component {
                 element={element}
                 handleDelete={this.handleDelete}
                 handleEdit={this.handleEdit}
+                handleReactivate={this.handleReactivate}
               />
             ))}
           </tbody>

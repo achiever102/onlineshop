@@ -13,8 +13,12 @@ public class Category {
     @Column(name = "CATEGORY_NAME")
     private String categoryName;
 
-    public Category(String categoryName) {
+    @Column(name = "CATEGORY_STATUS")
+    private String categoryStatus;
+
+    public Category(String categoryName, String categoryStatus) {
         this.categoryName = categoryName;
+        this.categoryStatus = categoryStatus;
     }
 
     public Category() {
@@ -36,11 +40,20 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    public String getCategoryStatus() {
+        return categoryStatus;
+    }
+
+    public void setCategoryStatus(String categoryStatus) {
+        this.categoryStatus = categoryStatus;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
-                ", categoryName='" + categoryName  +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryStatus='" + categoryStatus + '\'' +
                 '}';
     }
 }

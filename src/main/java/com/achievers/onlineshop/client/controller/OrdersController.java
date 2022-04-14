@@ -147,7 +147,7 @@ public class OrdersController {
             itemService.updateItemStatusOrQuantity(item);
         }
 
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(savedOrder.getCsvFileDirectory());
     }
 
     @GetMapping("/getUserOrders/{userId}")

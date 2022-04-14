@@ -1,0 +1,23 @@
+.cardHoverStyling:hover {
+    transform: scale(1.05); 
+}
+
+.cardBodyAndFooterColor {
+    background-color: #d6d3b3;
+}
+
+.adminHeaderBackgroundColor {
+    background-color: #292b2c;
+}
+
+.adminCardBodyAndFooterBackgroundColor {
+    background-color: #d6d3b3;
+}
+
+.ordersHeaderBgColor {
+    background-color: #a5bac9;
+}
+
+.ordersBodyBgColor {
+    background-color: #d6d3b3;
+}
