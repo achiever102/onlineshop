@@ -243,7 +243,7 @@ class ClientItems extends Component {
             (item) =>
               item.itemName
                 .toLowerCase()
-                .includes(this.state.searchField) &&
+                .includes(this.state.searchField.toLowerCase()) &&
               item.itemStatus === "ACTIVE"
           ),
           platforms: response.data.platforms,

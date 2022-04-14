@@ -263,11 +263,7 @@ class Home extends Component {
       axios.get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS")).then((response) => {
         this.setState({
           items: response.data.items.filter(
-            (item) =>
-              item.itemName
-                .toLowerCase()
-                .includes(this.state.searchField) &&
-              item.itemStatus === "ACTIVE"
+            (item) => (item.itemName.toLowerCase().includes(this.state.searchField.toLowerCase()) && item.itemStatus === "ACTIVE")
           ),
           platforms: response.data.platforms,
           categories: response.data.categories,

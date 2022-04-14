@@ -97,7 +97,7 @@ class Signup extends Component {
       <div>
       <form className="container my-5 p-5" style={{borderRadius: "20px", width: "", color: "white"}}>
             <Row>
-            <Col xl={6} sm={12} md={6} lg={6}>
+            <Col sm={12} lg={6}>
             
                 <h3 className='my-3'>Sign Up</h3>
                 <div className="form-group mt-2">
@@ -114,8 +114,6 @@ class Signup extends Component {
                       }/>   
                       <span style={{ color: "red" }}>{this.state.errors["fullName"]}</span>      
                 </div>
-
-
 
                 <div className="form-group mt-2">
                     <label>Username</label>
@@ -162,14 +160,11 @@ class Signup extends Component {
                       <span style={{ color: "red" }}>{this.state.errors["password"]}</span>      
                 </div>
 
-                <div className="form-group mt-2">
-                      <div className='d-flex justify-content-between'>
+                <div className="d-grid gap-2 mt-3">
                         <Button variant="outline-light" onClick={this.handleSubmit}>Sign Up</Button>
                         <NavLink to="/signin" className="btn btn-outline-light" style={{display: "inline-block"}}>Already have an account? Sign In</NavLink>
                       </div>
-                </div>
-
-                            
+ 
                 </Col>
                 <Col xl={6} sm={12} md={6} lg={6}></Col>
                 </Row>  
