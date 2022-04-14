@@ -94,7 +94,7 @@ class AdminOrder extends Component {
                   onChange={this.handleSearchFieldChange}
                   size={"sm"}
                 />
-                <Button variant="dark" onClick={this.searchByOrderId}>
+                <Button variant="outline-light" className="mx-1" onClick={this.searchByOrderId}>
                   Search
                 </Button>
                 </InputGroup>
@@ -114,8 +114,7 @@ class AdminOrder extends Component {
                   <option value="2">Date</option>
                   <option value="3">Client Name</option>
     </Form.Select>*/}
-                <Button  variant="dark" className="mx-1"><IoReload /></Button>
-                <Button variant="dark"  onClick={this.searchByDate}>
+                <Button variant="outline-light" className="mx-1"  onClick={this.searchByDate}>
                   Search
                 </Button>
                 </InputGroup>
@@ -130,7 +129,7 @@ class AdminOrder extends Component {
                   onChange={this.handleSearchFieldChange}
                   size={"sm"}
                 />
-                <Button variant="dark" onClick={this.searchByClientName}>
+                <Button variant="outline-light" className="mx-1" onClick={this.searchByClientName}>
                   Search
                 </Button>
                 </InputGroup>

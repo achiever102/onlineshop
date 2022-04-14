@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import UrlLocator from "../../helpers/UrlLocator";
 import { useNavigate, useParams } from "react-router-dom";
+import AppFooter from "../AppFooter/AppFooter";
 
 export default function ResetPassword(props) {
 
@@ -71,13 +72,14 @@ export default function ResetPassword(props) {
   };
 
     return (
+      <div>
       <form
         className="container my-5 p-5"
         style={{ borderRadius: "20px", width: "" }}
       >
         <Row>
           <Col xl={6} sm={12} md={6} lg={6}>
-            <h3 className="my-2">Reset Password</h3>
+            <h3 className="my-2 text-white">Reset Password</h3>
             <div className="form-group">
               <label>New Password</label>
               <input
@@ -104,7 +106,7 @@ export default function ResetPassword(props) {
 
             <button
               type="button"
-              className="btn btn-dark  btn-md mt-2"
+              className="btn btn-outline-light btn-md mt-3"
               onClick={handleSubmit}
             >
               Reset Password
@@ -124,6 +126,9 @@ export default function ResetPassword(props) {
           <Col xl={6} sm={12} md={6} lg={6}></Col>
         </Row>
       </form>
+
+      <AppFooter />
+      </div>
     );
   
 }

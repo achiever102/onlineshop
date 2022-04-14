@@ -14,7 +14,6 @@ import {
   Form, Alert
 } from "react-bootstrap";
 import AppCarousel from "../../AppCarousel/AppCarousel";
-import AppNewsletter from "../../AppNewsletter/AppNewsletter";
 import AppFooter from "../../AppFooter/AppFooter";
 import GameDetails from "../../Home/GameDetails";
 import { Link } from "react-router-dom";
@@ -179,57 +178,7 @@ class ClientItems extends Component {
               sortDirection: "DOWN",
             });
       }
-    /*} else {
-      if (
-        this.state.sortDirection === "" ||
-        this.state.sortDirection === "DOWN"
-      ) {
-        axios
-          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-          .then((response) => {
-            this.setState({
-              items: response.data.items
-                .filter(
-                  (item) =>
-                    item.itemName
-                      .toLowerCase()
-                      .includes(this.state.searchField.toLowerCase()) &&
-                    item.itemStatus === "ACTIVE"
-                )
-                .sort((a, b) => {
-                  return b.itemPrice - a.itemPrice;
-                }),
-              platforms: response.data.platforms,
-              categories: response.data.categories,
-              modalShow: false,
-              sortDirection: "UP",
-            });
-          });
-      } else {
-        axios
-          .get(UrlLocator.getApiUrl("HOME_GET_ALL_ITEMS"))
-          .then((response) => {
-            this.setState({
-              items: response.data.items
-                .filter(
-                  (item) =>
-                    item.itemName
-                      .toLowerCase()
-                      .includes(this.state.searchField.toLowerCase()) &&
-                    item.itemStatus === "ACTIVE"
-                )
-                .sort((a, b) => {
-                  return a.itemPrice - b.itemPrice;
-                }),
-              platforms: response.data.platforms,
-              categories: response.data.categories,
-              modalShow: false,
-              sortDirection: "DOWN",
-            });
-          });
-      }
-    }*/
-  };
+    };
 
   disableAddToCartButton = function (id, quantity) {
     const { cartItems } = this.context;
@@ -426,42 +375,8 @@ class ClientItems extends Component {
       <div>
         
 
-        {/*<Container>
-          <Row className="mt-3">
-            <Col lg={{ span: 8, offset: 0 }} className="mt-3">
-              <InputGroup>
-                <FormControl
-                  placeholder="Search for item..."
-                  aria-label="searchField"
-                  id="searchField"
-                  name="searchField"
-                  aria-describedby="basic-addon1"
-                  onChange={this.handleSearchFieldChange}
-                />
-              </InputGroup>
-            </Col>
-            <Col className="d-flex align-items-center mt-3">
-              <Button
-                variant="dark"
-                className="mx-3"
-                size="md"
-                onClick={this.sortItemsByPice}
-              >
-                Price{" "}
-                {this.state.sortDirection === "DOWN" ||
-                this.state.sortDirection === "" ? (
-                  <BiSortUp size="1.5rem" />
-                ) : (
-                  <BiSortDown size="1.5rem" />
-                )}
-              </Button>
-            </Col>
-          </Row>
-        </Container>*/}
-
-
 <Container>
-          <Row className="mt-3">
+          <Row>
             <Col lg={{ span: 12, offset: 0 }} className="mt-3">
               <InputGroup className="mb-3">
                 <FormControl
@@ -472,12 +387,11 @@ class ClientItems extends Component {
                   value={this.state.searchField}
                   size={"lg"}
                 />
-                <Button variant="dark" onClick={this.handleSearchFieldClick}>
+                <Button variant="outline-light" className="mx-1" onClick={this.handleSearchFieldClick}>
                   Search
                 </Button>
                 <Button
-                  variant="dark"
-                  className="mx-2"
+                  variant="outline-light" className="mx-1"
                   onClick={this.sortItemsByPice}
                 >
                   Price{" "}
@@ -490,15 +404,14 @@ class ClientItems extends Component {
                 </Button>
 
                 <Button
-                  variant="dark"
-                  className="mx-2"
+                  variant="outline-light" className="mx-1"
                   onClick={this.ShowAdvancedSearchMenu}
                 >
                   {this.state.showAdvancedSearchMenu ? (
-                    <IoCaretUp style={{ color: "white", fontSize: "1.5em" }} />
+                    <IoCaretUp style={{ fontSize: "1.5em" }} />
                   ) : (
                     <IoCaretDown
-                      style={{ color: "white", fontSize: "1.5em" }}
+                      style={{ fontSize: "1.5em" }}
                     />
                   )}
                 </Button>
@@ -570,7 +483,7 @@ class ClientItems extends Component {
           <AppCarousel />
         </Container>
 
-        <div className="d-flex flex-wrap justify-content-center container my-4">
+        <div className="d-flex flex-wrap justify-content-center container mt-3">
           {this.state.items.map((item) => {
             return (
               <Card

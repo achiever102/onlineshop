@@ -72,14 +72,6 @@ export default function Checkout(props) {
               tempAppliedCoupons.push(res.data)
             }
 
-            /*let filtered = tempAppliedCoupons.filter(
-              (value, index, self) =>
-                index ===
-                self.findIndex(
-                  (t) => t.id === value.id && t.couponId === value.couponId
-                )
-            );*/
-
 
             let couponsSum = 0;
 
@@ -118,35 +110,6 @@ export default function Checkout(props) {
 
   return (
     <div>
-      {/*<div className="row">
-        <div className="col-3"></div>
-        <div className="col-3 d-flex justify-content-end">
-          <h5 className="text-right">
-            <b>Amount:</b>
-          </h5>
-        </div>
-        <div className="col-3 d-flex justify-content-start">
-          ${props.itemsTotalPrice}
-        </div>
-        <div className="col-3"></div>
-      </div>
-
-      <div className="row">
-        <div className="col-3"></div>
-        <div className="col-3 d-flex justify-content-end">
-          <h5 className="text-center">
-            <b>Total Tax:</b>
-          </h5>
-        </div>
-        <div className="col-3 d-flex justify-content-start">
-          $
-          {(
-            (parseFloat(state.taxValue) * parseFloat(props.itemsTotalPrice)) /
-            100
-          ).toFixed(2)}
-        </div>
-        <div className="col-3"></div>
-          </div>*/}
 
       <div className="row">
         <div className="col-3"></div>
@@ -212,10 +175,10 @@ export default function Checkout(props) {
                 </InputGroup.Text>*/}
 
             <Button
-              variant="dark"
+              variant="outline-light"
               onClick={validateCouponId}
               size="sm"
-              className="ml-1"
+              className="mx-1"
             >
               Apply
             </Button>
@@ -243,8 +206,7 @@ export default function Checkout(props) {
 
       <div className="text-center mt-3">
         <Button
-          variant="dark"
-          className="mx-3"
+          variant="outline-light"
           style={{ width: "" }}
           size="md"
           onClick={() => handleCheckout()}

@@ -4,6 +4,7 @@ import { Form, Button, Row, Col, Card } from "react-bootstrap";
 
 import AuthContext from "../../../context/AuthContext";
 import UrlLocator from "../../../helpers/UrlLocator";
+import AppFooter from "../../AppFooter/AppFooter";
 
 class ClientProfile extends Component {
   static contextType = AuthContext;
@@ -197,6 +198,7 @@ class ClientProfile extends Component {
 
   render() {
     return (
+      <div>
       <div className="container">
         <Card className="mt-5">
           <Card.Header>User Details</Card.Header>
@@ -401,7 +403,13 @@ class ClientProfile extends Component {
             </Form>
           </Card.Body>
         </Card>
+
+        
+
       </div>
+
+<AppFooter />
+</div>
     );
   }
 }

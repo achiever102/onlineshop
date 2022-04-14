@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
 
-const loadingGif = require("./mercuryLogo.gif")
-
 class AppLogo extends Component {
   render() {
+    const loadingGif = require("./mercuryLogo.gif")
     return (
-      <div className="bg-dark text-center py-3" style={{height: "80px"}}>
-        <Link to="/" style={{ textDecoration: 'none', color: "white", fontSize: "40px" }}>LUDOS</Link>
-          <img style={{width: "80px", height: "80px"}} src={loadingGif} alt="could not load the image" />
+      <div className="bg-dark text-center" style={{height: "60px", fontSize: "40px", lineHeight: "60px" }}>
+        <Link to="/" style={{ textDecoration: 'none', color: "white" }}>
+          <img style={{width: "60px", height: "60px"}} src={loadingGif} alt="load issue"/>LUDOS</Link>
       </div>
     );
   }

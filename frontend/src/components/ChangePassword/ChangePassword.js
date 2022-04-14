@@ -4,6 +4,7 @@ import axios from "axios";
 
 import AuthContext from "../../context/AuthContext";
 import UrlLocator from "../../helpers/UrlLocator";
+import AppFooter from "../AppFooter/AppFooter";
 
 class ChangePassword extends Component {
 
@@ -77,7 +78,9 @@ class ChangePassword extends Component {
   };
 
   render() {
+    const { username } = this.context;
     return (
+      <div>
       <div className="container">
 
         <Card className="mt-5">
@@ -140,6 +143,8 @@ class ChangePassword extends Component {
 
        
 
+      </div>
+      {username !== 'manager' ? <AppFooter />: null}
       </div>
     );
   }

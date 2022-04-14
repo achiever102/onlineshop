@@ -29,15 +29,15 @@ export default function AdminNavbar(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-              <NavLink style={{fontSize: "18px"}}  to="/adminItems" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>GAMES</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminCoupons" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>COUPONS</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminSettings" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>SETTINGS</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminCategories" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>CATEGORIES</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminPlatforms" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>PLATFORMS</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminOrders" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>ORDERS</NavLink>
-              <NavLink style={{fontSize: "18px"}}  to="/adminImagesCarousel" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>CAROUSEL</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminItems" className="nav-link">GAMES</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminCoupons" className="nav-link">COUPONS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminSettings" className="nav-link">SETTINGS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminCategories" className="nav-link">CATEGORIES</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminPlatforms" className="nav-link">PLATFORMS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminOrders" className="nav-link">ORDERS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminImagesCarousel" className="nav-link">CAROUSEL</NavLink>
 
-              <NavLink style={{fontSize: "18px"}}  to="/adminUsersManagement" className={isActive => "nav-link" + (!isActive ? " unselected" : "")}>USERS</NavLink>
+              <NavLink style={{fontSize: "18px"}}  to="/adminUsersManagement" className="nav-link">USERS</NavLink>
 
               </Nav>
               

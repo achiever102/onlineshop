@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import UrlLocator from '../../helpers/UrlLocator';
+import AppFooter from '../AppFooter/AppFooter';
 
 class ForgotPassword extends Component{
 constructor(props){
@@ -43,13 +44,14 @@ handleSubmit = () => {
 
     render(){
         return(
+          <div>
             <form
       className="container my-5 p-5"
       style={{ borderRadius: "20px", width: "" }}
     >
       <Row>
         <Col xl={6} sm={12} md={6} lg={6}>
-          <h3 className="my-2">Send Password Reset Email</h3>
+          <h3 className="my-2 text-white">Send Password Reset Email</h3>
           <div className="form-group">
             <label>Email Address</label>
             <input
@@ -75,7 +77,7 @@ handleSubmit = () => {
 
           <button
             type="button"
-            className="btn btn-dark  btn-md mt-2"
+            className="btn btn-outline-light btn-md mt-3"
             onClick={this.handleSubmit}
           >
             Send Email
@@ -85,6 +87,8 @@ handleSubmit = () => {
         <Col xl={6} sm={12} md={6} lg={6}></Col>
       </Row>
     </form>
+<AppFooter />
+    </div>
         )
     }
 }

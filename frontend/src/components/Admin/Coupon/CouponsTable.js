@@ -5,16 +5,6 @@ import CouponModal from "./CouponModal";
 import CouponRecord from "./CouponRecord";
 import UrlLocator from "../../../helpers/UrlLocator";
 
-import styled from 'styled-components';
-
-const StyledTable = styled.table`
-  background: white;
-  border-radius: 10px;
-  width: 100%;
-  text-align: center;
-  margin-top: 15px;
-`;
-
 class CouponsTable extends Component {
   constructor(props) {
     super(props);
@@ -123,8 +113,7 @@ class CouponsTable extends Component {
           Add New Coupon
         </Button>
 
-        <StyledTable>
-        <Table striped bordered hover size="sm" className="mt-5">
+        <Table striped bordered hover size="md" className="mt-3 bg-light">
           <thead>
             <tr>
               <th>#</th>
@@ -144,7 +133,7 @@ class CouponsTable extends Component {
             ))}
           </tbody>
         </Table>
-        </StyledTable>
+        
       </div>
     );
   }

@@ -53,7 +53,7 @@ class AppNewsletter extends Component {
 
   render() {
     return (
-      <div className="Jumbotron bg-dark py-5" style={{marginTop: "30%"}}>
+      <div className="Jumbotron bg-dark py-5" style={{marginTop: "10%"}}>
         <Modal
           show={this.state.showModal}
           size="lg"

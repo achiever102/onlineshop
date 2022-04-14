@@ -418,18 +418,6 @@ class Cart extends Component {
         <Container className="my-3" style={{color: "white"}}>
 
 
-          {/*
-            this.state.showMessage ? 
-            (<Row>
-            <Alert variant="danger">
-              Due to limited inventory, the below items quantities were updated:
-              if its has 0 remove it from cart 
-              return responseentity.ok.body(items)
-            </Alert>
-          </Row>)
-          :
-          null
-            */}
 
           {this.state.items.length > 0 ? (
             this.state.items.map((element) => (
@@ -473,7 +461,7 @@ class Cart extends Component {
                     <Col>
                       <Button
                         style={{ display: "inline-block", width: "50px" }}
-                        variant="dark"
+                        variant="outline-light"
                         onClick={() => this.decrementQuantity(element.itemId)}
                         size="md"
                       >
@@ -484,15 +472,16 @@ class Cart extends Component {
                           display: "inline-block",
                           width: "50px",
                           border: "none",
+                          backgroundColor: "#282c34"
                         }}
-                        className="mx-2 text-center bg-light"
+                        className="mx-2 text-center text-white"
                         type="text"
                         disabled
                         value={element.itemQuantity}
                       ></Form.Control>
                       <Button
                         style={{ display: "inline-block", width: "50px" }}
-                        variant="dark"
+                        variant="outline-light"
                         onClick={() => this.incrementQuantity(element.itemId)}
                         size="md"
                         disabled={element.itemQuantity >= element.itemExistingQuantity ? true : false}
@@ -505,7 +494,7 @@ class Cart extends Component {
                   <Row className="mt-3">
                     <Col>
                       <Button
-                        variant="dark"
+                        variant="outline-light"
                         onClick={() =>
                           this.handleRemoveFromCart(element.itemId)
                         }

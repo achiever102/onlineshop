@@ -67,6 +67,7 @@ class ClientOrder extends Component {
 
   render() {
     return (
+      <div>
       <div className="container">
 
 <Row className="mt-3">
@@ -79,7 +80,7 @@ class ClientOrder extends Component {
                   onChange={this.handleSearchFieldChange}
                   size={"sm"}
                 />
-                <Button variant="dark" onClick={this.searchByOrderId}>
+                <Button variant="outline-light" className="mx-1" onClick={this.searchByOrderId}>
                   Search
                 </Button>
                 </InputGroup>
@@ -93,7 +94,7 @@ class ClientOrder extends Component {
                   onChange={this.handleSearchFieldChange}
                   size={"sm"}
                 />
-                <Button variant="dark" onClick={this.searchByDate}>
+                <Button variant="outline-light" className="mx-1" onClick={this.searchByDate}>
                   Search
                 </Button>
                 </InputGroup>
@@ -153,7 +154,9 @@ class ClientOrder extends Component {
           );
         })}
 
-        <AppFooter />
+        
+      </div>
+      <AppFooter />
       </div>
     );
   }

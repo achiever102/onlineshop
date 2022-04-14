@@ -16,7 +16,6 @@ import {
   Alert,
 } from "react-bootstrap";
 import AppCarousel from "../AppCarousel/AppCarousel";
-import AppNewsletter from "../AppNewsletter/AppNewsletter";
 import AppFooter from "../AppFooter/AppFooter";
 import AppLogo from "../AppLogo/AppLogo";
 import GameDetails from "./GameDetails";
@@ -414,12 +413,12 @@ class Home extends Component {
                   value={this.state.searchField}
                   size={"lg"}
                 />
-                <Button variant="dark" onClick={this.handleSearchFieldClick}>
+                <Button variant="outline-light" className="mx-1" onClick={this.handleSearchFieldClick}>
                   Search
                 </Button>
                 <Button
-                  variant="dark"
-                  className="mx-2"
+                  variant="outline-light"
+                  className="mx-1"
                   onClick={this.sortItemsByPice}
                 >
                   Price{" "}
@@ -432,15 +431,15 @@ class Home extends Component {
                 </Button>
 
                 <Button
-                  variant="dark"
-                  className="mx-2"
+                  variant="outline-light"
+                  className="mx-1"
                   onClick={this.ShowAdvancedSearchMenu}
                 >
                   {this.state.showAdvancedSearchMenu ? (
-                    <IoCaretUp style={{ color: "white", fontSize: "1.5em" }} />
+                    <IoCaretUp style={{  fontSize: "1.5em" }} />
                   ) : (
                     <IoCaretDown
-                      style={{ color: "white", fontSize: "1.5em" }}
+                      style={{  fontSize: "1.5em" }}
                     />
                   )}
                 </Button>
