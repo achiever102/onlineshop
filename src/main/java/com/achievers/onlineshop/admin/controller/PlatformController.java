@@ -24,6 +24,7 @@ public class PlatformController {
         if(itemExists.size() > 0){
             return ResponseEntity.badRequest().body("Platform already exists!");
         } else {
+            platform.setPlatformStatus("ACTIVE");
             platformService.add(platform);
             return ResponseEntity.ok("Created!");
         }
