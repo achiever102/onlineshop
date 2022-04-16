@@ -42,13 +42,14 @@ git clone git@github.com:achiever102/onlineshop.git
     ![image014](https://screenshots-bucket-38293.s3.amazonaws.com/014.png)
 * Open the downloaded CSV file and copy the access key and secret key.
 
-4. Open the backend project in IntelliJ and create a file with name aws.config.properties in the directory: src/main/resources then add the below parameters to the file:
+4. Open the backend project in IntelliJ and create a file with name app.config.properties in the directory: src/main/resources then add the below parameters to the file:
 ```
 accesskey=access key from the downloaded file
 secretKey=secret key from the downloaded file
 bucketName=bucket name
 bucketUrl=https://bucket-name.s3.region.amazonaws.com/
 region=region
+serverIpAddress=IP address and port of the frontend instance
 ```
 
 5. Update the below parameters in src/main/resources/application.properties file to use spring email:

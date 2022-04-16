@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties
-@PropertySource("classpath:aws.config.properties")
+@PropertySource("classpath:app.config.properties")
 public class ApplicationConfiguration {
 
     private String accessKey;
@@ -14,6 +14,7 @@ public class ApplicationConfiguration {
     private String bucketName;
     private String bucketUrl;
     private String region;
+    private String serverIpAddress;
 
     public String getAccessKey() {
         return accessKey;
@@ -53,5 +54,13 @@ public class ApplicationConfiguration {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getServerIpAddress() {
+        return serverIpAddress;
+    }
+
+    public void setServerIpAddress(String serverIpAddress) {
+        this.serverIpAddress = serverIpAddress;
     }
 }
