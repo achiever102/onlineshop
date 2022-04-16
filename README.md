@@ -51,14 +51,20 @@ bucketUrl=https://bucket-name.s3.region.amazonaws.com/
 region=region
 ```
 
-5. Download and install JDK 11
+5. Update the below parameters in src/main/resources/application.properties file to use spring email:
+```
+spring.mail.username=
+spring.mail.password=
+```
 
-6. Start the backend project in IntelliJ
+6. Download and install JDK 11
 
-7. Start the frontend project in VSCode and run the commands:
+7. Start the backend project in IntelliJ
+
+8. Start the frontend project in VSCode and run the commands:
 ```
 npm install 
 npm start
 ```
 
-8. you can login to the application using the manager username and password: manager/password
+9. you can login to the application using the manager username and password: manager/password
