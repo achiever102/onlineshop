@@ -1,5 +1,6 @@
 package com.achievers.onlineshop.admin.service;
 
+import com.achievers.onlineshop.configs.ApplicationConfiguration;
 import com.achievers.onlineshop.security.model.User;
 import com.achievers.onlineshop.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ApplicationConfiguration applicationConfiguration;
 
     @Override
     public boolean resetPassword(User user) {
@@ -39,7 +43,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService{
         msg.setTo("sw.project.2841324@gmail.com");
 
         msg.setSubject("LUDOS - RESET PASSWORD LINK");
-        msg.setText("Hello " + user.getFullName() + ",\n\nClick on the below link to reset your password:" + "\n\nhttp://localhost:3000/resetPassword/" + user.getPasswordResetToken());
+        msg.setText("Hello " + user.getFullName() + ",\n\nClick on the below link to reset your password:" + "\n\nhttp://" + applicationConfiguration.getServerIpAddress() + "/resetPassword/" + user.getPasswordResetToken());
 
         javaMailSender.send(msg);
 
