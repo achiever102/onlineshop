@@ -392,9 +392,6 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <AppLogo />
-
-        <HomeNavbar />
 
         <Container>
           <Row className="mt-3">

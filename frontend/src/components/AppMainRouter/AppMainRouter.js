@@ -7,9 +7,6 @@ import GameDetails from "../Home/GameDetails";
 import Cart from '../Client/Cart/Cart'
 import HomeNavbar from "../AppNavbar/HomeNavbar";
 import AppLogo from "../AppLogo/AppLogo";
-import AppNewsletter from "../AppNewsletter/AppNewsletter";
-import AppFooter from "../AppFooter/AppFooter";
-import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 class AppMainRouter extends Component {
       render() {

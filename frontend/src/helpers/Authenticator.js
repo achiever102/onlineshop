@@ -47,7 +47,7 @@ const Authenticator = (props) => {
     }
   }, []);
 
-  if (!isAuthenticated && props.url === "/resetPassword") {
+  {/*if (!isAuthenticated && props.url === "/resetPassword") {
     return (
       <>
         <AppLogo />
@@ -68,6 +68,44 @@ const Authenticator = (props) => {
     );
   } else if (!isAuthenticated && props.url === "/") {
     return <Home />;
+  }*/} 
+  
+  
+  if(!isAuthenticated){
+    if(props.url === "/resetPassword"){
+      return (
+        <>
+          <AppLogo />
+          <HomeNavbar />
+          <ResetPassword resetPasswordTokenId={resetPasswordTokenId} />
+  
+        </>
+      );
+    } else if(props.url === "/forgotPassword"){
+      return (
+        <>
+          <AppLogo />
+          <HomeNavbar />
+          <ForgotPassword />
+        </>
+      );
+    } else if(props.url === "/"){
+      return (
+        <>
+          <AppLogo />
+          <HomeNavbar />
+          <Home />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <AppLogo />
+          <HomeNavbar />
+          <Signin />
+        </>
+      );
+    } 
   } else if (isAuthenticated && username === "manager") {
     switch (props.url) {
       case "/":
