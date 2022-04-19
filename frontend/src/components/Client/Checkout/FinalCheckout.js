@@ -29,6 +29,8 @@ export default function FinalCheckout() {
     showErrorMessage: false,
     updatedItemsMessages: [],
     paymentMethodErrors: {},
+    checkoutShowErrorMessage: false,
+    checkoutHandlerErrorMessage: ''
   });
 
   useEffect(() => {
@@ -90,6 +92,8 @@ export default function FinalCheckout() {
           showErrorMessage: res.data.updatedItems.length > 0 ? true : false,
           updatedItemsMessages: res.data.updatedItems.length > 0 ? res.data.updatedItems : [],
           paymentMethodErrors: {},
+          checkoutShowErrorMessage: false,
+          checkoutHandlerErrorMessage: ''
         });
       })
       .catch((err) => {
@@ -124,7 +128,9 @@ export default function FinalCheckout() {
           }
         })
         .catch((err) => {
-          console.log(err);
+
+          setState({...state, checkoutShowErrorMessage: true,
+            checkoutHandlerErrorMessage: `Error: ${err.response.data}`})
         });
     }
   };
@@ -202,6 +208,17 @@ export default function FinalCheckout() {
     <Container>
 
       {
+        state.checkoutShowErrorMessage ? 
+        (<Alert variant="danger" className="mt-2">
+        {
+          state.checkoutHandlerErrorMessage
+        }
+        </Alert>)
+        :
+        (null)
+      }
+
+      {
         state.showErrorMessage ? 
         (<Alert variant="danger" className="mt-2">
         Due to limited inventoy, your cart was updated:
@@ -214,6 +231,9 @@ export default function FinalCheckout() {
         :
         (null)
       }
+
+      
+
 
       <Card className="my-2">
         <Card.Header>Cart Items</Card.Header>
