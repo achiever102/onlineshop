@@ -6,10 +6,7 @@ import com.achievers.onlineshop.admin.repository.SettingRepository;
 import com.achievers.onlineshop.admin.service.CouponService;
 import com.achievers.onlineshop.admin.service.LicensesService;
 import com.achievers.onlineshop.client.model.*;
-import com.achievers.onlineshop.client.service.CSVService;
-import com.achievers.onlineshop.client.service.CartService;
-import com.achievers.onlineshop.client.service.OrderItemService;
-import com.achievers.onlineshop.client.service.OrderService;
+import com.achievers.onlineshop.client.service.*;
 import com.achievers.onlineshop.security.model.User;
 import com.achievers.onlineshop.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +51,9 @@ public class OrdersController {
     @Autowired
     private CSVService csvService;
 
+    @Autowired
+    private PaymentMethodService paymentMethodService;
+
 
     @GetMapping("/getAll")
     public List<Item> getAll(){
@@ -77,6 +77,13 @@ public class OrdersController {
         List<OrderItem> orderItems = new ArrayList<>();
         String orderUuid = UUID.randomUUID().toString();
         List<Cart> cartList = cartService.getByUserId(userId);
+
+        if (cartList.size() == 0)
+            return ResponseEntity.badRequest().body("No items were found in your cart!");
+
+        if(paymentMethodService.getByUserId(userId) == null)
+            return ResponseEntity.badRequest().body("Add your payment method details!");
+
         Order order = new Order();
         List<License> licenseList = new ArrayList<>();
 
